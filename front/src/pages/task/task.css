@@ -1,9 +1,15 @@
-.taskComponent{
 
+
+
+.detailsTak{
+
+display :flex;
+}
+.taskComponent{ 
+    float: left;
+    margin-left: 2%;
+    
     border:2px solid blue;
     width: 12%;
     height: 12%;
-}
-
-.taskName{
 }

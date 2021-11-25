@@ -23,9 +23,13 @@ const Task :React.FC<IProps> =({task}) =>{
 
 return (
 
-    <div className="taskComponent">
-      <p className="taskName">name task </p>: <h3>{task.taskName}</h3>
-      <p>date task </p>: <h3>{task.endTime}</h3>
+    <div className="taskComponent" >
+    
+
+     <div className="detailsTak"><p >name task </p>: <p>{task.taskName}</p> </div>
+     <br/>
+
+      <div> <p>date task </p>: <p>{task.endTime}</p></div>
       <button className="btn btn-info"> add</button>
       <button className="btn btn-info">complete</button>
 
