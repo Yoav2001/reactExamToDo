@@ -1,15 +1,18 @@
-
-
-
 .detailsTak{
 
-display :flex;
-}
-.taskComponent{ 
-    float: left;
-    margin-left: 2%;
+    display :flex;
+    }
+    .taskComponent{ 
+        float: left;
+        margin-left: 2%;
+        background-color:rgba(66, 64, 64, 0.157);
+        border-radius: 3%;
+        width: 12%;
+        height: 12%;
+        margin-top: 1%;}
     
-    border:2px solid blue;
-    width: 12%;
-    height: 12%;
-}
+    
+    .divBtnTask{
+        margin-left: 10px;
+        
+    }
