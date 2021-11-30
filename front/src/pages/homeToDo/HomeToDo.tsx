@@ -6,21 +6,32 @@ import  './homeToDo.css'
 import Task from '../task/Task';
 import dataTask from '../../data/dataTask';
 
+const statesDisaplyTasks = new Map();
+
+statesDisaplyTasks.set(1,'allTasks');
+statesDisaplyTasks.set(2,'completedTasks');
+statesDisaplyTasks.set(3,'releventTasks');
+
 // export interface IStateTasks {
 //     taskList: Task[]
     
 //   }
 
  const HomeToDo=() =>{
-    const [taskList,setTaskList] = useState<Task[]>(dataTask)
+    const [allTask,setAllTask] = useState<Task[]>(dataTask)
+    const [displayListTask,setDisplayList ] = useState<Task[]>(dataTask)
+
 
     const [taskToAdd, setTask] = useState<Task>({
+        id:1,
         taskName:"",
         startDate:"01.01.2001",
         endTime: "01/01/2001",
         isComplete:false,
         isRelevent:true
     });
+
+
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         setTask({
             ...taskToAdd,
@@ -28,12 +39,14 @@ import dataTask from '../../data/dataTask';
         });
         console.log(e.target.name)
     }
+
     const addToDo =()=>{
         dataTask.push(taskToAdd)
         
-        setTaskList([
-            ...taskList,
+        setAllTask([
+            ...allTask,
             {      
+                id:1,
               taskName:taskToAdd.taskName,
               endTime:taskToAdd.endTime,
               startDate:taskToAdd.startDate,
@@ -45,6 +58,34 @@ import dataTask from '../../data/dataTask';
 
 
     }
+
+
+    const changeDisplayList=(stateListNumber:number)=>{
+        switch(statesDisaplyTasks.get(stateListNumber)){
+
+            case 'allTasks': setDisplayList(allTask)
+                  break;
+
+            case 'completedTasks':setDisplayList(allTask.filter(task=>task.isComplete))
+            break;
+
+
+            case 'releventTasks' :setDisplayList(allTask.filter(task=>task.isRelevent))
+                break
+            
+        }
+
+
+    }
+
+    const deleteTask = (id:number) =>{
+
+        setAllTask(allTask.filter(task  => task.id!==id))
+    }
+
+    // const getCompleteTasks =()=>{
+    //     setDisplayList(allTask.filter(task=>task.isComplete))
+    // } 
     
     return(
         <div className="background">
@@ -58,13 +99,14 @@ import dataTask from '../../data/dataTask';
 
             </div>
             <div className="divBtnTask">
-                <button className="btn btn-light"> Active</button>
-                <button className="btn btn-light">completed</button>
-                <button className="btn btn-light">All</button>
+            <button className="btn btn-light" onClick={()=>changeDisplayList(1)}>All</button>
+            <button className="btn btn-light" onClick={()=>changeDisplayList(2)}>completed</button>
+              <button className="btn btn-light" onClick={()=>changeDisplayList(3)}> relvent</button>
 
             </div>
 
-            <ToDos dataTask={dataTask}></ToDos>
+            <ToDos displayTaskList={displayListTask} deleteTask={deleteTask} ></ToDos>
+            
         </div>
      )
 }

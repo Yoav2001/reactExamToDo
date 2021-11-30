@@ -2,17 +2,24 @@
 
     display :flex;
     }
-    .taskComponent{ 
-        float: left;
-        margin-left: 2%;
-        background-color:rgba(66, 64, 64, 0.157);
-        border-radius: 3%;
-        width: 12%;
-        height: 12%;
-        margin-top: 1%;}
+.taskComponent{ 
+    float: left;
+    margin-left: 2%;
+    background-color:rgba(66, 64, 64, 0.157);
+    border-radius: 3%;
+    width: 18%;
+    height: 16%;
+    margin-top: 1%;
+}
+
+
     
     
     .divBtnTask{
-        margin-left: 10px;
-        
+        margin-left: 10px;   
+    }
+
+    .deleteTaskBtn{
+        float: right;
+        text-align: right;
     }
