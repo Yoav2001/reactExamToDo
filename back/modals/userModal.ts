@@ -4,10 +4,12 @@ export type User = {
     fullName: string,
     isAdmin:boolean
 }
+export type AddResult = "Added Succeeded" | "Failed to add "
+export type UpdateResult = "update Succeeded" | "Failed to update"
 
-export type GetUser = (userId: User["email"]) => Promise<User>;
-export type GetUserWithFullName = (username: User["fullName"]) => Promise<User>;
-export type GetAllUsers = () => Promise<User[]>;
-export type AddUser = (user:User) => Promise<User>;
+export type GetUser = (userId: User["email"]) => Promise<User |undefined>;
+export type GetUserWithFullName = (username: User["fullName"]) => Promise<User  |undefined>;
+export type GetAllUsers = () => Promise<User[]  |undefined>;
+export type AddUser = (user:User) => Promise<User  |undefined>;
 export type DeleteUser = (userEmail: User["email"]) => Promise<string>;
 export type SetAdmin = (userEmail: User["email"]) => Promise<User>;

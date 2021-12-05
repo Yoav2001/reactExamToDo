@@ -1,16 +1,23 @@
 import { User } from "./userModal";
 
 export type Task = {
-    taskId:number
+    taskId?:number
     emailUserOfTask:User["email"]
-    taskName: string
+    taskName: string,
+    startDate:string,
     endTime: string
     isComplete:boolean,
-    isRelevent :boolean,
+    isRelevent :boolean
     // isEdit?:boolean
 }
 
-export type GetTasksOfUser = (userEmail: Task['emailUserOfTask']) => Promise<Task[]>;
+
+export type AddResult = "Added Succeeded" | "Failed to add "
+export type UpdateResult = "update Succeeded" | "Failed to update"
+
+
+export type GetAllTasks = () => Promise<Task[] |undefined>;
+export type GetTasksOfUser = (userEmail: Task['emailUserOfTask']) => Promise<Task[]  |undefined> ;
 export type AddTask = (task: Task) => Promise<string>;
-export type EditTask = (task: Task) => Promise<string>;
+export type updateTask = (task: Task) => Promise<string>;
 export type DeleteTask = (idTask: Task['taskId']) => Promise<string>;

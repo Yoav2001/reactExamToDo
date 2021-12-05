@@ -81,6 +81,8 @@ statesDisaplyTasks.set(3,'releventTasks');
     const deleteTask = (id:number) =>{
 
         setAllTask(allTask.filter(task  => task.id!==id))
+        console.log("dsadas");
+        
     }
 
     // const getCompleteTasks =()=>{
