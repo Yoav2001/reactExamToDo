@@ -23,7 +23,7 @@ export async function getAllUsersFromDB ():Promise<usersModel.User[] | undefined
    const insertUser = async(userObj :usersModel.User)=> {
     const client = await pool.connect();
   
-      const insertQuery = `INSERT INTO users (email,pass,full_name,isAdmin)
+      const insertQuery = `INSERT INTO users (email,pass,fullName,isAdmin)
               VALUES ('${userObj.email}','${userObj.password}','${userObj.fullName}','${userObj.isAdmin}')`;
   
       try{
@@ -66,11 +66,15 @@ export async function getAllUsersFromDB ():Promise<usersModel.User[] | undefined
     }
   }
   
-  const updateUserByEmail=async(userobj:usersModel.User)=> {
+  const updateUserByEmail=async(userObj:usersModel.User)=> {
     const client = await pool.connect();
 
-``
-    const updateByEmail = `update users set fullName=${userobj.fullName} where email = ${userobj.email} `
+console.log("update quesry");
+
+    const updateByEmail = `update users set (pass,fullName,isAdmin)=('${userObj.password}', '${userObj.fullName}' , ${userObj.isAdmin}) where email = '${userObj.email}' `
+    
+    console.log(updateByEmail);
+    
     try{
       const res =  client.query(updateByEmail)
     } 

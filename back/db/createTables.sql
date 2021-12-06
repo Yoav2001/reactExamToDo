@@ -1,18 +1,16 @@
 
 -- user זה מילה שמורה לכן שם ככה
 CREATE TABLE users (
-	
 	email varchar(50) PRIMARY KEY NOT NULL,
 	pass varchar(50) NOT NULL,
-    full_name varchar(50) NOT NULL,
+    fullName varchar(50) NOT NULL,
     isAdmin boolean NOT NULL
 );
 
 CREATE TABLE tasks (
-	
-	task_id SERIAL PRIMARY KEY NOT NULL,	 
-    task_email_user varchar(50)  NOT NULL references users(email),
-    task_name varchar(200) NOT NULL,
+	id SERIAL PRIMARY KEY NOT NULL,	 
+    userEmail varchar(50)  NOT NULL references users(email),
+    name varchar(200) NOT NULL,
     startDate TIMESTAMP NOT NULL,
     endTime TIMESTAMP NOT NULL,
     isComplete boolean,

@@ -18,6 +18,7 @@ export const getAllUsers : usersModel.GetAllUsers = async () => {
 
 
 export const addUser : usersModel.AddUser = async (userObj :usersModel.User) => {
+
     try{
         userDb.insertUser(userObj);
      }
@@ -82,11 +83,30 @@ export const deleteUserWithEmail: usersModel.DeleteUser = async (email?: usersMo
 
 }
 
+const updateUserNameWithEmail:usersModel.updateUser = (userObj:usersModel.User) =>{
+    let updateRespone : usersModel.UpdateResult="update Succeeded"
+    if(userObj?.email === undefined)
+        updateRespone="sorry cant update without email" 
+    
+    const userExist =JSON.stringify(userDb.getUserByEmail(userObj.email))
+    console.log(userExist);
+    
+     if(userExist==="{}")
+        updateRespone="this user dont exist in db"
 
-function updateUserNameWithEmail(userObj?: usersModel.User){
-    if(userObj?.email !== undefined)  userDb.updateUserByEmail(userObj);
+        try{
+            userDb.updateUserByEmail(userObj);
+   
+       }   
+       catch(error){
+           updateRespone="Failed to update"
+           throw error;
+           
+       }
 
-} 
+       return updateRespone;
+}
+
 
 // function isUserRegistered(email :string , password : string) :boolean{
 

@@ -11,9 +11,8 @@ export type Task = {
     // isEdit?:boolean
 }
 
-
 export type AddResult = "Added Succeeded" | "Failed to add "
-export type UpdateResult = "update Succeeded" | "Failed to update"
+export type UpdateResult = "update Succeeded" | "Failed to update"|"task id dont exist"
 
 
 export type GetAllTasks = () => Promise<Task[] |undefined>;

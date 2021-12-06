@@ -32,17 +32,26 @@ export const addNewTask: taskModal.AddTask = async (task:taskModal.Task) => {
 
 }
 export const updateTask: taskModal.updateTask= async (task:taskModal.Task) => {
-    try{
+
+    const taskExist =JSON.stringify(taskDb.getTaskByTaskId(task.taskId))
+    console.log(taskExist);
+    
+    let resMsg :taskModal.UpdateResult="update Succeeded"
+    if(taskExist==="{}"){
+        resMsg="task id dont exist"
+
+    }
+     try{
         taskDb.updateTaskByEmail(task); 
      }
      catch(error)
      {
+         resMsg="Failed to update"
          throw error
         
         
     }
-    const res :taskModal.UpdateResult="update Succeeded"
-    return res;
+    return resMsg;
 
 }
 

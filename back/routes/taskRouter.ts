@@ -1,11 +1,10 @@
 import express from 'express'
-
 import taskService from '../service/taskService';
 import type taskModal = require('../modals/taskModal')
 import type usersModel = require('../modals/userModal')
-const router = express.Router();
+const router = express.Router()
 
-
+//task/addTask
 router.post('/addTask',async (req:express.Request, res:express.Response, next:express.NextFunction)=>{
 
     const { email, taskName, startDate,endTime,isComplete,isRelevent} : {email : string, taskName : string, startDate : string, endTime : string,isComplete:boolean,isRelevent:boolean} = req.body;
@@ -15,27 +14,35 @@ router.post('/addTask',async (req:express.Request, res:express.Response, next:ex
     res.json({ key: data });
 })
 
-router.get('/getAlltasks',async (req:express.Request, res:express.Response, next:express.NextFunction)=>{
+//task/
+router.get('/',async (req:express.Request, res:express.Response, next:express.NextFunction)=>{
     const data = await taskService.getAllTasks();
+    console.log("router");
+    
     console.log(data)
     res.json({ key: data });
 })
 
-router.patch('/updateTask/:taskId',async (req:express.Request, res:express.Response, next:express.NextFunction)=>{
+//task/:taskId
+
+router.put('/:taskId',async (req:express.Request, res:express.Response, next:express.NextFunction)=>{
     //לשים לב את המייל מעביר כפרמס ואת המידע בבודי
-    const taskId:string = <string>req.params.taskId;     
+    const taskId:number =parseInt(req.params.taskId) ;     
     const { email, taskName, startDate,endTime,isComplete,isRelevent} : {email : string, taskName : string, startDate : string, endTime : string,isComplete:boolean,isRelevent:boolean} = req.body;
-    const taskToUpdate :taskModal.Task={emailUserOfTask:email,taskName:taskName,startDate:startDate,endTime:endTime,isComplete:isComplete,isRelevent:isRelevent}
+    const taskToUpdate :taskModal.Task={taskId:taskId,emailUserOfTask:email,taskName:taskName,startDate:startDate,endTime:endTime,isComplete:isComplete,isRelevent:isRelevent}
     const data = await taskService.updateTask(taskToUpdate)
     console.log(data)
     res.json({ key: data });
 })
-//need to be last
-router.get('/:emailUser',async (req:express.Request, res:express.Response, next:express.NextFunction)=>{
 
-    const emailUser:string = <string>req.params.emailUser;     
+//task/email
+//need to be last
+//userEmail
+router.get('/:userEmail',async (req:express.Request, res:express.Response, next:express.NextFunction)=>{
+
+    const userEmail:string = <string>req.params.userEmail;     
     
-    const data = await  taskService.getAllPostsOfUser(emailUser);
+    const data = await  taskService.getAllPostsOfUser(userEmail);
     console.log(data)
     res.json({ key: data });
 })
