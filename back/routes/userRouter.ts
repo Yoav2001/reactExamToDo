@@ -33,7 +33,9 @@ router.route("/:email")
         const {  password, fullName,isAdmin} : { password : string, fullName : string,isAdmin:boolean} = req.body;
         const userToAdd :usersModel.User={email,password,fullName,isAdmin}
         const data = await userService.updateUserNameWithEmail(userToAdd)
-        console.log(data)
+      
+        console.log("after upd");
+        
         res.json({ key: data });
     });
 

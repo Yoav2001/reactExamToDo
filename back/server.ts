@@ -2,10 +2,13 @@ import express, { Router } from 'express'
 import mainRouterApi from './routes/mainRouter'
 const app =express();
 import dotenv from 'dotenv';
+import authRouter from './routes/authRouter'
 // import { authed } from './logic/auth.js';
 
 dotenv.config()
 app.use(express.json());
+
+app.use(authRouter)
 app.use("/api",mainRouterApi)
 
 

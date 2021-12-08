@@ -47,6 +47,8 @@ export async function getAllUsersFromDB ():Promise<usersModel.User[] | undefined
     const client = await pool.connect();
     const selectByEmail = `SELECT * FROM users WHERE email = '${email}'`
     const res =   (await client.query(selectByEmail)).rows[0]
+    console.log('inside db');
+    
     return res;
   }
    
@@ -69,11 +71,9 @@ export async function getAllUsersFromDB ():Promise<usersModel.User[] | undefined
   const updateUserByEmail=async(userObj:usersModel.User)=> {
     const client = await pool.connect();
 
-console.log("update quesry");
 
     const updateByEmail = `update users set (pass,fullName,isAdmin)=('${userObj.password}', '${userObj.fullName}' , ${userObj.isAdmin}) where email = '${userObj.email}' `
     
-    console.log(updateByEmail);
     
     try{
       const res =  client.query(updateByEmail)

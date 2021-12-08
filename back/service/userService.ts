@@ -83,59 +83,58 @@ export const deleteUserWithEmail: usersModel.DeleteUser = async (email?: usersMo
 
 }
 
-const updateUserNameWithEmail:usersModel.updateUser = (userObj:usersModel.User) =>{
-    let updateRespone : usersModel.UpdateResult="update Succeeded"
-    if(userObj?.email === undefined)
-        updateRespone="sorry cant update without email" 
-    
-    const userExist =JSON.stringify(userDb.getUserByEmail(userObj.email))
-    console.log(userExist);
-    
-     if(userExist==="{}")
-        updateRespone="this user dont exist in db"
 
-        try{
-            userDb.updateUserByEmail(userObj);
-   
-       }   
-       catch(error){
-           updateRespone="Failed to update"
-           throw error;
-           
-       }
+// דרך א
 
-       return updateRespone;
+const updateUserNameWithEmail: usersModel.updateUser = async (userObj:usersModel.User) => {
+    if (userObj?.email === undefined || "") return "sorry cant update without email";
+
+
+    userDb.getUserByEmail(userObj.email).then((getUser) : usersModel.UpdateResult |undefined => {
+        if(!getUser) return 'this user dont exist in db';
+        userDb.updateUserByEmail(userObj).then(() : usersModel.UpdateResult => {
+            return "update Succeeded"
+        })
+        .catch(() : usersModel.UpdateResult => {
+            return "Failed to update"
+        })
+    })
+
 }
 
+//פתרון ב 
 
-// function isUserRegistered(email :string , password : string) :boolean{
+// const updateUserNameWithEmail: usersModel.updateUser = async (userObj:usersModel.User) => {
+//     if (userObj?.email === undefined || "") return "sorry cant update without email";
 
+//     const getUser = await userDb.getUserByEmail(userObj.email);
     
+//     if(!getUser) return "this user dont exist in db";
+
+//     try {
+//         userDb.updateUserByEmail(userObj);
+//         return "update Succeeded"
+//     }
+//     catch{
+//         return "Failed to update"
+//     }
 // }
+
+
+
+
+
+
+
+
 
 
 
 export default {addUser, getUserDataWithEmail,deleteUserWithEmail,updateUserNameWithEmail,getAllUsers};
 
-// const addUser =async (email:string,password:string,name:string,gender:number)=>{
-//     try{
-//         await  userDb.insertUser(email,password,name,gender)
-//         return "table create succ"
-//     }
-
-//     catch(error){
-//         throw error;
-//     }
-
-// }
 
 
 
-
-// export const getUserWithEmail = async (email?: string | undefined) => {
-//     if(email !== undefined) return await getUserByEmail(email);
-//     return await getAllUsers();
-// }
 
 
 
