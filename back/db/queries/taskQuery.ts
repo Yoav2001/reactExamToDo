@@ -58,7 +58,7 @@ import type usersModel = require('../../modals/userModal')
     }
   }
 
-  const updateTaskByEmail=async(taskObj:taskModal.Task)=> {
+  const updateTaskByTaskObject=async(taskObj:taskModal.Task)=> {
     const client = await pool.connect();
 
 ``
@@ -93,7 +93,7 @@ import type usersModel = require('../../modals/userModal')
   
   
 
-    export default {getAlltaskFromDB,insertNewTask,getAllTaskByUserEmail,deleteTaskByTaskId,updateTaskByEmail,getTaskByTaskId}
+    export default {getAlltaskFromDB,insertNewTask,getAllTaskByUserEmail,deleteTaskByTaskId,updateTaskByTaskObject,getTaskByTaskId}
   
   
   

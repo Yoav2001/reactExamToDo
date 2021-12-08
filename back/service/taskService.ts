@@ -29,30 +29,27 @@ export const addNewTask: taskModal.AddTask = async (task:taskModal.Task) => {
     }
     const res :taskModal.AddResult="Added Succeeded"
     return res;
-
 }
+
+
+
 export const updateTask: taskModal.updateTask= async (task:taskModal.Task) => {
 
-    const taskExist =JSON.stringify(taskDb.getTaskByTaskId(task.taskId))
-    console.log(taskExist);
+
+    if (task?.taskId === undefined || "") return "sorry cant update without task ID"
+
+    const getTask = await taskDb.getTaskByTaskId(task.taskId);
     
-    let resMsg :taskModal.UpdateResult="update Succeeded"
-    if(taskExist==="{}"){
-        resMsg="task id dont exist"
+    if(!getTask) return "task id dont exist in DB"
 
+    try {
+        taskDb.updateTaskByTaskObject(task);
+        return "update Succeeded"
     }
-     try{
-        taskDb.updateTaskByEmail(task); 
-     }
-     catch(error)
-     {
-         resMsg="Failed to update"
-         throw error
-        
-        
+    catch{
+        return "Failed to update"
     }
-    return resMsg;
-
+   
 }
 
 export const getAllPostsOfUser :taskModal.GetTasksOfUser = async (email:usersModel.User["email"]) => {
