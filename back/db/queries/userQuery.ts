@@ -3,10 +3,27 @@ import pool from '../connection'
 import type taskModal = require('../../modals/taskModal')
 import type usersModel = require('../../modals/userModal')
 
-import { Iuser } from '../../interfaceDB/interfaceUser';
+// import { Iuser } from '../../interfaceDB/interfaceUser';
+import type userModalDb = require('../../interfaceDB/interfaceUser')
 
 
-export async function getAllUsersFromDB ():Promise<usersModel.User[] | undefined> {
+// export async function getAllUsersFromDB ():Promise<Iuser[] | undefined> {
+//     const client = await pool.connect();
+//     const sqlAllUsers= `SELECT * FROM users`
+  
+//     try {
+//       const { rows } = await client.query(sqlAllUsers)
+//       client.release();//משחרר את 
+//       return rows;
+//     } catch (err) {
+//       console.log('Database ' + err)
+//     }
+//   }
+
+
+
+  const getAllUsersFromDB:userModalDb.GetAllUsers = async() =>{
+
     const client = await pool.connect();
     const sqlAllUsers= `SELECT * FROM users`
   
@@ -51,8 +68,27 @@ export async function getAllUsersFromDB ():Promise<usersModel.User[] | undefined
     
     return res;
   }
+
+  // const getUserByEmail = async(email : usersModel.User["email"]) =>{
+
+  //   const client = await pool.connect();
+  //   const selectByEmail = `SELECT * FROM users WHERE email = '${email}'`
+  //   const res =   (await client.query(selectByEmail)).rows[0]
+  //   console.log('inside db');
+    
+  //   return res;
+
+  // }
    
-  
+  export async function getUserByFullName(fullName : usersModel.User["fullName"]): Promise<Iuser | undefined>{
+    const client = await pool.connect();
+    const selectByEmail = `SELECT * FROM users WHERE fullName = '${fullName}'`
+    const res =   (await client.query(selectByEmail)).rows[0]
+    console.log('inside db');
+    
+    return res;
+  }
+   
   
   
   const deleteUserByEmail= async(email : usersModel.User["email"])=> {
@@ -88,7 +124,7 @@ export async function getAllUsersFromDB ():Promise<usersModel.User[] | undefined
   
   
   
-    export default {insertUser,getUserByEmail,getAllUsersFromDB,deleteUserByEmail,updateUserByEmail}
+    export default {insertUser,getUserByEmail,getAllUsersFromDB,deleteUserByEmail,updateUserByEmail,getUserByFullName}
   
   
   

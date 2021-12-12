@@ -6,8 +6,16 @@ import { Iuser } from '../interfaceDB/interfaceUser';
 export const getAllUsers : usersModel.GetAllUsers = async () => {
     
     try{
-        return await userDb.getAllUsersFromDB();
- 
+        const arrUserObjDb:Iuser[] |undefined= await userDb.getAllUsersFromDB();
+        if(arrUserObjDb===undefined){
+            console.log("error");
+        return
+
+        }
+
+     const arrByModelUser:usersModel.User[]= arrUserObjDb.map(user =>{return {email:user.email,password:user.pass,fullName:user.fullname,isAdmin:user.isadmin}})
+        
+     return arrByModelUser;
      }
      catch(error)
      {
@@ -29,7 +37,7 @@ export const addUser : usersModel.AddUser = async (userObj :usersModel.User) => 
     }
     const iuser=await userDb.getUserByEmail(userObj.email);
     if(iuser!==undefined){
-        const userObjModel:usersModel.User={email:iuser.email,password:iuser.pass,fullName:iuser.fullName,isAdmin:iuser.isadmin}
+        const userObjModel:usersModel.User={email:iuser.email,password:iuser.pass,fullName:iuser.fullname,isAdmin:iuser.isadmin}
         return userObjModel;
     }
     
@@ -40,7 +48,12 @@ export const getUserDataWithEmail: usersModel.GetUser = async (email?: string | 
     if(email===undefined)
          return undefined;
     try{
-        return await userDb.getUserByEmail(email)
+    
+        const iuser=await userDb.getUserByEmail(email);
+        if(iuser!==undefined){
+            const userObjModel:usersModel.User={email:iuser.email,password:iuser.pass,fullName:iuser.fullname,isAdmin:iuser.isadmin}
+            return userObjModel;
+        }
     }
     catch(error)
     {
@@ -51,12 +64,17 @@ export const getUserDataWithEmail: usersModel.GetUser = async (email?: string | 
     
 }
 
-export const getUserDataWithFullName: usersModel.GetUser = async (fullname?: usersModel.User["fullName"] | undefined) => {
-    if(fullname===undefined)
+export const getUserDataWithFullName: usersModel.GetUserWithFullName = async (name?: usersModel.User["fullName"] ) => {
+    if(name===undefined)
          return undefined;
     try{
-        return await userDb.getUserByEmail(fullname)
-    }
+        const iuser=await userDb.getUserByFullName(name);
+        if(iuser!==undefined){
+            const userObjModel:usersModel.User={email:iuser.email,password:iuser.pass,fullName:iuser.fullname,isAdmin:iuser.isadmin}
+            return userObjModel; 
+           }
+
+        }
     catch(error)
     {
         throw error;

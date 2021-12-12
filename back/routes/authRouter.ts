@@ -15,7 +15,8 @@ router.route("/login")
         console.log(user);
         console.log( " email "+user?.email);
         console.log("full" +user?.fullName);
-        
+        console.log("full" +user?.isAdmin);
+
         
         console.log(user?.password+" s  "+ password);
       }

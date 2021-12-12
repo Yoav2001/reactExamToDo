@@ -1,4 +1,5 @@
 import taskDb from '../db/queries/taskQuery'
+import { Itask } from '../interfaceDB/interfaceTask';
 import type taskModal = require('../modals/taskModal')
 import type usersModel = require('../modals/userModal')
 
@@ -7,8 +8,17 @@ import type usersModel = require('../modals/userModal')
 export const getAllTasks :taskModal.GetAllTasks = async () => {
     
     try{
-        return await taskDb.getAlltaskFromDB();
- 
+        const arrTaskObjDb:Itask[] |undefined= await taskDb.getAlltaskFromDB();
+        if(arrTaskObjDb===undefined){
+            console.log("error");
+        return
+
+        }
+
+     const arrByModelUser:taskModal.Task[]= arrTaskObjDb.map(taskObjDb =>{return {taskId:taskObjDb.id,emailUserOfTask:taskObjDb.useremail
+        ,taskName:taskObjDb.name,startDate:taskObjDb.startdate,endTime:taskObjDb.endtime,isComplete:taskObjDb.iscomplete,isRelevent:taskObjDb.isrelevent}})
+        
+     return arrByModelUser; 
      }
      catch(error)
      {
@@ -55,7 +65,17 @@ export const getAllPostsOfUser :taskModal.GetTasksOfUser = async (email:usersMod
     console.log("service");
     
     try{
-        return await taskDb.getAllTaskByUserEmail(email);
+        const arrTaskObjDb:Itask[] |undefined= await taskDb.getAllTaskByUserEmail(email);
+        if(arrTaskObjDb===undefined){
+            console.log("error");
+        return
+
+        }
+
+     const arrByModelUser:taskModal.Task[]= arrTaskObjDb.map(taskObjDb =>{return {taskId:taskObjDb.id,emailUserOfTask:taskObjDb.useremail
+        ,taskName:taskObjDb.name,startDate:taskObjDb.startdate,endTime:taskObjDb.endtime,isComplete:taskObjDb.iscomplete,isRelevent:taskObjDb.isrelevent}})
+        
+     return arrByModelUser; 
  
      }
      catch(error)

@@ -2,7 +2,24 @@
 import pool from '../connection'
 import type taskModal = require('../../modals/taskModal')
 import type usersModel = require('../../modals/userModal')
- async function getAlltaskFromDB ():Promise<taskModal.Task[] | undefined> {
+import type taskModalDb = require('../../interfaceDB/interfaceTask')
+//  async function getAlltaskFromDB () {
+//     const client = await pool.connect();
+
+//     const sqlAllUsers= `SELECT * FROM tasks`
+  
+//     try {
+//       const { rows } = await client.query(sqlAllUsers)
+//       console.log(rows);
+      
+//       client.release();//משחרר את 
+//       return rows;
+//     } catch (err) {
+//       console.log('Database ' + err)
+//     }
+//   }
+
+  const  getAlltaskFromDB:taskModalDb.GetAllTasks =async()=>{
     const client = await pool.connect();
 
     const sqlAllUsers= `SELECT * FROM tasks`
@@ -37,13 +54,21 @@ import type usersModel = require('../../modals/userModal')
   }
   
 
-  //write select user with type and async and await
-   async function getAllTaskByUserEmail(email : usersModel.User["email"]): Promise<taskModal.Task[] | undefined>{
+  const getAllTaskByUserEmail:taskModalDb.GetTasksOfUser = async(email : usersModel.User["email"]) =>{
+
     const client = await pool.connect();
     const selectByEmail = `SELECT * FROM tasks WHERE userEmail = '${email}'`
     const res =   (await client.query(selectByEmail)).rows
     return res;
   }
+
+  // //write select user with type and async and await
+  //  async function getAllTaskByUserEmail(email : usersModel.User["email"]): Promise<Itask[] | undefined>{
+  //   const client = await pool.connect();
+  //   const selectByEmail = `SELECT * FROM tasks WHERE userEmail = '${email}'`
+  //   const res =   (await client.query(selectByEmail)).rows
+  //   return res;
+  // }
 
   const deleteTaskByTaskId= async(taskId : taskModal.Task["taskId"])=> {
     const client = await pool.connect();
@@ -61,7 +86,7 @@ import type usersModel = require('../../modals/userModal')
   const updateTaskByTaskObject=async(taskObj:taskModal.Task)=> {
     const client = await pool.connect();
 
-``
+
     const updateByEmail = `update tasks set name=${taskObj.taskName} , startDate=${taskObj.startDate} , endTime=${taskObj.endTime} , isComplete=${taskObj.taskName} , isRelevent=${taskObj.isRelevent}, where id = ${taskObj.taskId} `
     try{
       const res =  client.query(updateByEmail)
