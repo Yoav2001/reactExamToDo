@@ -3,7 +3,7 @@ import pool from '../connection'
 import type taskModal = require('../../modals/taskModal')
 import type usersModel = require('../../modals/userModal')
 
-
+import { Iuser } from '../../interfaceDB/interfaceUser';
 
 
 export async function getAllUsersFromDB ():Promise<usersModel.User[] | undefined> {
@@ -43,7 +43,7 @@ export async function getAllUsersFromDB ():Promise<usersModel.User[] | undefined
   
   
   //write select user with type and async and await
-  export async function getUserByEmail(email : usersModel.User["email"]): Promise<usersModel.User | undefined>{
+  export async function getUserByEmail(email : usersModel.User["email"]): Promise<Iuser | undefined>{
     const client = await pool.connect();
     const selectByEmail = `SELECT * FROM users WHERE email = '${email}'`
     const res =   (await client.query(selectByEmail)).rows[0]

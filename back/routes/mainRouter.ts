@@ -7,7 +7,7 @@ import taskRouter from "./taskRouter"
 const router = express.Router();
 
 //לבנות middale ware שבודק
-router.use(auth)
+// router.use(auth)
 
 router.use("/user",userRouter)
 router.use("/task",taskRouter)

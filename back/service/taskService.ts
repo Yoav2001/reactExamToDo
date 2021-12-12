@@ -40,8 +40,7 @@ export const updateTask: taskModal.updateTask= async (task:taskModal.Task) => {
 
     const getTask = await taskDb.getTaskByTaskId(task.taskId);
     
-    if(!getTask) return "task id dont exist in DB"
-
+    if(!getTask) return "sorry cant update without task ID"
     try {
         taskDb.updateTaskByTaskObject(task);
         return "update Succeeded"

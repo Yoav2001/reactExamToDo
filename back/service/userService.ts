@@ -1,6 +1,6 @@
 import userDb from '../db/queries/userQuery'
 import type usersModel = require('../modals/userModal')
-
+import { Iuser } from '../interfaceDB/interfaceUser';
 
 
 export const getAllUsers : usersModel.GetAllUsers = async () => {
@@ -20,14 +20,19 @@ export const getAllUsers : usersModel.GetAllUsers = async () => {
 export const addUser : usersModel.AddUser = async (userObj :usersModel.User) => {
 
     try{
+    
         userDb.insertUser(userObj);
      }
      catch(error)
      {
         console.log('Database ' + error)
     }
-    return await userDb.getUserByEmail(userObj.email)
-
+    const iuser=await userDb.getUserByEmail(userObj.email);
+    if(iuser!==undefined){
+        const userObjModel:usersModel.User={email:iuser.email,password:iuser.pass,fullName:iuser.fullName,isAdmin:iuser.isadmin}
+        return userObjModel;
+    }
+    
 }
 
 

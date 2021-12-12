@@ -8,6 +8,7 @@ export type AddResult = "Added Succeeded" | "Failed to add "
 export type UpdateResult = "update Succeeded" | "Failed to update"|"sorry cant update without email"|"this user dont exist in db" 
 
 export type GetUser = (userId: User["email"]) => Promise<User |undefined>;
+
 export type GetUserWithFullName = (username: User["fullName"]) => Promise<User  |undefined>;
 export type GetAllUsers = () => Promise<User[]  |undefined>;
 export type AddUser = (user:User) => Promise<User  |undefined>;

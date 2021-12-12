@@ -12,7 +12,7 @@ export type Task = {
 }
 
 export type AddResult = "Added Succeeded" | "Failed to add "
-export type UpdateResult = "update Succeeded" | "Failed to update"|"soort this task id dont exist in DB" |"sorry cant update without task ID"
+export type UpdateResult = "update Succeeded" | "Failed to update"|"soory this task id dont exist in DB" |"sorry cant update without task ID"
 
 
 export type GetAllTasks = () => Promise<Task[] |undefined>;
