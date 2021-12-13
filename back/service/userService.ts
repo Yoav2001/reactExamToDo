@@ -29,17 +29,18 @@ export const addUser : usersModel.AddUser = async (userObj :usersModel.User) => 
 
     try{
     
-        userDb.insertUser(userObj);
+       await userDb.insertUser(userObj);
+       const iuser=await userDb.getUserByEmail(userObj.email);
+       if(iuser!==undefined){
+           const userObjModel:usersModel.User={email:iuser.email,password:iuser.pass,fullName:iuser.fullname,isAdmin:iuser.isadmin}
+           return userObjModel;
+       }
      }
      catch(error)
      {
         console.log('Database ' + error)
     }
-    const iuser=await userDb.getUserByEmail(userObj.email);
-    if(iuser!==undefined){
-        const userObjModel:usersModel.User={email:iuser.email,password:iuser.pass,fullName:iuser.fullname,isAdmin:iuser.isadmin}
-        return userObjModel;
-    }
+   
     
 }
 

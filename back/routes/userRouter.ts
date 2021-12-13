@@ -25,7 +25,9 @@ router.route("/:email")
         const {  password, fullName,isAdmin} : { password : string, fullName : string,isAdmin:boolean} = req.body;
         const userToAdd :usersModel.User={email,password,fullName,isAdmin}
         const data = await userService.addUser(userToAdd)
-        res.json({ key: data });   
+        console.log(userToAdd);
+        //לא מצליח להמיר לגסון
+        res.json(data);   
 
     }) .put(async (req:express.Request, res:express.Response, next:express.NextFunction) => {
         

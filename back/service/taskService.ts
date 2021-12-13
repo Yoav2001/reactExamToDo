@@ -9,16 +9,16 @@ export const getAllTasks :taskModal.GetAllTasks = async () => {
     
     try{
         const arrTaskObjDb:Itask[] |undefined= await taskDb.getAlltaskFromDB();
-        if(arrTaskObjDb===undefined){
-            console.log("error");
-        return
+            if(arrTaskObjDb===undefined){
+                console.log("error");
+            return
 
-        }
+            }
 
-     const arrByModelUser:taskModal.Task[]= arrTaskObjDb.map(taskObjDb =>{return {taskId:taskObjDb.id,emailUserOfTask:taskObjDb.useremail
-        ,taskName:taskObjDb.name,startDate:taskObjDb.startdate,endTime:taskObjDb.endtime,isComplete:taskObjDb.iscomplete,isRelevent:taskObjDb.isrelevent}})
-        
-     return arrByModelUser; 
+        const arrByModelUser:taskModal.Task[]= arrTaskObjDb.map(taskObjDb =>{return {taskId:taskObjDb.id,emailUserOfTask:taskObjDb.useremail
+            ,taskName:taskObjDb.name,startDate:taskObjDb.startdate,endTime:taskObjDb.endtime,isComplete:taskObjDb.iscomplete,isRelevent:taskObjDb.isrelevent}})
+            
+        return arrByModelUser; 
      }
      catch(error)
      {

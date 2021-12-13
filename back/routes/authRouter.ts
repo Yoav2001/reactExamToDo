@@ -9,35 +9,30 @@ const router = express.Router();
 router.route("/login") 
   .post(async (req:express.Request, res:express.Response, next:express.NextFunction) => {
     const { email, password} : { email : string, password : string} = req.body;
-    if(email||password ===undefined){
+    if(email||password !==undefined){
       const user:usersModel.User |undefined=await userService.getUserDataWithEmail(email)
-      if(user!==undefined){
-        console.log(user);
-        console.log( " email "+user?.email);
-        console.log("full" +user?.fullName);
-        console.log("full" +user?.isAdmin);
+      if(user!==undefined){ 
+          if(user?.password!==password){
+            console.log("the user is exist in the system but the password inccorect");
+            res.json("your password inccorect")
+          }
+          else{
+            const token = jwt.sign(user!, jwtSecret)
+            console.log(token);
+            if(token===undefined||token===null)
+               res.status(403).json('this user dont have Permissions');
+  
+              res.json(JSON.stringify(token))
+            
+          }
+    
 
-        
-        console.log(user?.password+" s  "+ password);
-      }
-   
-      
-      if(user?.password!==password){
-        console.log("error passowrd to give doesnt correct");
-        res.json("your password inccorect")
-      }
-      const token = jwt.sign(user!, jwtSecret)
-      console.log(token);
-      if(token===undefined||token===null)
-        //  res.status(403).json('this user dont have Permissions');
-
-      res.json(JSON.stringify(token))
-
-
+        }
+        else{
+          res.json("the user doesnt exist in the system")
+        }
 }
      
-
-
 })
 
 router.route("/signUp/:email") 
@@ -46,15 +41,17 @@ router.route("/signUp/:email")
     const email:string = <string>req.params.email;
     const {  password, fullName,isAdmin} : { password : string, fullName : string,isAdmin:boolean} = req.body;
     const userToAdd :usersModel.User={email,password,fullName,isAdmin}
-    const user = await userService.addUser(userToAdd)
-    console.log(user?.fullName);
-    console.log(user?.email);
+    const user:usersModel.User|undefined = await userService.addUser(userToAdd)
+   
     
     if(user!==undefined){
       const token = jwt.sign(user, jwtSecret)
       if(token===undefined||token===null)
          res.status(403).json('this user dont have Permissions');
-  
+        console.log("fullname"+user.fullName);
+        console.log("isadmin"+user.isAdmin);
+        console.log("user"+user);
+        
       res.json(JSON.stringify(token))
     }
     else{
@@ -65,4 +62,6 @@ router.route("/signUp/:email")
     
 })
 
+
+//להוסיף router .use  לerrohadeler
 export default router

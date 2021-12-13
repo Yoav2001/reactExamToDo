@@ -1,7 +1,7 @@
 
 import pool from '../connection'
 import type taskModal = require('../../modals/taskModal')
-import type usersModel = require('../../modals/userModal')
+import type userModalBack = require('../../modals/userModal')
 
 // import { Iuser } from '../../interfaceDB/interfaceUser';
 import type userModalDb = require('../../interfaceDB/interfaceUser')
@@ -37,7 +37,7 @@ import type userModalDb = require('../../interfaceDB/interfaceUser')
   }
   
 
-   const insertUser = async(userObj :usersModel.User)=> {
+   const insertUser = async(userObj :userModalBack.User)=> {
     const client = await pool.connect();
   
       const insertQuery = `INSERT INTO users (email,pass,fullName,isAdmin)
@@ -60,38 +60,47 @@ import type userModalDb = require('../../interfaceDB/interfaceUser')
   
   
   //write select user with type and async and await
-  export async function getUserByEmail(email : usersModel.User["email"]): Promise<Iuser | undefined>{
-    const client = await pool.connect();
-    const selectByEmail = `SELECT * FROM users WHERE email = '${email}'`
-    const res =   (await client.query(selectByEmail)).rows[0]
-    console.log('inside db');
-    
-    return res;
-  }
-
-  // const getUserByEmail = async(email : usersModel.User["email"]) =>{
-
+  // export async function getUserByEmail(email : userModalBack.User["email"]): Promise<Iuser | undefined>{
   //   const client = await pool.connect();
   //   const selectByEmail = `SELECT * FROM users WHERE email = '${email}'`
   //   const res =   (await client.query(selectByEmail)).rows[0]
   //   console.log('inside db');
     
   //   return res;
-
   // }
-   
-  export async function getUserByFullName(fullName : usersModel.User["fullName"]): Promise<Iuser | undefined>{
+
+  const getUserByEmail:userModalDb.GetUser = async(email : userModalBack.User["email"]) =>{
+
     const client = await pool.connect();
-    const selectByEmail = `SELECT * FROM users WHERE fullName = '${fullName}'`
+    const selectByEmail = `SELECT * FROM users WHERE email = '${email}'`
     const res =   (await client.query(selectByEmail)).rows[0]
     console.log('inside db');
     
     return res;
+
   }
+  const getUserByFullName:userModalDb.GetUserWithFullName = async(fullName : userModalBack.User["fullName"]) =>{
+
+    const client = await pool.connect();
+    const selectByFullName = `SELECT * FROM users WHERE fullName = '${fullName}'`
+    const res =   (await client.query(selectByFullName)).rows[0]
+    console.log('inside db');
+    
+    return res;
+
+  }
+  // export async function getUserByFullName(fullName : userModalBack.User["fullName"]): Promise<Iuser | undefined>{
+  //   const client = await pool.connect();
+  //   const selectByEmail = `SELECT * FROM users WHERE fullName = '${fullName}'`
+  //   const res =   (await client.query(selectByEmail)).rows[0]
+  //   console.log('inside db');
+    
+  //   return res;
+  // }
    
   
   
-  const deleteUserByEmail= async(email : usersModel.User["email"])=> {
+  const deleteUserByEmail= async(email : userModalBack.User["email"])=> {
     const client = await pool.connect();
   
     const deleteByEmail = `Delete FROM users WHERE email ='${email}'`
@@ -104,7 +113,7 @@ import type userModalDb = require('../../interfaceDB/interfaceUser')
     }
   }
   
-  const updateUserByEmail=async(userObj:usersModel.User)=> {
+  const updateUserByEmail=async(userObj:userModalBack.User)=> {
     const client = await pool.connect();
 
 

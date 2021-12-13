@@ -11,7 +11,7 @@ app.use(express.json());
 app.use(authRouter)
 app.use("/api",mainRouterApi)
 
-
+// לשים app.use לauthToken
 const port = process.env.PORT||3000;
 app.listen(port, () => {
     console.log(`App running on port ${port}.`)

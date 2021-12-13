@@ -3,8 +3,9 @@ import taskService from '../service/taskService';
 import type taskModal = require('../modals/taskModal')
 import type usersModel = require('../modals/userModal')
 import { Itask} from '../interfaceDB/interfaceTask';
+import authorize from '../middleware/authorize'
 const router = express.Router()
-
+router.use(authorize)
 //task/addTask
 router.post('/addTask',async (req:express.Request, res:express.Response, next:express.NextFunction)=>{
 

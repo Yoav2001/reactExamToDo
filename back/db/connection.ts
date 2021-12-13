@@ -5,10 +5,12 @@ const pool = new pg.Pool({
     user: 'postgres',
     host: 'localhost',
     database: 'toDoApp',
-    password: '123',
+    password: '7845',
     port: 5432,
 })  
 
+
+//123
 // module.exports = () => { return pool; }
 
 export default pool;
