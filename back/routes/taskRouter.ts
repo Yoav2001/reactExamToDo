@@ -5,7 +5,6 @@ import type usersModel = require('../modals/userModal')
 import { Itask} from '../interfaceDB/interfaceTask';
 import authorize from '../middleware/authorize'
 const router = express.Router()
-router.use(authorize)
 //task/addTask
 router.post('/addTask',async (req:express.Request, res:express.Response, next:express.NextFunction)=>{
 
@@ -18,10 +17,10 @@ router.post('/addTask',async (req:express.Request, res:express.Response, next:ex
 
 //task/
 router.get('/',async (req:express.Request, res:express.Response, next:express.NextFunction)=>{
-    const data = await taskService.getAllTasks();
-    console.log("router");
-
-    res.json({ key: data });
+    const arrAllTasks:taskModal.Task[] |undefined= await taskService.getAllTasks();
+    res.json(arrAllTasks)
+  
+    
 })
 
 //task/:taskId

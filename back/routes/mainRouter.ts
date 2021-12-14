@@ -2,6 +2,7 @@ import express from 'express'
 import userRouter from "./userRouter"
 import taskRouter from "./taskRouter"
 
+import errorHandler from '../middleware/errorHandler'
 
 
 const router = express.Router();

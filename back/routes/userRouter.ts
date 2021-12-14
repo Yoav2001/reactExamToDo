@@ -2,27 +2,44 @@ import express from 'express'
 import userService from '../service/userService';
 import type taskModal = require('../modals/taskModal')
 import type usersModel = require('../modals/userModal')
+import errorHandler from '../middleware/errorHandler'
+import { ErrorHandlerType } from '../middleware/errorHandler'
 const router = express.Router();
 
 router.route("/") 
   .get(async (req:express.Request, res:express.Response, next:express.NextFunction) => {
-     
-    const data = await userService.getAllUsers();
+    const data =await userService.getAllUsers();
+
     console.log(data)
-    res.json({ key: data });      
-    
+
+
+    if(data)//אם לא נמצא זה לא שגיאה 
+        res.json({ key: data });      
+    else{
+        res.json("no found users ")
+        }
+
 })
 
 router.route("/:email")
     .get(async (req:express.Request, res:express.Response, next:express.NextFunction) => {
         const email:string = <string>req.params.email;
+        if(email===""||email===undefined){
+
+            const errorObj:ErrorHandlerType={statusError:400,errorMap:errorHandler.errorMapToDoApp}
+            next(errorObj);
+        }
         const data = await userService.getUserDataWithEmail(email);
         res.json({ key: data });        
         
     }) .post(async (req:express.Request, res:express.Response, next:express.NextFunction) => {
         const email:string = <string>req.params.email;
-
         const {  password, fullName,isAdmin} : { password : string, fullName : string,isAdmin:boolean} = req.body;
+
+        if(email||password||fullName||isAdmin===undefined){
+            const errorObj:ErrorHandlerType={statusError:400,errorMap:errorHandler.errorMapToDoApp}
+            next(errorObj);
+        }
         const userToAdd :usersModel.User={email,password,fullName,isAdmin}
         const data = await userService.addUser(userToAdd)
         console.log(userToAdd);

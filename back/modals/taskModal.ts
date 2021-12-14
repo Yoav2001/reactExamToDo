@@ -15,7 +15,7 @@ export type AddResult = "Added Succeeded" | "Failed to add "
 export type UpdateResult = "update Succeeded" | "Failed to update"|"soory this task id dont exist in DB" |"sorry cant update without task ID"
 
 
-export type GetAllTasks = () => Promise<Task[] |undefined>;
+export type GetAllTasks = () => Promise<Task[] >;
 export type GetTasksOfUser = (userEmail: Task['emailUserOfTask']) => Promise<Task[]  |undefined> ;
 export type AddTask = (task: Task) => Promise<string>;
 export type updateTask = (task: Task) => Promise<UpdateResult | undefined>;

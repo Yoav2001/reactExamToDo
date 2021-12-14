@@ -11,7 +11,7 @@ export const getAllTasks :taskModal.GetAllTasks = async () => {
         const arrTaskObjDb:Itask[] |undefined= await taskDb.getAlltaskFromDB();
             if(arrTaskObjDb===undefined){
                 console.log("error");
-            return
+            return []
 
             }
 
