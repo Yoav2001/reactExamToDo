@@ -41,7 +41,18 @@ export const addNewTask: taskModal.AddTask = async (task:taskModal.Task) => {
     return res;
 }
 
-
+export const deleteTaskByTaskId: taskModal.DeleteTask= async (taskId:taskModal.Task["taskId"]) => {
+    try{
+      await taskDb.deleteTaskByTaskId(taskId)
+     }
+     catch(error)
+     {
+         throw error
+        
+        
+    }
+   
+}
 
 export const updateTask: taskModal.updateTask= async (task:taskModal.Task) => {
 
@@ -93,4 +104,4 @@ export const getAllPostsOfUser :taskModal.GetTasksOfUser = async (email:usersMod
 
 
 
-export default {getAllTasks,addNewTask,updateTask,getAllPostsOfUser}
+export default {getAllTasks,addNewTask,updateTask,getAllPostsOfUser,deleteTaskByTaskId}

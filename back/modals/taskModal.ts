@@ -19,4 +19,4 @@ export type GetAllTasks = () => Promise<Task[] >;
 export type GetTasksOfUser = (userEmail: Task['emailUserOfTask']) => Promise<Task[]  |undefined> ;
 export type AddTask = (task: Task) => Promise<string>;
 export type updateTask = (task: Task) => Promise<UpdateResult | undefined>;
-export type DeleteTask = (idTask: Task['taskId']) => Promise<string>;
+export type DeleteTask = (idTask: Task['taskId']) => Promise<void>;

@@ -16,9 +16,9 @@ router.post('/addTask',async (req:express.Request, res:express.Response, next:ex
         return  next(errorObj);
     }
     const taskToAdd :taskModal.Task={emailUserOfTask:emailUserOfTask,taskName:taskName,startDate:startDate,endTime:endTime,isComplete:isComplete,isRelevent:isRelevent}
-    const data = await taskService.addNewTask(taskToAdd)
-    console.log(data)
-    res.json({ key: data });
+    const data = await taskService.addNewTask(taskToAdd).then(()=>{
+        res.status(204).json({ key: data });
+    })
 })
 
 //task/
@@ -30,8 +30,9 @@ router.get('/',async (req:express.Request, res:express.Response, next:express.Ne
 })
 
 //task/:taskId
+router.route('/:taskId') 
 
-router.put('/:taskId',async (req:express.Request, res:express.Response, next:express.NextFunction)=>{
+.put(async (req:express.Request, res:express.Response, next:express.NextFunction)=>{
     //לשים לב את המייל מעביר כפרמס ואת המידע בבודי
     const taskId:number =parseInt(req.params.taskId) ;     
     const { emailUserOfTask, taskName, startDate,endTime,isComplete,isRelevent} : {emailUserOfTask : string, taskName : string, startDate : string, endTime : string,isComplete:boolean,isRelevent:boolean} = req.body;
@@ -40,14 +41,35 @@ router.put('/:taskId',async (req:express.Request, res:express.Response, next:exp
         const errorObj:ErrorHandlerType={statusError:400,errorMap:errorHandler.errorMapToDoApp}
         return  next(errorObj);
     }
-    const taskToUpdate :taskModal.Task={taskId:taskId,emailUserOfTask:emailUserOfTask,taskName:taskName,startDate:startDate,endTime:endTime,isComplete:isComplete,isRelevent:isRelevent}
-    console.log(taskToUpdate);
+    const taskToUpdate :taskModal.Task={taskId:taskId,emailUserOfTask:emailUserOfTask,taskName:taskName,startDate:startDate,endTime:endTime,isComplete:isComplete,isRelevent:isRelevent}    
+    const data = await taskService.updateTask(taskToUpdate).then(()=>{
+        res.status(200).json({ key: data });
+
+    })
     
-    const data = await taskService.updateTask(taskToUpdate)
-    console.log(data)
-    
-    res.json({ key: data });
 })
+
+.delete(async (req:express.Request, res:express.Response, next:express.NextFunction)=>{
+    //לשים לב את המייל מעביר כפרמס ואת המידע בבודי
+    const taskId:number =parseInt(req.params.taskId) ;  
+       
+    if(taskId ===undefined){
+
+        const errorObj:ErrorHandlerType={statusError:400,errorMap:errorHandler.errorMapToDoApp}
+        return  next(errorObj);
+    }
+    
+    taskService.deleteTaskByTaskId(taskId).then(()=>{return res.status(204)})
+    // .catch(error){
+    //     const error:ErrorHandlerType={statusError:403,errorMap:errorHandler.errorMapToDoApp,uniqueMessage:}
+    //     return next(error)
+    // }
+     
+    
+    
+    
+})
+
 
 //task/email
 //need to be last
@@ -61,7 +83,6 @@ router.get('/:userEmail',async (req:express.Request, res:express.Response, next:
 
     }
     const data :taskModal.Task[] |undefined= await  taskService.getAllPostsOfUser(userEmail);
-    console.log(data)
     res.json({ key: data });
 })
 
