@@ -27,29 +27,36 @@ router.route("/:email")
         if(email===""||email===undefined){
 
             const errorObj:ErrorHandlerType={statusError:400,errorMap:errorHandler.errorMapToDoApp}
-            next(errorObj);
+          return  next(errorObj);
         }
         const data = await userService.getUserDataWithEmail(email);
         res.json({ key: data });        
         
     }) .post(async (req:express.Request, res:express.Response, next:express.NextFunction) => {
-        const email:string = <string>req.params.email;
+        const email:string =""
         const {  password, fullName,isAdmin} : { password : string, fullName : string,isAdmin:boolean} = req.body;
 
-        if(email||password||fullName||isAdmin===undefined){
+        if(email===""||password===""||fullName===""){
+            console.log("pst new user-- one of body of params is udifend"
+            );
+            
             const errorObj:ErrorHandlerType={statusError:400,errorMap:errorHandler.errorMapToDoApp}
-            next(errorObj);
+         return  next(errorObj);
         }
         const userToAdd :usersModel.User={email,password,fullName,isAdmin}
         const data = await userService.addUser(userToAdd)
         console.log(userToAdd);
         //לא מצליח להמיר לגסון
-        res.json(data);   
+        res.json({ key: data });
 
     }) .put(async (req:express.Request, res:express.Response, next:express.NextFunction) => {
         
         const email:string = <string>req.params.email;     
         const {  password, fullName,isAdmin} : { password : string, fullName : string,isAdmin:boolean} = req.body;
+        if(email===""||password===""||fullName===""||email===undefined||password===undefined||fullName===undefined||isAdmin===undefined){
+            const errorObj:ErrorHandlerType={statusError:400,errorMap:errorHandler.errorMapToDoApp}
+            return  next(errorObj);
+        }
         const userToAdd :usersModel.User={email,password,fullName,isAdmin}
         const data = await userService.updateUserNameWithEmail(userToAdd)
       

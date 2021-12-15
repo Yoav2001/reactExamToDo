@@ -1,6 +1,6 @@
 import userDb from '../db/queries/userQuery'
 import type usersModel = require('../modals/userModal')
-import { Iuser } from '../interfaceDB/interfaceUser';
+import { Iuser } from '../db/interfaceDB/interfaceUser';
 
 
 export const getAllUsers : usersModel.GetAllUsers = async () => {

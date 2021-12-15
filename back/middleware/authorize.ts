@@ -14,17 +14,30 @@ require('dotenv').config();
 const authorize = (req : express.Request, res : express.Response, next : express.NextFunction) => {
     try
     {
+
         const token : string|undefined =  req.headers.authorization && req.headers['authorization'].split(' ')[1];
+        console.log(req.headers["authorization"]);
+        
+        console.log("token in middal ware");
+        
+        console.log(token);
+        
         if(!token)  throw new Error('dashkhdasdhas')
         jwt.verify(token, process.env.ACCESS_TOKEN_SECRET as jwt.Secret, (err : jwt.VerifyErrors | null, decodedToken : jwt.JwtPayload|undefined) => {
-            if(err)
-                // return next(new ErrorHandler(403, err.message));
+            if(err){
+                const error:ErrorHandlerType={statusError:403,errorMap:errorHandler.errorMapToDoApp,uniqueMessage:err.message}
+                return next(error)
+            }
+
+                
             return next();
         });
     }
     catch(err)
     {
         const error:ErrorHandlerType={statusError:401,errorMap:errorHandler.errorMapToDoApp}
+        console.log("catch err in authrozin middalware")
+            
          return next(error)
     }
 }

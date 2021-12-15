@@ -2,7 +2,7 @@
 import pool from '../connection'
 import type taskModal = require('../../modals/taskModal')
 import type usersModel = require('../../modals/userModal')
-import type taskModalDb = require('../../interfaceDB/interfaceTask')
+import type taskModalDb = require('../interfaceDB/interfaceTask')
 //  async function getAlltaskFromDB () {
 //     const client = await pool.connect();
 
@@ -87,7 +87,9 @@ import type taskModalDb = require('../../interfaceDB/interfaceTask')
     const client = await pool.connect();
 
 
-    const updateByEmail = `update tasks set name=${taskObj.taskName} , startDate=${taskObj.startDate} , endTime=${taskObj.endTime} , isComplete=${taskObj.taskName} , isRelevent=${taskObj.isRelevent}, where id = ${taskObj.taskId} `
+    const updateByEmail = `update tasks set name = '${taskObj.taskName}' , startDate = '${taskObj.startDate}' , endTime = '${taskObj.endTime}', isComplete = ${taskObj.isComplete} , isRelevent = ${taskObj.isRelevent}  where id = ${taskObj.taskId} `
+    console.log(updateByEmail);
+    
     try{
       const res =  client.query(updateByEmail)
     } 

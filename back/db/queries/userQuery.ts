@@ -4,7 +4,7 @@ import type taskModal = require('../../modals/taskModal')
 import type userModalBack = require('../../modals/userModal')
 
 // import { Iuser } from '../../interfaceDB/interfaceUser';
-import type userModalDb = require('../../interfaceDB/interfaceUser')
+import type userModalDb = require('../interfaceDB/interfaceUser')
 
 
 // export async function getAllUsersFromDB ():Promise<Iuser[] | undefined> {

@@ -1,5 +1,5 @@
 import taskDb from '../db/queries/taskQuery'
-import { Itask } from '../interfaceDB/interfaceTask';
+import { Itask } from '../db/interfaceDB/interfaceTask';
 import type taskModal = require('../modals/taskModal')
 import type usersModel = require('../modals/userModal')
 
@@ -49,8 +49,9 @@ export const updateTask: taskModal.updateTask= async (task:taskModal.Task) => {
     if (task?.taskId === undefined || "") return "sorry cant update without task ID"
 
     const getTask = await taskDb.getTaskByTaskId(task.taskId);
+    console.log(getTask);
     
-    if(!getTask) return "sorry cant update without task ID"
+    if(getTask.rowCount===0) return  "soory this task id dont exist in DB"
     try {
         taskDb.updateTaskByTaskObject(task);
         return "update Succeeded"
@@ -71,7 +72,10 @@ export const getAllPostsOfUser :taskModal.GetTasksOfUser = async (email:usersMod
         return
 
         }
+        if(arrTaskObjDb.length===0) return [];
+        
 
+        
      const arrByModelUser:taskModal.Task[]= arrTaskObjDb.map(taskObjDb =>{return {taskId:taskObjDb.id,emailUserOfTask:taskObjDb.useremail
         ,taskName:taskObjDb.name,startDate:taskObjDb.startdate,endTime:taskObjDb.endtime,isComplete:taskObjDb.iscomplete,isRelevent:taskObjDb.isrelevent}})
         
