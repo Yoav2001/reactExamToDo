@@ -3,6 +3,7 @@ import pool from '../connection'
 import type taskModal = require('../../modals/taskModal')
 import type usersModel = require('../../modals/userModal')
 import type taskModalDb = require('../interfaceDB/interfaceTask')
+import { Iuser } from '../interfaceDB/interfaceUser'
 //  async function getAlltaskFromDB () {
 //     const client = await pool.connect();
 
@@ -32,6 +33,26 @@ import type taskModalDb = require('../interfaceDB/interfaceTask')
       return rows;
     } catch (err) {
       console.log('Database ' + err)
+    }
+  }
+
+  const getTaskByTaskId:taskModalDb.GetTaskByTaskId=async(id:taskModalDb.Itask["id"])=> {
+
+    const client = await pool.connect();
+ 
+
+    const selectByTaskID = `select * from tasks where id = ${id}`
+    console.log(selectByTaskID);
+    
+    try{
+      const {rows}  = await client.query(selectByTaskID);
+      const task : Promise<taskModalDb.Itask | undefined> = rows[0]
+      client.release();
+      return task;
+    } 
+  
+    catch (error) {
+      throw error;
     }
   }
 
@@ -99,22 +120,7 @@ import type taskModalDb = require('../interfaceDB/interfaceTask')
     }
   }
 
-  const getTaskByTaskId=async(id:taskModal.Task["taskId"])=> {
 
-    const client = await pool.connect();
-    const selectByTaskID = `select * from tasks where id = ${id}`
-    console.log(selectByTaskID);
-    
-    try{
-      const res = await client.query(selectByTaskID)
-      client.release();
-      return res;
-    } 
-  
-    catch (error) {
-      throw error;
-    }
-  }
 
 
   

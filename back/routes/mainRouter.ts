@@ -1,14 +1,14 @@
 import express from 'express'
 import userRouter from "./userRouter"
 import taskRouter from "./taskRouter"
-import authorize from '../middleware/authorize'
+import auth from '../middleware/authorize'
 
 
 const router = express.Router();
 
 //לבנות middale ware שבודק
 // router.use(auth)
-router.use(authorize)
+router.use(auth.authorize)
 router.use("/user",userRouter)
 router.use("/task",taskRouter)
 

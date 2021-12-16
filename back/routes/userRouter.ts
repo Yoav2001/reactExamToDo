@@ -4,15 +4,18 @@ import type taskModal = require('../modals/taskModal')
 import type usersModel = require('../modals/userModal')
 import errorHandler from '../middleware/errorHandler'
 import { ErrorHandlerType } from '../middleware/errorHandler'
+import { UpdateBundleProject } from 'typescript';
+import auth from '../middleware/authorize'
 const router = express.Router();
 
 router.route("/") 
-  .get(async (req:express.Request, res:express.Response, next:express.NextFunction) => {
+  .get(auth.adminMiddleware,async (req:express.Request, res:express.Response, next:express.NextFunction) => {
     const data =await userService.getAllUsers();
-
-    console.log(data)
-
-
+        // const user=res.locals.user as usersModel.User
+        // if(!user.isAdmin){
+        //     const errorObj:ErrorHandlerType={statusError:405,errorMap:errorHandler.errorMapToDoApp}
+        //     return  next(errorObj);    
+        // }
     if(data)//אם לא נמצא זה לא שגיאה 
         res.json({ key: data });      
     else{
@@ -24,6 +27,12 @@ router.route("/")
 router.route("/:email")
     .get(async (req:express.Request, res:express.Response, next:express.NextFunction) => {
         const email:string = <string>req.params.email;
+        const user=res.locals.user as usersModel.User
+
+        if(user.email!==email&&!user.isAdmin){
+            const errorObj:ErrorHandlerType={statusError:401,errorMap:errorHandler.errorMapToDoApp}
+            return  next(errorObj); 
+        }
         if(email===""||email===undefined){
 
             const errorObj:ErrorHandlerType={statusError:400,errorMap:errorHandler.errorMapToDoApp}
@@ -51,7 +60,15 @@ router.route("/:email")
 
     }) .put(async (req:express.Request, res:express.Response, next:express.NextFunction) => {
         
-        const email:string = <string>req.params.email;     
+        const email:string = <string>req.params.email;  
+        const user=res.locals.user as usersModel.User
+
+        if(user.email!==email&&!user.isAdmin){
+            const errorObj:ErrorHandlerType={statusError:401,errorMap:errorHandler.errorMapToDoApp,uniqueMessage:"Non Authoritative Information- you try to update details of other user and you are not admin "}
+            return  next(errorObj); 
+        }   
+
+        
         const {  password, fullName,isAdmin} : { password : string, fullName : string,isAdmin:boolean} = req.body;
         if(email===""||password===""||fullName===""||email===undefined||password===undefined||fullName===undefined||isAdmin===undefined){
             const errorObj:ErrorHandlerType={statusError:400,errorMap:errorHandler.errorMapToDoApp}
@@ -65,41 +82,7 @@ router.route("/:email")
         res.json({ key: data });
     });
 
-    
-// //api/user/
-// router.post('/addUser',async (req:express.Request, res:express.Response, next:express.NextFunction)=>{
-
-//     const { email, password, fullName,isAdmin} : {email : string, password : string, fullName : string,isAdmin:boolean} = req.body;
-//     const userToAdd :usersModel.User={email,password,fullName,isAdmin}
-//     const data = await userService.addUser(userToAdd)
-//     console.log(data)
-//     res.json({ key: data });
-// })
-// //need to be last
-// router.get('/:email',async (req:express.Request, res:express.Response, next:express.NextFunction)=>{
-
-//     const email:string = <string>req.params.email;
-//     const data = await userService.getUserDataWithEmail(email);
-//     console.log(data)
-//     res.json({ key: data });
-// })
-
-// router.patch('/update/:email',async (req:express.Request, res:express.Response, next:express.NextFunction)=>{
-//     //לשים לב את המייל מעביר כפרמס ואת המידע בבודי
-//     const email:string = <string>req.params.email;     
-//     const {  password, fullName,isAdmin} : { password : string, fullName : string,isAdmin:boolean} = req.body;
-//     const userToAdd :usersModel.User={email,password,fullName,isAdmin}
-//     const data = await userService.updateUserNameWithEmail(userToAdd)
-//     console.log(data)
-//     res.json({ key: data });
-// })
-// router.get('/getAllUsers',async (req:express.Request, res:express.Response, next:express.NextFunction)=>{
-
-    
-//     const data = await userService.getAllUsers();
-//     console.log(data)
-//     res.json({ key: data });
-// })
+ 
 
 
 

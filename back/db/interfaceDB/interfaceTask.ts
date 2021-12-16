@@ -12,3 +12,4 @@ export interface Itask{
 
 export type GetAllTasks = () => Promise<Itask[] |undefined>;
 export type GetTasksOfUser = (userEmail: Itask['useremail']) => Promise<Itask[]  |undefined> ;
+export type GetTaskByTaskId = (idTask: Itask['id'] ) => Promise<Itask |undefined> ;

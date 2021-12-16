@@ -4,7 +4,26 @@ import type taskModal = require('../modals/taskModal')
 import type usersModel = require('../modals/userModal')
 
 
+export const getTaskByTaskId: taskModal.GetTaskByTaskId= async (taskId:taskModal.Task["taskId"]) => {
+    try{
 
+       const taskByDb:Itask |undefined =await taskDb.getTaskByTaskId(taskId)
+       if(!taskByDb)
+            return undefined
+
+        const taskByModalBack:taskModal.Task={taskId:taskByDb?.id,emailUserOfTask:taskByDb.useremail,taskName:taskByDb.name,
+            startDate:taskByDb.startdate,endTime:taskByDb.endtime,isComplete:taskByDb.iscomplete,isRelevent:taskByDb.isrelevent}
+
+            return taskByModalBack
+     }
+     catch(error)
+     {
+         throw error
+        
+        
+    }
+   
+}
 export const getAllTasks :taskModal.GetAllTasks = async () => {
     
     try{
@@ -29,7 +48,7 @@ export const getAllTasks :taskModal.GetAllTasks = async () => {
 
 export const addNewTask: taskModal.AddTask = async (task:taskModal.Task) => {
     try{
-        taskDb.insertNewTask(task); 
+        taskDb.insertNewTask(task)
      }
      catch(error)
      {
@@ -59,10 +78,10 @@ export const updateTask: taskModal.updateTask= async (task:taskModal.Task) => {
 
     if (task?.taskId === undefined || "") return "sorry cant update without task ID"
 
-    const getTask = await taskDb.getTaskByTaskId(task.taskId);
+    const getTask:Itask|undefined = await taskDb.getTaskByTaskId(task.taskId);
     console.log(getTask);
     
-    if(getTask.rowCount===0) return  "soory this task id dont exist in DB"
+    if(!getTask) return  "soory this task id dont exist in DB"
     try {
         taskDb.updateTaskByTaskObject(task);
         return "update Succeeded"
@@ -73,7 +92,7 @@ export const updateTask: taskModal.updateTask= async (task:taskModal.Task) => {
    
 }
 
-export const getAllPostsOfUser :taskModal.GetTasksOfUser = async (email:usersModel.User["email"]) => {
+export const getAlltasksOfUser :taskModal.GetTasksOfUser = async (email:usersModel.User["email"]) => {
     console.log("service");
     
     try{
@@ -104,4 +123,4 @@ export const getAllPostsOfUser :taskModal.GetTasksOfUser = async (email:usersMod
 
 
 
-export default {getAllTasks,addNewTask,updateTask,getAllPostsOfUser,deleteTaskByTaskId}
+export default {getAllTasks,addNewTask,updateTask,getAlltasksOfUser,deleteTaskByTaskId,getTaskByTaskId}

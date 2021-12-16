@@ -16,19 +16,28 @@ const authorize = (req : express.Request, res : express.Response, next : express
     {
 
         const token : string|undefined =  req.headers.authorization && req.headers['authorization'].split(' ')[1];
-        console.log(req.headers["authorization"]);
-        
-        console.log("token in middal ware");
-        
-        console.log(token);
-        
-        if(!token)  throw new Error('dashkhdasdhas')
+ 
+        if(!token)  {
+            const error:ErrorHandlerType={statusError:401,errorMap:errorHandler.errorMapToDoApp}
+            console.log("catch err token undifend")    
+             return next(error)
+
+        }  
         jwt.verify(token, process.env.ACCESS_TOKEN_SECRET as jwt.Secret, (err : jwt.VerifyErrors | null, decodedToken : jwt.JwtPayload|undefined) => {
+            res.locals.user=decodedToken!;
+            // console.log("decode");
+            
+            // if(decodedToken!==undefined&& decodedToken.email)
+               
+            // console.log(decodedToken);
+            
             if(err){
                 const error:ErrorHandlerType={statusError:403,errorMap:errorHandler.errorMapToDoApp,uniqueMessage:err.message}
                 return next(error)
             }
 
+            // if(req.params.email && req.params.email != decodedToken.email)
+            //     return next(401);
                 
             return next();
         });
@@ -42,6 +51,26 @@ const authorize = (req : express.Request, res : express.Response, next : express
     }
 }
 
+const adminMiddleware = (req : express.Request, res : express.Response, next : express.NextFunction) => {
+    try
+    {
+        const user =res.locals.user as User;
+        if(!user.isAdmin){
+            const error:ErrorHandlerType={statusError:405,errorMap:errorHandler.errorMapToDoApp,uniqueMessage:"MethodNotAllowed -only admins"}
+            return next(error)        
+           }       
+           
+           
+           return next()
+         }
+    catch(err)
+    {
+        const error:ErrorHandlerType={statusError:401,errorMap:errorHandler.errorMapToDoApp}
+        console.log("catch err in authrozin middalware")
+            
+         return next(error)
+    }
+}
 
 
 // const setUserToView = (req : express.Request, res : express.Response, next : express.NextFunction) => {
@@ -61,4 +90,4 @@ const authorize = (req : express.Request, res : express.Response, next : express
 //     }
 // }
 
-export default authorize
+export default {authorize,adminMiddleware}
