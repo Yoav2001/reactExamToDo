@@ -98,8 +98,8 @@ export const getAlltasksOfUser :taskModal.GetTasksOfUser = async (email:usersMod
     try{
         const arrTaskObjDb:Itask[] |undefined= await taskDb.getAllTaskByUserEmail(email);
         if(arrTaskObjDb===undefined){
-            console.log("error");
-        return
+            
+        return []
 
         }
         if(arrTaskObjDb.length===0) return [];

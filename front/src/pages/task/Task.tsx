@@ -21,29 +21,29 @@ type props = {
 const Task :React.FC<props> =({task ,deleteTask}) =>{
 
 
-return (
+      return (
 
-      <div className="taskComponent" >
-        <div>
-        <button className="btn bi bi-x-square deleteTaskBtn" onClick={()=>deleteTask(task.id)}></button>
-      <p>{task.endTime}</p>
-        </div>
+            <div className="taskComponent" >
+              <div>
+              <button className="btn bi bi-x-square deleteTaskBtn" onClick={()=>deleteTask(task.taskId!)}></button>
+            <p>{task.endTime}</p>
+              </div>
 
-         <hr/>
-        <p>{task.taskName}</p> 
+              <hr/>
+              <p>{task.taskName}</p> 
 
-        <br/>
-        <div className="divBtnTask">
-        <button className="btn  bi bi-pencil-square"> </button>
+              <br/>
+              <div className="divBtnTask">
+              <button className="btn  bi bi-pencil-square"> </button>
 
-          <button className="btn bi bi-check2-square"></button>
+                <button className="btn bi bi-check2-square"></button>
 
-        </div>
+              </div>
 
 
-      </div>
+            </div>
 
-)
+      )
 
 }
 

@@ -24,7 +24,7 @@ type props = {
                 {displayTaskList.map(taskItem=> {
 
                     return (
-                        <Task task={taskItem} key={taskItem.id} deleteTask={deleteTask} ></Task>
+                        <Task task={taskItem} key={taskItem.taskId} deleteTask={deleteTask} ></Task>
                     )
 
                 })}

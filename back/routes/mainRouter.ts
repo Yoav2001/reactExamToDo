@@ -8,7 +8,7 @@ const router = express.Router();
 
 //לבנות middale ware שבודק
 // router.use(auth)
-router.use(auth.authorize)
+// router.use(auth.authorize)
 router.use("/user",userRouter)
 router.use("/task",taskRouter)
 

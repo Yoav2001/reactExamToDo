@@ -60,9 +60,7 @@ export const getUserDataWithEmail: usersModel.GetUser = async (email?: string | 
     {
         throw error;
     }
-
-
-    
+ 
 }
 
 export const getUserDataWithFullName: usersModel.GetUserWithFullName = async (name?: usersModel.User["fullName"] ) => {

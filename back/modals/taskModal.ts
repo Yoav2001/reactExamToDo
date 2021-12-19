@@ -16,7 +16,7 @@ export type UpdateResult = "update Succeeded" | "Failed to update"|"soory this t
 
 
 export type GetAllTasks = () => Promise<Task[] >;
-export type GetTasksOfUser = (userEmail: Task['emailUserOfTask']) => Promise<Task[]  |undefined> ;
+export type GetTasksOfUser = (userEmail: Task['emailUserOfTask']) => Promise<Task[] > ;
 export type GetTaskByTaskId = (idTask:Task["taskId"]) => Promise<Task |undefined> ;
 export type AddTask = (task: Task) => Promise<string>;
 export type updateTask = (task: Task) => Promise<UpdateResult | undefined>;

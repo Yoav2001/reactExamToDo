@@ -1,11 +1,12 @@
-import  React from 'react';
+import  React, { useEffect } from 'react';
 import  {useState} from 'react';
 import ToDos from '../toDos/ToDos';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import  './homeToDo.css'
 import Task from '../task/Task';
 import dataTask from '../../data/dataTask';
-
+import {getAllTaskOfUserByEmail} from '../../server/getTaskOfUser'
+import addNewTask from '../../server/addNewTask';
 const statesDisaplyTasks = new Map();
 
 statesDisaplyTasks.set(1,'allTasks');
@@ -18,15 +19,24 @@ statesDisaplyTasks.set(3,'releventTasks');
 //   }
 
  const HomeToDo=() =>{
-    const [allTask,setAllTask] = useState<Task[]>(dataTask)
-    const [displayListTask,setDisplayList ] = useState<Task[]>(dataTask)
+    const [allTask,setAllTask] = useState<Task[]>([])
+    const [displayListTask,setDisplayList ] = useState<Task[]>([])
 
+
+    useEffect(()=>{getAllTaskOfUserByEmail("eran@gmail.com").then((res) => {
+        console.log(res.data.key);
+        console.log(res.data.key[1]);
+        
+        setAllTask(res.data.key)
+        
+    })},[])
 
     const [taskToAdd, setTask] = useState<Task>({
-        id:1,
+        taskId:1,
+        emailUserOfTask:"eran@gmail.com",
         taskName:"",
-        startDate:"01.01.2001",
-        endTime: "01/01/2001",
+        startDate:"12-19-2021",
+        endTime: "12-22-2001",
         isComplete:false,
         isRelevent:true
     });
@@ -41,12 +51,16 @@ statesDisaplyTasks.set(3,'releventTasks');
     }
 
     const addToDo =()=>{
-        dataTask.push(taskToAdd)
+        console.log("add task function");
+        
+     addNewTask(taskToAdd)
+        
         
         setAllTask([
             ...allTask,
             {      
-                id:1,
+                taskId:1,
+                emailUserOfTask:taskToAdd.emailUserOfTask,
               taskName:taskToAdd.taskName,
               endTime:taskToAdd.endTime,
               startDate:taskToAdd.startDate,
@@ -60,7 +74,7 @@ statesDisaplyTasks.set(3,'releventTasks');
     }
 
 
-    const changeDisplayList=(stateListNumber:number)=>{
+    const   changeDisplayList=(stateListNumber:number)=>{
         switch(statesDisaplyTasks.get(stateListNumber)){
 
             case 'allTasks': setDisplayList(allTask)
@@ -80,7 +94,7 @@ statesDisaplyTasks.set(3,'releventTasks');
 
     const deleteTask = (id:number) =>{
 
-        setAllTask(allTask.filter(task  => task.id!==id))
+        setAllTask(allTask.filter(task  => task.taskId!==id))
         console.log("dsadas");
         
     }
