@@ -15,6 +15,8 @@ function App() {
         <Switch>
           <Route path='/' component={user ? HomeToDo : Login}/>
           <Route exact path="/login" component={Login}/>
+          <Route exact path="/homeToDo" component={Login}/>
+
         </Switch>
       </Router>
       </div>

@@ -40,7 +40,8 @@ const Login  =() =>{
 
   const logInToDo =()=>{
         loginAxios(user.email,user.password).then(()=>{
-          location.assign('31321')
+          location.href='homeToDo';
+          // location.assign('homeToDo')
       ;
         })
         
