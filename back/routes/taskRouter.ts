@@ -82,16 +82,19 @@ router.route('/:taskId')
 
 .delete(async (req:express.Request, res:express.Response, next:express.NextFunction)=>{
     const taskId:number =parseInt(req.params.taskId) ;  
+    console.log("Delete router ");
+    console.log(res);
+    
     const task:taskModal.Task|undefined =await taskService.getTaskByTaskId(taskId)
     const user:usersModel.User |undefined=await userService.getUserDataWithEmail(task?.emailUserOfTask!)
 
-     const localUser=res.locals.user as usersModel.User
+    //  const localUser=res.locals.user as usersModel.User
 
-    if(user?.email!==localUser.email&&!localUser.isAdmin){
-        const errorObj:ErrorHandlerType={statusError:401,errorMap:errorHandler.errorMapToDoApp
-            ,uniqueMessage:"opps you try to delete task of other users"}
-        return  next(errorObj);
-    }
+    // if(user?.email!==localUser.email&&!localUser.isAdmin){
+    //     const errorObj:ErrorHandlerType={statusError:401,errorMap:errorHandler.errorMapToDoApp
+    //         ,uniqueMessage:"opps you try to delete task of other users"}
+    //     return  next(errorObj);
+    // }
        
     if(taskId ===undefined){
 

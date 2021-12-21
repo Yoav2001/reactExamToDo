@@ -21,8 +21,12 @@ router.route("/login")
             console.log(token);
             if(token===undefined||token===null)
                res.status(403).json('this user dont have Permissions');
-  
-              res.json(JSON.stringify(token))
+            
+               console.log("token in  auth router ");
+               
+               console.log(token);
+               
+              res.json({token:token})
             // sessionStorage.setItem(token)
             
           }

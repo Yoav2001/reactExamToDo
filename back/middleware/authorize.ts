@@ -16,7 +16,9 @@ const authorize = (req : express.Request, res : express.Response, next : express
     {
 
         const token : string|undefined =  req.headers.authorization && req.headers['authorization'].split(' ')[1];
- 
+        console.log("middaleware authorize - token of req ");
+        console.log(token);
+                
         if(!token)  {
             const error:ErrorHandlerType={statusError:401,errorMap:errorHandler.errorMapToDoApp}
             console.log("catch err token undifend")    
@@ -24,12 +26,17 @@ const authorize = (req : express.Request, res : express.Response, next : express
 
         }  
         jwt.verify(token, process.env.ACCESS_TOKEN_SECRET as jwt.Secret, (err : jwt.VerifyErrors | null, decodedToken : jwt.JwtPayload|undefined) => {
-            res.locals.user=decodedToken!;
-            // console.log("decode");
+            console.log( process.env.ACCESS_TOKEN_SECRET);
             
-            // if(decodedToken!==undefined&& decodedToken.email)
-               
-            // console.log(decodedToken);
+            res.locals.user=decodedToken!;
+            console.log("middalware of authr res ");
+            console.log("middalware the decode token ");
+            
+            console.log(decodedToken);
+            console.log("middalware res.locals");
+
+            console.log(res.locals);
+            
             
             if(err){
                 const error:ErrorHandlerType={statusError:403,errorMap:errorHandler.errorMapToDoApp,uniqueMessage:err.message}

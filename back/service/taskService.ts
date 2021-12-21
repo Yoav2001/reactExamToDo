@@ -29,7 +29,6 @@ export const getAllTasks :taskModal.GetAllTasks = async () => {
     try{
         const arrTaskObjDb:Itask[] |undefined= await taskDb.getAlltaskFromDB();
             if(arrTaskObjDb===undefined){
-                console.log("error");
             return []
 
             }
@@ -62,6 +61,8 @@ export const addNewTask: taskModal.AddTask = async (task:taskModal.Task) => {
 
 export const deleteTaskByTaskId: taskModal.DeleteTask= async (taskId:taskModal.Task["taskId"]) => {
     try{
+        console.log("delete task service ");
+        
       await taskDb.deleteTaskByTaskId(taskId)
      }
      catch(error)
@@ -79,7 +80,6 @@ export const updateTask: taskModal.updateTask= async (task:taskModal.Task) => {
     if (task?.taskId === undefined || "") return "sorry cant update without task ID"
 
     const getTask:Itask|undefined = await taskDb.getTaskByTaskId(task.taskId);
-    console.log(getTask);
     
     if(!getTask) return  "soory this task id dont exist in DB"
     try {

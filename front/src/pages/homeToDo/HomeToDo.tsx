@@ -6,7 +6,10 @@ import  './homeToDo.css'
 import Task from '../task/Task';
 import dataTask from '../../data/dataTask';
 import {getAllTaskOfUserByEmail} from '../../server/getTaskOfUser'
-import addNewTask from '../../server/addNewTask';
+import addNewTaskAxios from '../../server/addNewTask';
+import deleteTaskByTaskIdAxios from '../../server/deleteTask';
+import { sessionStorageObjectNameEmail } from '../../server/login';
+const userEmailSessionStorage=sessionStorage.getItem(sessionStorageObjectNameEmail);
 const statesDisaplyTasks = new Map();
 
 statesDisaplyTasks.set(1,'allTasks');
@@ -21,19 +24,25 @@ statesDisaplyTasks.set(3,'releventTasks');
  const HomeToDo=() =>{
     const [allTask,setAllTask] = useState<Task[]>([])
     const [displayListTask,setDisplayList ] = useState<Task[]>([])
+    const [stateDispalyList,setStateDisplayList] =useState<number>(1);
 
-
-    useEffect(()=>{getAllTaskOfUserByEmail("eran@gmail.com").then((res) => {
+    useEffect(()=>{
+        getAllTaskOfUserByEmail(userEmailSessionStorage!).then((res) => {
         console.log(res.data.key);
         console.log(res.data.key[1]);
-        
-        setAllTask(res.data.key)
+        const todosOfUser:Task[]=res.data.key;
+        setAllTask(todosOfUser)
+        setDisplayList(todosOfUser)
         
     })},[])
 
+
+     
+    
+
     const [taskToAdd, setTask] = useState<Task>({
         taskId:1,
-        emailUserOfTask:"eran@gmail.com",
+        emailUserOfTask:userEmailSessionStorage!,
         taskName:"",
         startDate:"12-19-2021",
         endTime: "12-22-2001",
@@ -53,28 +62,36 @@ statesDisaplyTasks.set(3,'releventTasks');
     const addToDo =()=>{
         console.log("add task function");
         
-     addNewTask(taskToAdd)
+        addNewTaskAxios(taskToAdd)
         
-        
-        setAllTask([
-            ...allTask,
-            {      
-                taskId:1,
-                emailUserOfTask:taskToAdd.emailUserOfTask,
-              taskName:taskToAdd.taskName,
-              endTime:taskToAdd.endTime,
-              startDate:taskToAdd.startDate,
-              isComplete:taskToAdd.isComplete,
-              isRelevent:taskToAdd.isRelevent
+        getAllTaskOfUserByEmail(userEmailSessionStorage!).then((res) => {
+            console.log(res.data.key);
+            console.log(res.data.key[1]);
+            const todosOfUser:Task[]=res.data.key;
+            setAllTask(todosOfUser)
+            setDisplayList(todosOfUser)
+            
+        })        // setAllTask([
+        //     ...allTask,
+        //     {      
+        //         taskId:1,
+        //         emailUserOfTask:taskToAdd.emailUserOfTask,
+        //       taskName:taskToAdd.taskName,
+        //       endTime:taskToAdd.endTime,
+        //       startDate:taskToAdd.startDate,
+        //       isComplete:taskToAdd.isComplete,
+        //       isRelevent:taskToAdd.isRelevent
 
-            }
-        ]);
+        //     }
+        // ]);
 
 
     }
 
 
     const   changeDisplayList=(stateListNumber:number)=>{
+        setStateDisplayList(stateListNumber)
+
         switch(statesDisaplyTasks.get(stateListNumber)){
 
             case 'allTasks': setDisplayList(allTask)
@@ -92,10 +109,9 @@ statesDisaplyTasks.set(3,'releventTasks');
 
     }
 
-    const deleteTask = (id:number) =>{
-
-        setAllTask(allTask.filter(task  => task.taskId!==id))
-        console.log("dsadas");
+    const deleteTask = (taskId:number) =>{
+        deleteTaskByTaskIdAxios(taskId)
+        setAllTask(allTask.filter(task  => task.taskId!==taskId))
         
     }
 
@@ -115,9 +131,9 @@ statesDisaplyTasks.set(3,'releventTasks');
 
             </div>
             <div className="divBtnTask">
-            <button className="btn btn-light" onClick={()=>changeDisplayList(1)}>All</button>
-            <button className="btn btn-light" onClick={()=>changeDisplayList(2)}>completed</button>
-              <button className="btn btn-light" onClick={()=>changeDisplayList(3)}> relvent</button>
+            <button className={stateDispalyList===1 ? "btn btn-primary" :"btn btn-light"}onClick={()=>changeDisplayList(1)}>All</button>
+            <button className={stateDispalyList===2 ? "btn btn-primary" :"btn btn-light"} onClick={()=>changeDisplayList(2)}>completed</button>
+              <button className={stateDispalyList===3 ? "btn btn-primary" :"btn btn-light"} onClick={()=>changeDisplayList(3)}> relvent</button>
 
             </div>
 

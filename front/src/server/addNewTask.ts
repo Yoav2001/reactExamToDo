@@ -2,7 +2,7 @@
 import {baseAxios} from './axiosConfig' 
 
 
-  const addNewTask=async(task:Task)=>{
+  const addNewTaskAxios=async(task:Task)=>{
       console.log("add task axios function ");
       
      baseAxios({
@@ -21,4 +21,4 @@ import {baseAxios} from './axiosConfig'
 
 
 
-export default    addNewTask
+export default addNewTaskAxios

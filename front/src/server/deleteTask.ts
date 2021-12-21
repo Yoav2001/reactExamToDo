@@ -1,16 +1,19 @@
 
-import { error } from 'jquery'
 import {baseAxios} from './axiosConfig' 
 
 
-const deleteTaskByTaskId=(taskId:number)=>{
-    const resopnse =baseAxios({
-        method:'delete',
+const deleteTaskByTaskIdAxios= async(taskId:number)=>{
+    console.log("delete task with axios");
+    console.log(taskId);
+    
+    const resopnse =await baseAxios({
+        method:'DELETE',
         url:`api/task/${taskId}`
-    }).then(
+    }).then(res=> {return res})
+    
 
-
-    )
-    .catch((error))
+    alert(resopnse)
 
 }
+
+export default deleteTaskByTaskIdAxios
