@@ -4,7 +4,7 @@ import ToDos from '../toDos/ToDos';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import  './homeToDo.css'
 import Task from '../task/Task';
-import dataTask from '../../data/dataTask';
+// import dataTask from '../../data/dataTask';
 import {getAllTaskOfUserByEmail} from '../../server/getTaskOfUser'
 import addNewTaskAxios from '../../server/addNewTask';
 import deleteTaskByTaskIdAxios from '../../server/deleteTask';

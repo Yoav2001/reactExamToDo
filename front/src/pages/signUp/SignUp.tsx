@@ -3,14 +3,12 @@ import  {useState} from 'react';
 
 import 'bootstrap/dist/css/bootstrap.min.css';
 import "bootstrap-icons/font/bootstrap-icons.css";
-import  './login.css'
-
 // import {signUpAxios} from '../../server/signUp'
 
 // import {taskModal} from '../../../../back/modals/taskModal'
 
 
-
+import "./signUp.css"
 
 
 
@@ -47,7 +45,8 @@ const SignUp  =() =>{
   
         return (
 
-          <div className="addToDoForm">
+          <div className="addToDoForm mt-5">
+                  
             <p>sign up</p>
           <input value={user.email} onChange={handleChange} name="email"type="text" className="form-control" placeholder="example@gmail.com" aria-label="task Name" aria-describedby="basic-addon1"/> 
           <input value={user.password} onChange={handleChange} name="password"  type="password" className="form-control" placeholder="password" aria-label="task Name" aria-describedby="basic-addon1"/> 

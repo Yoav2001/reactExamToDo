@@ -14,17 +14,16 @@ import {
 } from 'reactstrap';
 
 
-// import {taskModal} from '../../../../back/modals/taskModal'
 
 
 
 
 
-const Auth  =() =>{
+const NavBarToDo  =() =>{
 
    
    // Collapse isOpen State
-   const [isOpen, setIsOpen] = React.useState(false);
+   const [isOpen, setIsOpen] = useState(false);
         return (
           <div style={{
             display: 'block', width: 550, padding: 30
@@ -35,10 +34,10 @@ const Auth  =() =>{
                     <Nav className="mr-auto" navbar>
                   
                         <NavItem>
-                            <NavLink href="login">Login</NavLink>
+                            <NavLink href="homeToDo">my todos</NavLink>
                         </NavItem>
                         <NavItem>
-                            <NavLink href="signUp">Signup</NavLink>
+                            <NavLink href="login">log out </NavLink>
                         </NavItem>
                     </Nav>
                 </Collapse>
@@ -46,23 +45,9 @@ const Auth  =() =>{
         </div >
 
 
-        //   <div>
-        //   <li>
-        //     <Link to="/">Dogs</Link>
-        //   </li>
-        //   <li>
-        //     <Link to="/homeToDo">Cats</Link>
-        //   </li>
-        //   <li>
-        //     <Link to="/sheeps">Sheeps</Link>
-        //   </li>
-        //   <li>
-        //     <Link to="/goats">Goats</Link>
-        //   </li>
-        // </div>  
 
         )
 
       }
 
-export default Auth;
+export default NavBarToDo;

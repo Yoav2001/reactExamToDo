@@ -14,20 +14,19 @@ import {
 } from 'reactstrap';
 
 
-// import {taskModal} from '../../../../back/modals/taskModal'
+import "./navBarAuth.css"
 
 
 
 
-
-const Auth  =() =>{
+const NavBarAuth  =() =>{
 
    
    // Collapse isOpen State
-   const [isOpen, setIsOpen] = React.useState(false);
+   const [isOpen, setIsOpen] = useState(false);
         return (
-          <div style={{
-            display: 'block', width: 550, padding: 30
+          <div className="" style={{
+            display: 'block', width: 550, padding: 30 
         }}>
             <Navbar color="light" light expand="md">
                 <NavbarToggler onClick={() => { setIsOpen(!isOpen) }} />
@@ -46,23 +45,9 @@ const Auth  =() =>{
         </div >
 
 
-        //   <div>
-        //   <li>
-        //     <Link to="/">Dogs</Link>
-        //   </li>
-        //   <li>
-        //     <Link to="/homeToDo">Cats</Link>
-        //   </li>
-        //   <li>
-        //     <Link to="/sheeps">Sheeps</Link>
-        //   </li>
-        //   <li>
-        //     <Link to="/goats">Goats</Link>
-        //   </li>
-        // </div>  
 
         )
 
       }
 
-export default Auth;
+export default NavBarAuth;
