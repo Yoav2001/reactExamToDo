@@ -34,6 +34,9 @@ import type userModalDb = require('../interfaceDB/interfaceUser')
     } catch (err) {
       console.log('Database ' + err)
     }
+    finally{
+      client.release()
+    }
   }
   
 
@@ -50,7 +53,9 @@ import type userModalDb = require('../interfaceDB/interfaceUser')
       catch (error) {
          throw error;
       }
-  
+      finally{
+        client.release()
+      }
   
   }
   
@@ -69,24 +74,46 @@ import type userModalDb = require('../interfaceDB/interfaceUser')
   //   return res;
   // }
 
-  const getUserByEmail:userModalDb.GetUser = async(email : userModalBack.User["email"]) =>{
+    const getUserByEmail:userModalDb.GetUser = async(email : userModalBack.User["email"]) =>{
+      const client = await pool.connect();
 
-    const client = await pool.connect();
-    const selectByEmail = `SELECT * FROM users WHERE email = '${email}'`
-    const res =   (await client.query(selectByEmail)).rows[0]
-    console.log('inside db');
+      try{
+        
+        const selectByEmail = `SELECT * FROM users WHERE email = '${email}'`
+        
+        const res =   (await client.query(selectByEmail)).rows[0]
+        return res
     
-    return res;
 
-  }
+      }
+      catch(error){
+        throw error
+      }
+
+      finally{
+        client.release()
+      }
+    
+
+    }
   const getUserByFullName:userModalDb.GetUserWithFullName = async(fullName : userModalBack.User["fullName"]) =>{
 
     const client = await pool.connect();
-    const selectByFullName = `SELECT * FROM users WHERE fullName = '${fullName}'`
-    const res =   (await client.query(selectByFullName)).rows[0]
-    console.log('inside db');
-    
-    return res;
+    try{
+
+      const selectByFullName = `SELECT * FROM users WHERE fullName = '${fullName}'`
+      const res =   (await client.query(selectByFullName)).rows[0]
+      
+      return res;
+
+    }
+    catch(error){
+      throw error
+    }
+
+    finally{
+      client.release()
+    }
 
   }
   // export async function getUserByFullName(fullName : userModalBack.User["fullName"]): Promise<Iuser | undefined>{
@@ -126,6 +153,9 @@ import type userModalDb = require('../interfaceDB/interfaceUser')
   
     catch (error) {
       throw error;
+    }
+    finally{
+      client.release()
     }
   }
   

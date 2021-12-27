@@ -39,6 +39,7 @@ const NavBarAuth  =() =>{
                         <NavItem>
                             <NavLink href="signUp">Signup</NavLink>
                         </NavItem>
+                     
                     </Nav>
                 </Collapse>
             </Navbar>

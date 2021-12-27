@@ -2,15 +2,20 @@ import express from 'express'
 import userService from '../service/userService';
 import type usersModel = require('../modals/userModal')
 import jwt from 'jsonwebtoken'
+import errorHandler, { ErrorHandlerType } from '../middleware/errorHandler';
 
 const jwtSecret='bommer'
 
 const router = express.Router();
 router.route("/login") 
   .post(async (req:express.Request, res:express.Response, next:express.NextFunction) => {
+    
     const { email, password} : { email : string, password : string} = req.body;
-    if(email||password !==undefined){
+
+    if(email&&password){
+      
       const user:usersModel.User |undefined=await userService.getUserDataWithEmail(email)
+      
       if(user!==undefined){ 
           if(user?.password!==password){
             console.log("the user is exist in the system but the password inccorect");
@@ -18,16 +23,9 @@ router.route("/login")
           }
           else{
             const token = jwt.sign(user!, jwtSecret)
-            console.log(token);
             if(token===undefined||token===null)
                res.status(403).json('this user dont have Permissions');
-            
-               console.log("token in  auth router ");
-               
-               console.log(token);
-               
               res.json({token:token})
-            // sessionStorage.setItem(token)
             
           }
     
@@ -35,6 +33,7 @@ router.route("/login")
         }
         else{
           res.json("the user doesnt exist in the system")
+          
         }
 }
      
@@ -48,21 +47,28 @@ router.route("/signUp/:email")
     const userToAdd :usersModel.User={email,password,fullName,isAdmin}
     const user:usersModel.User|undefined = await userService.addUser(userToAdd)
    
+    if(!user){
+      const errorObj:ErrorHandlerType={statusError:500,errorMap:errorHandler.errorMapToDoApp,uniqueMessage:"there was problem with create the user try again"}
+      return  next(errorObj);
+    }else{
+      res.status(204);
+      //לילוס אמר רק בלוגין ליצור טווקן
+    }
     
-    if(user!==undefined){
-      const token = jwt.sign(user, jwtSecret)
-      if(token===undefined||token===null)
-         res.status(403).json('this user dont have Permissions');
-        console.log("fullname"+user.fullName);
-        console.log("isadmin"+user.isAdmin);
-        console.log("user"+user);
+    // if(user!==undefined){
+    //   const token = jwt.sign(user, jwtSecret)
+    //   if(token===undefined||token===null)
+    //      res.status(403).json('this user dont have Permissions');
+    //     console.log("fullname"+user.fullName);
+    //     console.log("isadmin"+user.isAdmin);
+    //     console.log("user"+user);
         
-      res.json(JSON.stringify(token))
-    }
-    else{
-      console.log("erorr");
+    //   res.json(JSON.stringify(token))
+    // }
+    // else{
+    //   console.log("erorr");
       
-    }
+    // }
     
     
 })

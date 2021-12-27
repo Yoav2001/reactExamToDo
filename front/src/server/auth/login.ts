@@ -1,7 +1,9 @@
-import {baseAxios} from './axiosConfig' 
+import {baseAxios} from '../axiosConfig' 
 export const sessionStorageObjectNameToken = "JWT";
 export  const sessionStorageObjectNameEmail="USER EMAIL"
 export  const loginAxios=async(userEmail:User["email"],pass:User["password"])=>{
+    console.log("log in axios");
+    
     const res  = await baseAxios({
         method:'POST',
         url:`login`,
@@ -10,12 +12,14 @@ export  const loginAxios=async(userEmail:User["email"],pass:User["password"])=>{
             password: pass
           }
     }).then(res=>{return res})
-
+    console.log(res);
+    
     if(res.status === 200){
         const token=res.data.token;
+  
+        
         setSessionStorageObject(token,userEmail);
-        console.log(token);
-        console.log(userEmail);
+  
         
         // setLoggedState(true);
     }

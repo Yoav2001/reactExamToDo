@@ -1,14 +1,17 @@
 import  React, { useEffect } from 'react';
 import  {useState} from 'react';
+
 import ToDos from '../toDos/ToDos';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import  './homeToDo.css'
-import Task from '../task/Task';
 // import dataTask from '../../data/dataTask';
 import {getAllTaskOfUserByEmail} from '../../server/getTaskOfUser'
 import addNewTaskAxios from '../../server/addNewTask';
 import deleteTaskByTaskIdAxios from '../../server/deleteTask';
-import { sessionStorageObjectNameEmail } from '../../server/login';
+import { sessionStorageObjectNameEmail } from '../../server/auth/login';
+import { Modal, ModalBody } from 'reactstrap';
+import Task from '../task/Task';
+import UpdateTaskModal from '../modals/UpdateTaskModal';
 const userEmailSessionStorage=sessionStorage.getItem(sessionStorageObjectNameEmail);
 const statesDisaplyTasks = new Map();
 
@@ -21,20 +24,34 @@ statesDisaplyTasks.set(3,'releventTasks');
     
 //   }
 
+
+
  const HomeToDo=() =>{
+    const [isShowingModal, setIsShowingModal] = useState(true);
+    // const toggleModal = () => setIsShowingModal(!isShowingModal);
+    const [updateTaskObj,setUpdateTaskObj ] = useState<Task|undefined>({
+    emailUserOfTask:"fdfsd",
+      taskName: "",
+    startDate: "",
+    endTime: "",
+    isComplete: false,
+    isRelevent: true
+  
+    })
+
     const [allTask,setAllTask] = useState<Task[]>([])
     const [displayListTask,setDisplayList ] = useState<Task[]>([])
     const [stateDispalyList,setStateDisplayList] =useState<number>(1);
 
     useEffect(()=>{
         getAllTaskOfUserByEmail(userEmailSessionStorage!).then((res) => {
-        console.log(res.data.key);
-        console.log(res.data.key[1]);
         const todosOfUser:Task[]=res.data.key;
         setAllTask(todosOfUser)
         setDisplayList(todosOfUser)
         
-    })},[])
+    })
+
+}    ,[allTask,displayListTask,stateDispalyList]  )
 
 
      
@@ -52,6 +69,7 @@ statesDisaplyTasks.set(3,'releventTasks');
 
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+
         setTask({
             ...taskToAdd,
             [e.target.name]: e.target.value
@@ -71,7 +89,8 @@ statesDisaplyTasks.set(3,'releventTasks');
             setAllTask(todosOfUser)
             setDisplayList(todosOfUser)
             
-        })        // setAllTask([
+        })    
+          // setAllTask([
         //     ...allTask,
         //     {      
         //         taskId:1,
@@ -109,12 +128,24 @@ statesDisaplyTasks.set(3,'releventTasks');
 
     }
 
-    const deleteTask = (taskId:number) =>{
-        deleteTaskByTaskIdAxios(taskId)
-        setAllTask(allTask.filter(task  => task.taskId!==taskId))
+    const deleteTask = async(taskId:number) =>{
+        console.log("before delte ");
+        
+         await deleteTaskByTaskIdAxios(taskId)
+        console.log("after delete ");
+        
+        getAllTaskOfUserByEmail(userEmailSessionStorage!).then((res) => {
+            const todosOfUser:Task[]=res.data.key;
+            setAllTask(todosOfUser)
+            setDisplayList(todosOfUser)
+            
+        })
         
     }
 
+    const updateTaskOpenModal = (task:Task) =>{
+        setUpdateTaskObj(task)
+    }
     // const getCompleteTasks =()=>{
     //     setDisplayList(allTask.filter(task=>task.isComplete))
     // } 
@@ -137,8 +168,15 @@ statesDisaplyTasks.set(3,'releventTasks');
 
             </div>
 
-            <ToDos displayTaskList={displayListTask} deleteTask={deleteTask} ></ToDos>
-            
+            <ToDos displayTaskList={displayListTask} deleteTask={deleteTask} updateTask={updateTaskOpenModal} ></ToDos>
+            {/* <Modal isOpen={isShowingModal} toggle={toggleModal} >
+                <h1>update task</h1>
+                <ModalBody>
+                    שם פרטי
+                    שם משפחה
+                </ModalBody>
+            </Modal> */}
+            <UpdateTaskModal updateTaskObj={updateTaskObj!} setUpdateTask={setUpdateTaskObj} />
         </div>
      )
 }

@@ -3,7 +3,7 @@ import  {useState} from 'react';
 
 import 'bootstrap/dist/css/bootstrap.min.css';
 import "bootstrap-icons/font/bootstrap-icons.css";
-// import {signUpAxios} from '../../server/signUp'
+import {signUpAxios} from '../../server/auth/signUp'
 
 // import {taskModal} from '../../../../back/modals/taskModal'
 
@@ -34,12 +34,17 @@ const SignUp  =() =>{
   }
 
   const signUpToDo =()=>{
-        // signUpAxios(user).then(()=>{
-        //   // location.href='homeToDo';
-        // window.location.assign('homeToDo');
+    console.log("Dsadsdf");
+    
+        signUpAxios(user).then(()=>{
+          //למה כשמצליח להירשם לא נכנס לפה
+          console.log("sign up succed");
+          
+         window.location.assign('login');
         
-        // })
-        
+        })
+        window.location.assign('login');
+
 
      }
   
@@ -48,9 +53,9 @@ const SignUp  =() =>{
           <div className="addToDoForm mt-5">
                   
             <p>sign up</p>
-          <input value={user.email} onChange={handleChange} name="email"type="text" className="form-control" placeholder="example@gmail.com" aria-label="task Name" aria-describedby="basic-addon1"/> 
+          <input value={user.email} onChange={handleChange} name="email" type="email" className="form-control" placeholder="example@gmail.com" aria-label="task Name" aria-describedby="basic-addon1"/> 
           <input value={user.password} onChange={handleChange} name="password"  type="password" className="form-control" placeholder="password" aria-label="task Name" aria-describedby="basic-addon1"/> 
-          <input value={user.fullName} onChange={handleChange} name="password"  type="text" className="form-control" placeholder="password" aria-label="task Name" aria-describedby="basic-addon1"/> 
+          <input value={user.fullName} onChange={handleChange} name="fullName"  type="text" className="form-control" placeholder="password" aria-label="task Name" aria-describedby="basic-addon1"/> 
 
           {/* <input value={user.fullName} onChange={handleChange} name="fullName"  type="text" className="form-control" placeholder="full Name" aria-label="task Name" aria-describedby="basic-addon1"/>  */}
           <br></br>

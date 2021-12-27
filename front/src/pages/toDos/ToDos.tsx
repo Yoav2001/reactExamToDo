@@ -10,11 +10,12 @@ import dataTask from '../../data/dataTask';
 //   }
 type props = {
     displayTaskList: Task[],
-    deleteTask :(idTask:number) => void 
+    deleteTask :(idTask:number) => void
+    updateTask: (task:Task) => void
 }
   
 
- const ToDos:React.FC<props> =({displayTaskList,deleteTask}) =>{
+ const ToDos:React.FC<props> =({displayTaskList,deleteTask,updateTask}) =>{
 
     // const dataTask:Task[]=[{taskName:"dsadas",endTime:"11.02.03",isComplete:true,isRelevent:false},{taskName:"dsadas",endTime:"11.02.03",isComplete:true,isRelevent:false},{taskName:"dsadas",endTime:"11.02.03",isComplete:true,isRelevent:false},{taskName:"dsadas",endTime:"11.02.03",isComplete:true,isRelevent:false},{taskName:"dsadas",endTime:"11.02.03",isComplete:true,isRelevent:false},{taskName:"dsadas",endTime:"11.02.03",isComplete:true,isRelevent:false},{taskName:"dsadas",endTime:"11.02.03",isComplete:true,isRelevent:false},{taskName:"dsadas",endTime:"11.02.03",isComplete:true,isRelevent:false},{taskName:"dsadas",endTime:"11.02.03",isComplete:true,isRelevent:false},{taskName:"dsadas",endTime:"11.02.03",isComplete:true,isRelevent:false},{taskName:"dsadas",endTime:"11.02.03",isComplete:true,isRelevent:false},{taskName:"dsadas",endTime:"11.02.03",isComplete:true,isRelevent:false},{taskName:"dsadas",endTime:"11.02.03",isComplete:true,isRelevent:false},{taskName:"dsadas",endTime:"11.02.03",isComplete:true,isRelevent:false},{taskName:"dsadas",endTime:"11.02.03",isComplete:true,isRelevent:false}]
     
@@ -24,7 +25,7 @@ type props = {
                 {displayTaskList.map(taskItem=> {
 
                     return (
-                        <Task task={taskItem} key={taskItem.taskId} deleteTask={deleteTask} ></Task>
+                        <Task task={taskItem} key={taskItem.taskId} deleteTask={deleteTask} updateTask={updateTask} ></Task>
                     )
 
                 })}

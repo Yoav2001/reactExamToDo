@@ -46,11 +46,15 @@ export const addUser : usersModel.AddUser = async (userObj :usersModel.User) => 
 
 
 export const getUserDataWithEmail: usersModel.GetUser = async (email?: string | undefined) => {
+
+    
     if(email===undefined)
          return undefined;
     try{
     
         const iuser=await userDb.getUserByEmail(email);
+        
+        
         if(iuser!==undefined){
             const userObjModel:usersModel.User={email:iuser.email,password:iuser.pass,fullName:iuser.fullname,isAdmin:iuser.isadmin}
             return userObjModel;

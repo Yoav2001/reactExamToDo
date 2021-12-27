@@ -5,7 +5,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import "bootstrap-icons/font/bootstrap-icons.css";
 import  './login.css'
 
-import {loginAxios} from '../../server/login'
+import {loginAxios} from '../../server/auth/login'
 
 // import {taskModal} from '../../../../back/modals/taskModal'
 
@@ -39,6 +39,8 @@ const Login  =() =>{
   }
 
   const logInToDo =()=>{
+    console.log("login function");
+    
         loginAxios(user.email,user.password).then(()=>{
          window.location.href='homeToDo';
         // window.location.assign('homeToDo');

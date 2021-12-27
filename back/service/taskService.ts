@@ -61,7 +61,6 @@ export const addNewTask: taskModal.AddTask = async (task:taskModal.Task) => {
 
 export const deleteTaskByTaskId: taskModal.DeleteTask= async (taskId:taskModal.Task["taskId"]) => {
     try{
-        console.log("delete task service ");
         
       await taskDb.deleteTaskByTaskId(taskId)
      }
@@ -93,7 +92,6 @@ export const updateTask: taskModal.updateTask= async (task:taskModal.Task) => {
 }
 
 export const getAlltasksOfUser :taskModal.GetTasksOfUser = async (email:usersModel.User["email"]) => {
-    console.log("service");
     
     try{
         const arrTaskObjDb:Itask[] |undefined= await taskDb.getAllTaskByUserEmail(email);

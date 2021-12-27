@@ -54,7 +54,6 @@ router.route("/:email")
         }
         const userToAdd :usersModel.User={email,password,fullName,isAdmin}
         const data = await userService.addUser(userToAdd)
-        console.log(userToAdd);
         //לא מצליח להמיר לגסון
         res.json({ key: data });
 
@@ -77,7 +76,6 @@ router.route("/:email")
         const userToAdd :usersModel.User={email,password,fullName,isAdmin}
         const data = await userService.updateUserNameWithEmail(userToAdd)
       
-        console.log("after upd");
         
         res.json({ key: data });
     });

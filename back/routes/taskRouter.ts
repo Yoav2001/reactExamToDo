@@ -82,8 +82,7 @@ router.route('/:taskId')
 
 .delete(async (req:express.Request, res:express.Response, next:express.NextFunction)=>{
     const taskId:number =parseInt(req.params.taskId) ;  
-    console.log("Delete router ");
-    console.log(res);
+
     
     const task:taskModal.Task|undefined =await taskService.getTaskByTaskId(taskId)
     const user:usersModel.User |undefined=await userService.getUserDataWithEmail(task?.emailUserOfTask!)
@@ -114,10 +113,8 @@ router.route('/:taskId')
 //need to be last
 //userEmail
 router.get('/:userEmail',async (req:express.Request, res:express.Response, next:express.NextFunction)=>{
-console.log("get Task of user email");
 
     const userEmail:string = <string>req.params.userEmail; 
-    console.log("the user email",userEmail);
 
     const user:usersModel.User |undefined=await userService.getUserDataWithEmail(userEmail!)
     // const localUser=res.locals.user as usersModel.User

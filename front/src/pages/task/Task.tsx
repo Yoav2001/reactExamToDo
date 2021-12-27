@@ -11,6 +11,7 @@ import homePageComponent from '../homeToDo/HomeToDo'
 type props = {
   task: Task
   deleteTask :(idTask:number) => void 
+  updateTask: (task:Task) => void
 
 }
 
@@ -18,7 +19,7 @@ type props = {
 
 
 
-const Task :React.FC<props> =({task ,deleteTask}) =>{
+const Task :React.FC<props> =({task ,deleteTask,updateTask}) =>{
 
 
       return (
@@ -34,7 +35,7 @@ const Task :React.FC<props> =({task ,deleteTask}) =>{
 
               <br/>
               <div className="divBtnTask">
-              <button className="btn  bi bi-pencil-square"> </button>
+              <button name='updateTask' className="btn  bi bi-pencil-square"onClick={()=>updateTask(task)} > </button>
 
                 <button className="btn bi bi-check2-square"></button>
 

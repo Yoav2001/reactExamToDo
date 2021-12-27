@@ -11,9 +11,10 @@ const deleteTaskByTaskIdAxios= async(taskId:number)=>{
         url:`api/task/${taskId}`
     }).then(res=> {return res})
     
+    if(resopnse.status===200){
 
-    alert(resopnse)
-
+        
+    }
 }
 
 export default deleteTaskByTaskIdAxios
