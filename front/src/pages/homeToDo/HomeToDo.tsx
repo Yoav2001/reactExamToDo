@@ -43,26 +43,40 @@ statesDisaplyTasks.set(3,'releventTasks');
     const [displayListTask,setDisplayList ] = useState<Task[]>([])
     const [stateDispalyList,setStateDisplayList] =useState<number>(1);
 
-    useEffect(()=>{
-        getAllTaskOfUserByEmail(userEmailSessionStorage!).then((res) => {
-        const todosOfUser:Task[]=res.data.key;
-        setAllTask(todosOfUser)
-        setDisplayList(todosOfUser)
+    const getAllTask = async () => {
+        setTimeout(() => {
+            getAllTaskOfUserByEmail(userEmailSessionStorage!).then((res) => {
+                console.log("getting all tasks for user: ", userEmailSessionStorage);
+                    console.table("all tasks from server: ", res.data.key);
         
-    })
+                
+                const todosOfUser: Task[] = res.data.key;
+                setAllTask(todosOfUser);
+            })   
+        }, 30);
+    }
 
-}    ,[allTask,displayListTask,stateDispalyList]  )
+    useEffect(() => {
+        console.log("first use effect");
+        getAllTask();
+        
+        // getAllTaskOfUserByEmail(userEmailSessionStorage!).then((res) => {
+        // const todosOfUser:Task[]=res.data.key;
+        // setAllTask(todosOfUser)
+        // setStateDisplayList(1);
+    }, []) 
 
-
-     
-    
+    useEffect(() => {
+        console.log(" second use effect -use effect display list");
+        changeDisplayList(stateDispalyList)
+    }, [allTask])
 
     const [taskToAdd, setTask] = useState<Task>({
         taskId:1,
         emailUserOfTask:userEmailSessionStorage!,
         taskName:"",
         startDate:"12-19-2021",
-        endTime: "12-22-2001",
+        endTime: "",
         isComplete:false,
         isRelevent:true
     });
@@ -77,40 +91,32 @@ statesDisaplyTasks.set(3,'releventTasks');
         console.log(e.target.name)
     }
 
-    const addToDo =()=>{
-        console.log("add task function");
-        
-        addNewTaskAxios(taskToAdd)
-        
-        getAllTaskOfUserByEmail(userEmailSessionStorage!).then((res) => {
-            console.log(res.data.key);
-            console.log(res.data.key[1]);
-            const todosOfUser:Task[]=res.data.key;
-            setAllTask(todosOfUser)
-            setDisplayList(todosOfUser)
+    const addToDo = async () => {
+      if(taskToAdd.taskName.length===0||taskToAdd.endTime.length===0){
+          alert('soory you need to add task name and date ')
+          return
+      }
+
+         addNewTaskAxios(taskToAdd)
+            .then((res) => {
+                console.log(res);
+                console.log('adding new task: ', taskToAdd);
+                getAllTask()
+                console.log(1);
+            })
             
-        })    
-          // setAllTask([
-        //     ...allTask,
-        //     {      
-        //         taskId:1,
-        //         emailUserOfTask:taskToAdd.emailUserOfTask,
-        //       taskName:taskToAdd.taskName,
-        //       endTime:taskToAdd.endTime,
-        //       startDate:taskToAdd.startDate,
-        //       isComplete:taskToAdd.isComplete,
-        //       isRelevent:taskToAdd.isRelevent
-
-        //     }
-        // ]);
-
-
+            .catch(error => {
+                console.log(2);
+            })
     }
 
+    const changeDisplayList = (stateListNumber:number) => {
 
-    const   changeDisplayList=(stateListNumber:number)=>{
         setStateDisplayList(stateListNumber)
-
+        console.log(stateListNumber);
+        console.log(statesDisaplyTasks.get(stateListNumber));
+        
+        
         switch(statesDisaplyTasks.get(stateListNumber)){
 
             case 'allTasks': setDisplayList(allTask)
@@ -129,17 +135,10 @@ statesDisaplyTasks.set(3,'releventTasks');
     }
 
     const deleteTask = async(taskId:number) =>{
-        console.log("before delte ");
         
-         await deleteTaskByTaskIdAxios(taskId)
-        console.log("after delete ");
+          deleteTaskByTaskIdAxios(taskId).then(()=>{getAllTask()} )
         
-        getAllTaskOfUserByEmail(userEmailSessionStorage!).then((res) => {
-            const todosOfUser:Task[]=res.data.key;
-            setAllTask(todosOfUser)
-            setDisplayList(todosOfUser)
-            
-        })
+      
         
     }
 
@@ -156,8 +155,8 @@ statesDisaplyTasks.set(3,'releventTasks');
 
             <br></br>
             <div className="input-group mb-3 addToDoForm">
-                <input value={taskToAdd.taskName} onChange={handleChange} name="taskName"  type="text" className="form-control" placeholder="task Name" aria-label="task Name" aria-describedby="basic-addon1"/> 
-                <input  type="date" defaultValue={taskToAdd.endTime}  onChange={handleChange} name={"endTime"}  className="form-control" aria-label="Username" aria-describedby="basic-addon1"/> 
+                <input  value={taskToAdd.taskName} onChange={handleChange} name="taskName"  type="text" className="form-control" placeholder="task Name" aria-label="task Name" aria-describedby="basic-addon1" /> 
+                <input required type="date" defaultValue={taskToAdd.endTime}  onChange={handleChange} name={"endTime"}  className="form-control" aria-label="Username" aria-describedby="basic-addon1" /> 
                 <button className="btn btn-secondary" onClick={addToDo} >add task </button>
 
             </div>

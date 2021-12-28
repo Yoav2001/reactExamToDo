@@ -38,13 +38,13 @@ type props = {
        
 
             <Modal isOpen={isShowingModal}  toggle={toggleModal} >
-                <h1>update task</h1>
-                <ModalBody>
+                <h4>update task</h4>
+                <ModalBody className='modalBody'>
 
-                    <h3>name task:</h3>
+                   <p>name task:</p>
                     <input value={updateTaskObj.taskName} onChange={handleChange} name="fullName"  type="text" className="form-control" placeholder="" aria-label="task Name" aria-describedby="basic-addon1"/> 
 
-                    <h3>date end task:</h3>
+                    <p>date end task:</p>
                     <input  type="date" defaultValue={updateTaskObj.endTime}  onChange={handleChange} name={"endTime"}  className="form-control" aria-label="Username" aria-describedby="basic-addon1"/> 
 
 

@@ -47,7 +47,7 @@ export const getAllTasks :taskModal.GetAllTasks = async () => {
 
 export const addNewTask: taskModal.AddTask = async (task:taskModal.Task) => {
     try{
-        taskDb.insertNewTask(task)
+       await taskDb.insertNewTask(task)
      }
      catch(error)
      {

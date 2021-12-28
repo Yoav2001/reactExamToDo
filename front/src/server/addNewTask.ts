@@ -16,7 +16,8 @@ import {baseAxios} from './axiosConfig'
             isComplete: task.isComplete,
             isRelevent: task.isRelevent
         }
-    })
+    }).then((response) =>response.data)
+    .catch((error) => console.log(error.response))
 }
 
 

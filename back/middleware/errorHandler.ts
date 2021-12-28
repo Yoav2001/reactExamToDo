@@ -9,10 +9,13 @@ import express from 'express';
         } 
     
         export function errorHandlerMiddleWare(error : ErrorHandlerType, req: express.Request, res: express.Response, next: express.NextFunction) {
-            res.status(error.statusError);
+            console.log("middlare error handler type");
+            
+        
+            console.log(error.uniqueMessage);
             if(error.uniqueMessage)
-                return res.json({ error : error.uniqueMessage });
-            return res.json({ status : error.errorMap.get(error.statusError) });
+                return res.status(error.statusError).json({ error : error.uniqueMessage });
+            return res.status(error.statusError).json({ error : error.errorMap.get(error.statusError) });
         }
 
         const errorMapToDoApp= new Map([

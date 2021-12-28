@@ -28,7 +28,6 @@ import { Iuser } from '../interfaceDB/interfaceUser'
     try {
       const { rows } = await client.query(sqlAllUsers)
       
-      client.release();//משחרר את 
       return rows;
     } catch (err) {
       console.log('Database ' + err)
@@ -50,7 +49,7 @@ import { Iuser } from '../interfaceDB/interfaceUser'
     try{
       const {rows}  = await client.query(selectByTaskID);
       const task : Promise<taskModalDb.Itask | undefined> = rows[0]
-      client.release();
+
       return task;
     } 
   
@@ -91,6 +90,7 @@ import { Iuser } from '../interfaceDB/interfaceUser'
 
     try{
       const selectByEmail = `SELECT * FROM tasks WHERE userEmail = '${email}'`
+      
       const res =   (await client.query(selectByEmail)).rows
       return res;
 

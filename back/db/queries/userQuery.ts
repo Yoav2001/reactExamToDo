@@ -29,7 +29,6 @@ import type userModalDb = require('../interfaceDB/interfaceUser')
   
     try {
       const { rows } = await client.query(sqlAllUsers)
-      client.release();//משחרר את 
       return rows;
     } catch (err) {
       console.log('Database ' + err)

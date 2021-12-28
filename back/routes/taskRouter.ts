@@ -13,22 +13,24 @@ const router = express.Router()
 router.post('/addTask',async (req:express.Request, res:express.Response, next:express.NextFunction)=>{
 
     const { emailUserOfTask, taskName, startDate,endTime,isComplete,isRelevent} : taskModal.Task = req.body;
-    // const user=res.locals.user as usersModel.User
+    const user=res.locals.user as usersModel.User
 
-    // if(emailUserOfTask!==user.email&&!user.isAdmin){
-    //     const errorObj:ErrorHandlerType={statusError:401,errorMap:errorHandler.errorMapToDoApp
-    //         ,uniqueMessage:"opps you try to add task to other user "}
-    //     return  next(errorObj);
-    // }
+    if(emailUserOfTask!==user.email&&!user.isAdmin){
+        const errorObj:ErrorHandlerType={statusError:401,errorMap:errorHandler.errorMapToDoApp
+            ,uniqueMessage:"opps you try to add task to other user "}
+        return  next(errorObj);
+    }
     if(emailUserOfTask===undefined||taskName===undefined||startDate===undefined||isComplete===undefined||isRelevent===undefined){
 
         const errorObj:ErrorHandlerType={statusError:400,errorMap:errorHandler.errorMapToDoApp}
         return  next(errorObj);
     }
     const taskToAdd :taskModal.Task={emailUserOfTask:emailUserOfTask,taskName:taskName,startDate:startDate,endTime:endTime,isComplete:isComplete,isRelevent:isRelevent}
-    const data = await taskService.addNewTask(taskToAdd).then(()=>{
-        res.status(204).json({ key: data });
-    })
+    const data = await taskService.addNewTask(taskToAdd)
+    console.log("inseret router task");
+
+    console.log(data);
+     res.status(200).json({ key: data });
 })
 
 //task/
@@ -87,13 +89,13 @@ router.route('/:taskId')
     const task:taskModal.Task|undefined =await taskService.getTaskByTaskId(taskId)
     const user:usersModel.User |undefined=await userService.getUserDataWithEmail(task?.emailUserOfTask!)
 
-    //  const localUser=res.locals.user as usersModel.User
+     const localUser=res.locals.user as usersModel.User
 
-    // if(user?.email!==localUser.email&&!localUser.isAdmin){
-    //     const errorObj:ErrorHandlerType={statusError:401,errorMap:errorHandler.errorMapToDoApp
-    //         ,uniqueMessage:"opps you try to delete task of other users"}
-    //     return  next(errorObj);
-    // }
+    if(user?.email!==localUser.email&&!localUser.isAdmin){
+        const errorObj:ErrorHandlerType={statusError:401,errorMap:errorHandler.errorMapToDoApp
+            ,uniqueMessage:"opps you try to delete task of other users"}
+        return  next(errorObj);
+    }
        
     if(taskId ===undefined){
 
@@ -101,7 +103,12 @@ router.route('/:taskId')
         return  next(errorObj);
     }
     
-    taskService.deleteTaskByTaskId(taskId).then(()=>{ return res.status(204)}).catch(err=>res.json(err))
+    const data =await taskService.deleteTaskByTaskId(taskId); 
+    console.log(data);
+    res.json(data)
+    // taskService.deleteTaskByTaskId(taskId).then(()=>{ console.log('2');
+    //  res.status(204)}).catch(err=>res.json(err))
+    // console.log('1');
 
     
     
@@ -117,14 +124,14 @@ router.get('/:userEmail',async (req:express.Request, res:express.Response, next:
     const userEmail:string = <string>req.params.userEmail; 
 
     const user:usersModel.User |undefined=await userService.getUserDataWithEmail(userEmail!)
-    // const localUser=res.locals.user as usersModel.User
+    const localUser=res.locals.user as usersModel.User
 
     
-    // if(userEmail!==localUser.email&&!localUser.isAdmin){
-    //     const errorObj:ErrorHandlerType={statusError:400,errorMap:errorHandler.errorMapToDoApp
-    //         ,uniqueMessage:"opps you try to watch task of other users"}
-    //     return  next(errorObj);
-    // }    
+    if(userEmail!==localUser.email&&!localUser.isAdmin){
+        const errorObj:ErrorHandlerType={statusError:400,errorMap:errorHandler.errorMapToDoApp
+            ,uniqueMessage:"opps you try to watch task of other users"}
+        return  next(errorObj);
+    }    
     if(userEmail===undefined||userEmail===""){
         const errorObj:ErrorHandlerType={statusError:400,errorMap:errorHandler.errorMapToDoApp}
         return  next(errorObj);
@@ -139,3 +146,6 @@ router.get('/:userEmail',async (req:express.Request, res:express.Response, next:
 
 
 export default router
+
+
+
