@@ -12,6 +12,7 @@ import { sessionStorageObjectNameEmail } from '../../server/auth/login';
 import { Modal, ModalBody } from 'reactstrap';
 import Task from '../task/Task';
 import UpdateTaskModal from '../modals/UpdateTaskModal';
+import updateTaskAxios from '../../server/updateTask';
 const userEmailSessionStorage=sessionStorage.getItem(sessionStorageObjectNameEmail);
 const statesDisaplyTasks = new Map();
 
@@ -29,7 +30,8 @@ statesDisaplyTasks.set(3,'releventTasks');
  const HomeToDo=() =>{
     const [isShowingModal, setIsShowingModal] = useState(true);
     // const toggleModal = () => setIsShowingModal(!isShowingModal);
-    const [updateTaskObj,setUpdateTaskObj ] = useState<Task|undefined>({
+    const [isShowCompleteTaskBtn ,setIsShowCompleteTaskBtn] = useState<boolean>(true)
+        const [updateTaskObj,setUpdateTaskObj ] = useState<Task|undefined>({
     emailUserOfTask:"fdfsd",
       taskName: "",
     startDate: "",
@@ -119,14 +121,37 @@ statesDisaplyTasks.set(3,'releventTasks');
         
         switch(statesDisaplyTasks.get(stateListNumber)){
 
-            case 'allTasks': setDisplayList(allTask)
+            case 'allTasks': {
+                setDisplayList(allTask)
+                setIsShowCompleteTaskBtn(true)
+            
+            }
+
                   break;
 
             case 'completedTasks':setDisplayList(allTask.filter(task=>task.isComplete))
+            setIsShowCompleteTaskBtn(true)
+
             break;
 
 
-            case 'releventTasks' :setDisplayList(allTask.filter(task=>task.isRelevent))
+            case 'releventTasks' :setDisplayList(allTask.filter(task=>{
+                setIsShowCompleteTaskBtn(false)
+                const dateNow:string=new Date(Date.now()).toString() 
+                const endDate:string = new Date(task.endTime).toString() ;
+                console.log("relvent task :end date " ,endDate);
+                console.log("relvent task :datenow date " ,dateNow);
+                if(Date.parse( dateNow)>Date.parse(endDate)){
+                    return true
+                }
+
+                else{
+                    return false                    
+                }
+
+
+
+            }))
                 break
             
         }
@@ -141,6 +166,15 @@ statesDisaplyTasks.set(3,'releventTasks');
       
         
     }
+    const completeTask = async(task:Task) =>{
+        task.isComplete=!task.isComplete;
+        task.isRelevent=!task.isRelevent    ;
+
+        updateTaskAxios(task).then(()=>{getAllTask()} )
+      
+    
+      
+  }
 
     const updateTaskOpenModal = (task:Task) =>{
         setUpdateTaskObj(task)
@@ -162,12 +196,13 @@ statesDisaplyTasks.set(3,'releventTasks');
             </div>
             <div className="divBtnTask">
             <button className={stateDispalyList===1 ? "btn btn-primary" :"btn btn-light"}onClick={()=>changeDisplayList(1)}>All</button>
+            
             <button className={stateDispalyList===2 ? "btn btn-primary" :"btn btn-light"} onClick={()=>changeDisplayList(2)}>completed</button>
-              <button className={stateDispalyList===3 ? "btn btn-primary" :"btn btn-light"} onClick={()=>changeDisplayList(3)}> relvent</button>
+              <button className={stateDispalyList===3 ? "btn btn-primary" :"btn btn-light"} onClick={()=>changeDisplayList(3)}> Overdu</button>
 
             </div>
 
-            <ToDos displayTaskList={displayListTask} deleteTask={deleteTask} updateTask={updateTaskOpenModal} ></ToDos>
+            <ToDos displayTaskList={displayListTask} deleteTask={deleteTask} completeTask={completeTask} isShowCompleteTaskBtn={isShowCompleteTaskBtn} updateTask={updateTaskOpenModal} ></ToDos>
             {/* <Modal isOpen={isShowingModal} toggle={toggleModal} >
                 <h1>update task</h1>
                 <ModalBody>

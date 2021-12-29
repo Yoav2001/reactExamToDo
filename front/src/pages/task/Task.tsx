@@ -10,7 +10,10 @@ import homePageComponent from '../homeToDo/HomeToDo'
 
 type props = {
   task: Task
-  deleteTask :(idTask:number) => void 
+  isShowCompleteTaskBtn: boolean
+
+  deleteTask :(idTask:number) => void ,
+  completeTask:(task:Task) => void
   updateTask: (task:Task) => void
 
 }
@@ -19,7 +22,7 @@ type props = {
 
 
 
-const Task :React.FC<props> =({task ,deleteTask,updateTask}) =>{
+const Task :React.FC<props> =({task ,deleteTask,completeTask,updateTask,isShowCompleteTaskBtn}) =>{
 
 
       return (
@@ -35,10 +38,15 @@ const Task :React.FC<props> =({task ,deleteTask,updateTask}) =>{
 
               <br/>
               <div className="divBtnTask">
-              <button name='updateTask' className="btn  bi bi-pencil-square"onClick={()=>updateTask(task)} > </button>
+              <button name='updateTask' className="btn  bi bi-pencil-square" onClick={()=>updateTask(task)} > </button>
 
-                <button className="btn bi bi-check2-square"></button>
 
+                {
+                  (isShowCompleteTaskBtn)
+                  && <button className="btn bi bi-check2-square"onClick={()=>completeTask(task)}></button>
+
+                }
+                
               </div>
 
 

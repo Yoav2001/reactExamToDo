@@ -10,12 +10,15 @@ import dataTask from '../../data/dataTask';
 //   }
 type props = {
     displayTaskList: Task[],
-    deleteTask :(idTask:number) => void
-    updateTask: (task:Task) => void
+    deleteTask :(idTask:number) => void,
+    completeTask:(task:Task) => void,
+    updateTask: (task:Task) => void,
+    isShowCompleteTaskBtn: boolean
+
 }
   
 
- const ToDos:React.FC<props> =({displayTaskList,deleteTask,updateTask}) =>{
+ const ToDos:React.FC<props> =({displayTaskList,deleteTask,completeTask,updateTask,isShowCompleteTaskBtn}) =>{
 
     // const dataTask:Task[]=[{taskName:"dsadas",endTime:"11.02.03",isComplete:true,isRelevent:false},{taskName:"dsadas",endTime:"11.02.03",isComplete:true,isRelevent:false},{taskName:"dsadas",endTime:"11.02.03",isComplete:true,isRelevent:false},{taskName:"dsadas",endTime:"11.02.03",isComplete:true,isRelevent:false},{taskName:"dsadas",endTime:"11.02.03",isComplete:true,isRelevent:false},{taskName:"dsadas",endTime:"11.02.03",isComplete:true,isRelevent:false},{taskName:"dsadas",endTime:"11.02.03",isComplete:true,isRelevent:false},{taskName:"dsadas",endTime:"11.02.03",isComplete:true,isRelevent:false},{taskName:"dsadas",endTime:"11.02.03",isComplete:true,isRelevent:false},{taskName:"dsadas",endTime:"11.02.03",isComplete:true,isRelevent:false},{taskName:"dsadas",endTime:"11.02.03",isComplete:true,isRelevent:false},{taskName:"dsadas",endTime:"11.02.03",isComplete:true,isRelevent:false},{taskName:"dsadas",endTime:"11.02.03",isComplete:true,isRelevent:false},{taskName:"dsadas",endTime:"11.02.03",isComplete:true,isRelevent:false},{taskName:"dsadas",endTime:"11.02.03",isComplete:true,isRelevent:false}]
     
@@ -25,7 +28,7 @@ type props = {
                 {displayTaskList.map(taskItem=> {
 
                     return (
-                        <Task task={taskItem} key={taskItem.taskId} deleteTask={deleteTask} updateTask={updateTask} ></Task>
+                        <Task task={taskItem} key={taskItem.taskId} deleteTask={deleteTask} completeTask={completeTask} isShowCompleteTaskBtn={isShowCompleteTaskBtn} updateTask={updateTask} ></Task>
                     )
 
                 })}
