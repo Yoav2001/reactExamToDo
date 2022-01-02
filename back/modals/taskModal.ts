@@ -8,12 +8,10 @@ export type Task = {
     endTime: string
     isComplete:boolean,
     isRelevent :boolean
-    // isEdit?:boolean
 }
 
 export type AddResult = "Added Succeeded" | "Failed to add "
 export type UpdateResult = "update Succeeded" | "Failed to update"|"soory this task id dont exist in DB" |"sorry cant update without task ID"
-
 
 export type GetAllTasks = () => Promise<Task[] >;
 export type GetTasksOfUser = (userEmail: Task['emailUserOfTask']) => Promise<Task[] > ;

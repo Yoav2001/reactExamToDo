@@ -1,38 +1,35 @@
-import express from 'express';
+import express from "express";
 
+export type ErrorHandlerType = {
+  uniqueMessage?: string;
+  statusError: number;
+  errorMap: Map<number, string>;
+};
 
- 
-    export type ErrorHandlerType= {
-        uniqueMessage?: string,
-        statusError:number,
-        errorMap: Map<number, string>
-        } 
-    
-        export function errorHandlerMiddleWare(error : ErrorHandlerType, req: express.Request, res: express.Response, next: express.NextFunction) {
-            console.log("middlare error handler type");
-            
-        
-            console.log(error.uniqueMessage);
-            if(error.uniqueMessage)
-                return res.status(error.statusError).json({ error : error.uniqueMessage });
-            return res.status(error.statusError).json({ error : error.errorMap.get(error.statusError) });
-        }
+export function errorHandlerMiddleWare(
+  error: ErrorHandlerType,
+  req: express.Request,
+  res: express.Response,
+  next: express.NextFunction
+) {
+  console.log("middlare error handler type");
 
-        const errorMapToDoApp= new Map([
-            [400,"BadRequest"],
-            [409,"Conflict"],
-            [403,"Forbidden"],
-            [401,"NonAuthoritativeInformation"],
-            [404,"NotFound"],
-            [405,"MethodNotAllowed"],
-            [500,"InternalServerError"],
-          
-          
-          
-            ])
+  console.log(error.uniqueMessage);
+  if (error.uniqueMessage)
+    return res.status(error.statusError).json({ error: error.uniqueMessage });
+  return res
+    .status(error.statusError)
+    .json({ error: error.errorMap.get(error.statusError) });
+}
 
-            //example to use 
-            // const obj:ErrorHandlerType={uniqueMessage:"password inccorect ",statusError:404,errorMap:errorMapToDoApp}
+const errorMapToDoApp = new Map([
+  [400, "BadRequest"],
+  [409, "Conflict"],
+  [403, "Forbidden"],
+  [401, "NonAuthoritativeInformation"],
+  [404, "NotFound"],
+  [405, "MethodNotAllowed"],
+  [500, "InternalServerError"],
+]);
 
-
-      export default {errorHandlerMiddleWare,errorMapToDoApp}
+export default { errorHandlerMiddleWare, errorMapToDoApp };
