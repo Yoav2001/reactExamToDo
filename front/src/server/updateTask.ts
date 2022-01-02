@@ -3,7 +3,9 @@ import {baseAxios} from './axiosConfig'
 
 
 const updateTaskAxios=async(task:Task)=>{
-    console.log("add task axios function ");
+console.log("update task axios ");
+console.log(task);
+
     
    baseAxios({
       method:"PUT",
@@ -19,7 +21,5 @@ const updateTaskAxios=async(task:Task)=>{
   }).then((response) =>response.data)
   .catch((error) => console.log(error.response))
 }
-
-
 
 export default updateTaskAxios

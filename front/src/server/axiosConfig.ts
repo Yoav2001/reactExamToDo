@@ -1,5 +1,7 @@
 import axios from 'axios'
 import { sessionStorageObjectNameToken } from './auth/login'
+import defaultError from './middleware/interceptor'
+
 const baseAxios=axios.create({
     baseURL:`http://localhost:8080/`,
     headers: {
@@ -7,6 +9,8 @@ const baseAxios=axios.create({
         'Content-Type': 'application/json',
         }
 })
+
+baseAxios.interceptors.response.use(response => response,defaultError)
 
 
     

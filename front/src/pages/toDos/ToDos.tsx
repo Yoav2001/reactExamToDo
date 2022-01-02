@@ -28,7 +28,7 @@ type props = {
                 {displayTaskList.map(taskItem=> {
 
                     return (
-                        <Task task={taskItem} key={taskItem.taskId} deleteTask={deleteTask} completeTask={completeTask} isShowCompleteTaskBtn={isShowCompleteTaskBtn} updateTask={updateTask} ></Task>
+                        <Task task={taskItem} key={taskItem.taskId} deleteTask={deleteTask} completeTask={completeTask} isShowCompleteTaskBtn={isShowCompleteTaskBtn} updateTask={(task:Task) => {updateTask(task)}} ></Task>
                     )
 
                 })}
