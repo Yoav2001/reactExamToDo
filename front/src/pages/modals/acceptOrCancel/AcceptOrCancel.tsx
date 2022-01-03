@@ -23,7 +23,6 @@ type props = {
 const AcceptOrCancelModal: React.FC<props> = ({ headerModalText, bodyModalText, isShowingModal,toggleModal,acceptModalFunction,idTaskWhenAcceptModal}) => {
 
     const closeModal = () =>{
-
         toggleModal()
     }
     const saveChangesModal = () =>{

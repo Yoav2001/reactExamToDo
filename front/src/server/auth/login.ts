@@ -21,7 +21,6 @@ export  const loginAxios=async(userEmail:User["email"],pass:User["password"])=>{
         setSessionStorageObject(token,userEmail);
   
         
-        // setLoggedState(true);
     }
     else{
         // setError(res.data)

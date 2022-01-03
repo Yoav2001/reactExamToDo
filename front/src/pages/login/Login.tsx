@@ -5,7 +5,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import "bootstrap-icons/font/bootstrap-icons.css";
 import  './login.css'
 
-import {loginAxios} from '../../server/auth/login'
+import {loginAxios, sessionStorageObjectNameToken} from '../../server/auth/login'
 
 // import {taskModal} from '../../../../back/modals/taskModal'
 
@@ -39,11 +39,19 @@ const Login  =() =>{
   }
 
   const logInToDo =()=>{
+    if(user.email===""||user.password===""){
+      alert("user name or passowrd inValid")
+    }
     console.log("login function");
     
         loginAxios(user.email,user.password).then(()=>{
-         window.location.href='homeToDo';
-        // window.location.assign('homeToDo');
+
+            const token=sessionStorage.getItem(sessionStorageObjectNameToken)
+            if(!token){
+              alert("login doesnt work -try again")
+              return
+            }
+            window.location.href='homeToDo';
         
         })
         
