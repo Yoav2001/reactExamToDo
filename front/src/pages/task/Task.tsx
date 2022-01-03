@@ -21,7 +21,6 @@ type props = {
 
 
 
-
 const Task :React.FC<props> =({task ,deleteTask,completeTask,updateTask,isShowCompleteTaskBtn}) =>{
 
 

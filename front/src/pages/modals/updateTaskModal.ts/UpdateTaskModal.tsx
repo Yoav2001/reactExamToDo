@@ -3,10 +3,10 @@ import { useState } from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
 // import dataTask from '../../data/dataTask';
 import { Modal, ModalBody, ModalFooter, Button } from 'reactstrap';
-import Task from '../task/Task';
-import homeToDO from '../homeToDo/HomeToDo'
+import Task from '../../task/Task';
+import homeToDO from '../../homeToDo/HomeToDo'
 import './updateTaskModal.css'
-import updateTaskAxios from '../../server/updateTask';
+import updateTaskAxios from '../../../server/updateTask';
 // export interface IStateTasks {
 //     taskList: Task[]
 

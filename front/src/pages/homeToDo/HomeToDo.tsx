@@ -11,8 +11,9 @@ import deleteTaskByTaskIdAxios from '../../server/deleteTask';
 import { sessionStorageObjectNameEmail } from '../../server/auth/login';
 import { Modal, ModalBody } from 'reactstrap';
 import Task from '../task/Task';
-import UpdateTaskModal from '../modals/UpdateTaskModal';
+import UpdateTaskModal from '../modals/updateTaskModal.ts/UpdateTaskModal';
 import updateTaskAxios from '../../server/updateTask';
+import AcceptOrCancelModal from '../modals/acceptOrCancel/AcceptOrCancel';
 const userEmailSessionStorage = sessionStorage.getItem(sessionStorageObjectNameEmail);
 const statesDisaplyTasks = new Map();
 
@@ -27,9 +28,25 @@ statesDisaplyTasks.set(3, 'releventTasks');
 
 
 const HomeToDo = () => {
+
+    const [allTask, setAllTask] = useState<Task[]>([])
+    const [displayListTask, setDisplayList] = useState<Task[]>([])
+    const [stateDispalyList, setStateDisplayList] = useState<number>(1);
+
+    const [isShowCompleteTaskBtn, setIsShowCompleteTaskBtn] = useState<boolean>(true)
+
+    const [taskToAdd, setTask] = useState<Task>({
+        taskId: 1,
+        emailUserOfTask: userEmailSessionStorage!,
+        taskName: "",
+        startDate: "12-19-2021",
+        endTime: "",
+        isComplete: false,
+        isRelevent: true
+    });
+
     const [isShowingUpdateTaskModal, setIsShowingUpdateTaskModal] = useState(false);
     const toggleUpdateTaskModal = () => setIsShowingUpdateTaskModal(!isShowingUpdateTaskModal);
-    const [isShowCompleteTaskBtn, setIsShowCompleteTaskBtn] = useState<boolean>(true)
     const [updateTaskObj, setUpdateTaskObj] = useState<Task | undefined>({
         emailUserOfTask: "",
         taskName: "",
@@ -40,9 +57,10 @@ const HomeToDo = () => {
 
     })
 
-    const [allTask, setAllTask] = useState<Task[]>([])
-    const [displayListTask, setDisplayList] = useState<Task[]>([])
-    const [stateDispalyList, setStateDisplayList] = useState<number>(1);
+    const [isShowDeleteTaskModal, setIsShowDeleteTaskModal] = useState(false);
+    const toggleDeleteTaskModal = () => setIsShowDeleteTaskModal(!isShowDeleteTaskModal);
+    const [deleteTaskId, setDeleteTaskId] = useState<Task["taskId"]>(-1);
+
 
     const getAllTask = async () => {
         setTimeout(() => {
@@ -72,15 +90,7 @@ const HomeToDo = () => {
         changeDisplayList(stateDispalyList)
     }, [allTask])
 
-    const [taskToAdd, setTask] = useState<Task>({
-        taskId: 1,
-        emailUserOfTask: userEmailSessionStorage!,
-        taskName: "",
-        startDate: "12-19-2021",
-        endTime: "",
-        isComplete: false,
-        isRelevent: true
-    });
+
 
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -110,17 +120,12 @@ const HomeToDo = () => {
     const changeDisplayList = (stateListNumber: number) => {
 
         setStateDisplayList(stateListNumber)
-  
-
-
         switch (statesDisaplyTasks.get(stateListNumber)) {
 
             case 'allTasks': {
                 setDisplayList(allTask)
                 setIsShowCompleteTaskBtn(true)
-
             }
-
                 break;
 
             case 'completedTasks': setDisplayList(allTask.filter(task => task.isComplete))
@@ -142,42 +147,42 @@ const HomeToDo = () => {
                 else {
                     return false
                 }
-
-
-
             }))
                 break
-
         }
-
-
     }
 
-    const deleteTask = async (taskId: number) => {
-        deleteTaskByTaskIdAxios(taskId).then(() => { getAllTask() })
-    }
+
     const completeTask = async (task: Task) => {
         task.isComplete = !task.isComplete;
         task.isRelevent = !task.isRelevent;
         updateTaskAxios(task).then(() => { getAllTask() })
     }
+    const SaveDeleteTask = async (taskId: number) => {
+        deleteTaskByTaskIdAxios(taskId).then(() => { getAllTask() })
+    }
+    const deleteTaskOpenModal = (taskId: number) => {
+        setDeleteTaskId(taskId);
+        console.log("open modal delete task :", taskId);
+        toggleUpdateTaskModal();
+    }
 
     const updateTaskOpenModal = (task: Task) => {
         setUpdateTaskObj(task)
-        console.log("open modal the task is :",task);
-        
+        console.log("open modal the task is :", task);
+
         toggleUpdateTaskModal();
     }
-  
-    const saveUpdateChanges = async(task:Task)=>{
-        if(!task){
+
+    const saveUpdateChanges = async (task: Task) => {
+        if (!task) {
             alert('the task is empty - there was problem with update')
             return
         }
-       updateTaskAxios(task).then(() => { getAllTask() })
-      setUpdateTaskObj(task);
+        updateTaskAxios(task).then(() => { getAllTask() })
+        setUpdateTaskObj(task);
 
-}
+    }
     return (
         <div className="background">
             <div> to do app</div>
@@ -197,11 +202,11 @@ const HomeToDo = () => {
 
             </div>
 
-            <ToDos displayTaskList={displayListTask} deleteTask={deleteTask} completeTask={completeTask} isShowCompleteTaskBtn={isShowCompleteTaskBtn} updateTask={(task:Task) => updateTaskOpenModal(task)} ></ToDos>
-     
-            <UpdateTaskModal updateTaskObj={updateTaskObj!} setUpdateTaskObj={setUpdateTaskObj}  toggleUpdateTaskModal={toggleUpdateTaskModal} isShowingUpdateTaskModal={isShowingUpdateTaskModal} saveUpdateChanges={(task:Task) => saveUpdateChanges(task)} />
+            <ToDos displayTaskList={displayListTask} deleteTask={(taskId: Task["taskId"]) => deleteTaskOpenModal(taskId!)} completeTask={completeTask} isShowCompleteTaskBtn={isShowCompleteTaskBtn} updateTask={(task: Task) => updateTaskOpenModal(task)} ></ToDos>
+            <AcceptOrCancelModal isShowingModal={isShowDeleteTaskModal} toggleModal={toggleDeleteTaskModal} headerModalText='Delete Task' bodyModalText='are you sure you want to delete task' acceptModalFunction={(taskId: Task["taskId"]) => SaveDeleteTask(taskId!)} idTaskWhenAcceptModal={deleteTaskId} />
+            <UpdateTaskModal updateTaskObj={updateTaskObj!} setUpdateTaskObj={setUpdateTaskObj} toggleUpdateTaskModal={toggleUpdateTaskModal} isShowingUpdateTaskModal={isShowingUpdateTaskModal} saveUpdateChanges={(task: Task) => saveUpdateChanges(task)} />
         </div>
     )
 }
 
-export  default  HomeToDo
+export default HomeToDo
