@@ -1,25 +1,46 @@
-import {baseAxios} from '../axiosConfig' 
+import { baseAxios } from '../axiosConfig'
 
-export  const signUpAxios=async(user:User)=>{
-    const res  = await baseAxios({
-        method:'POST',
-        url:`signUp/${user.email}`,
+export const signUpAxios = async (user: User) => {
+    const res = await baseAxios({
+        method: 'POST',
+        url: `signUp/${user.email}`,
         data: {
             password: user.password,
             fullName: user.fullName,
             isAdmin: user.isAdmin
-          }
-    }).then(res=>{return res})
+        }
+    }).then(res => { return res })
 
-    if(res.status === 204){
-        return 
-        // setLoggedState(true);
-    }
-    else{
+
+
+
+
+    try {
+        const resAwait = await baseAxios({
+            method: 'POST',
+            url: `signUp/${user.email}`,
+            data: {
+                password: user.password,
+                fullName: user.fullName,
+                isAdmin: user.isAdmin
+            }
+        })
+
+        console.log("axios sign up : sign up succed ");
         
-        // setError(res.data)
+     
     }
-    return
+    catch (error: any) {
+        console.log("error ");
+        console.log(error);
+        const statusError = error.response.status;
+        const errorMassage = error.response.data.error;
+        
+        console.log(`Error - status :${statusError} , ${errorMassage}` );
+        alert(errorMassage)
+    }
+
 }
+
 
 

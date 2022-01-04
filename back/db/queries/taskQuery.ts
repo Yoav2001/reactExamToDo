@@ -45,12 +45,10 @@ const insertNewTask = async (taskObj: taskModal.Task) => {
   }
 };
 
-const getAllTaskByUserEmail: taskModalDb.GetTasksOfUser = async (
-  email: usersModel.User["email"]
-) => {
+const getAllTaskByUserEmail: taskModalDb.GetTasksOfUser = async (email: usersModel.User["email"]) => {
   const client = await pool.connect();
   try {
-    const selectByEmail = `SELECT * FROM tasks WHERE userEmail = '${email}'`;
+    const selectByEmail = `SELECT * FROM tasks WHERE userEmail = '${email}' order by id desc`;
     const res = (await client.query(selectByEmail)).rows;
     return res;
   } catch (error) {

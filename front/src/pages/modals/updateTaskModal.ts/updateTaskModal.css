@@ -2,3 +2,8 @@
     text-align: center;
     
 }
+.headerFooterModal{
+    text-align: center;
+    position: relative;
+    border: red 5px solid;
+}

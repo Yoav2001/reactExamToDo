@@ -13,8 +13,21 @@
 }
 
 
+.completeTaskBackGround{
+    background-color: rgba(50, 150, 50, 0.863);
+    color: rgba(255, 255, 255, 0.74);
+
+}
+
+.overDueTaskBackGround{
+    background-color: rgba(192, 49, 49, 0.877);
+    color: rgba(255, 255, 255, 0.74);
+
+}
+
+
     
-    
+ 
     .divBtnTask{
         margin-left: 10px;   
     }
@@ -23,3 +36,10 @@
         float: right;
         text-align: right;
     }
+
+.checkBoxComplete{
+
+    background-color: rgba(192, 49, 49, 0.877);
+    color: black;
+    top:20px
+}

@@ -19,10 +19,14 @@ router
 
         if (user !== undefined) {
           if (user?.password !== password) {
-            console.log(
-              "the user is exist in the system but the password inccorect"
-            );
-            res.json("your password inccorect");
+            console.log("the user is exist in the system but the password inccorect");
+            const errorObj: ErrorHandlerType = {
+              statusError: 409,
+              errorMap: errorHandler.errorMapToDoApp,
+              uniqueMessage:"your password inccorect"
+            };
+            return next(errorObj);
+          
           } else {
             const token = jwt.sign(user!, jwtSecret);
             if (token === undefined || token === null)

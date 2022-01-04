@@ -107,7 +107,10 @@ const HomeToDo = () => {
             alert('soory you need to add task name and date ')
             return
         }
-
+        console.log("add to do dsfsdfsdf");
+        
+        console.log("date now" +new Date(Date.now()).toString());
+        
         addNewTaskAxios(taskToAdd)
             .then((res) => {
                 getAllTask()
@@ -164,7 +167,7 @@ const HomeToDo = () => {
     const deleteTaskOpenModal = (taskId: number) => {
         setDeleteTaskId(taskId);
         console.log("open modal delete task :", taskId);
-        toggleUpdateTaskModal();
+        toggleDeleteTaskModal();
     }
 
     const updateTaskOpenModal = (task: Task) => {
@@ -203,7 +206,7 @@ const HomeToDo = () => {
             </div>
 
             <ToDos displayTaskList={displayListTask} deleteTask={(taskId: Task["taskId"]) => deleteTaskOpenModal(taskId!)} completeTask={completeTask} isShowCompleteTaskBtn={isShowCompleteTaskBtn} updateTask={(task: Task) => updateTaskOpenModal(task)} ></ToDos>
-            <AcceptOrCancelModal isShowingModal={isShowDeleteTaskModal} toggleModal={toggleDeleteTaskModal} headerModalText='Delete Task' bodyModalText='are you sure you want to delete task' acceptModalFunction={(taskId: Task["taskId"]) => saveDeleteTask(taskId!)} idTaskWhenAcceptModal={deleteTaskId} />
+            <AcceptOrCancelModal isShowingModal={isShowDeleteTaskModal} toggleModal={toggleDeleteTaskModal} headerModalText='Delete Task' bodyModalText='are you sure you want to delete task?' acceptModalFunction={(taskId: Task["taskId"]) => saveDeleteTask(taskId!)} idTaskWhenAcceptModal={deleteTaskId} />
             <UpdateTaskModal updateTaskObj={updateTaskObj!} setUpdateTaskObj={setUpdateTaskObj} toggleUpdateTaskModal={toggleUpdateTaskModal} isShowingUpdateTaskModal={isShowingUpdateTaskModal} saveUpdateChanges={(task: Task) => saveUpdateChanges(task)} />
         </div>
     )

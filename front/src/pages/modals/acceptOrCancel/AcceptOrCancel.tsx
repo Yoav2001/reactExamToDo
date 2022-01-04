@@ -37,16 +37,19 @@ const AcceptOrCancelModal: React.FC<props> = ({ headerModalText, bodyModalText, 
             <Modal isOpen={isShowingModal} toggle={toggleModal} >
 
               
-                <h4>{headerModalText}</h4>
-                <hr></hr>
                 <ModalBody className='modalBody'>
+                <h4>{headerModalText}</h4>
                     <h6>{bodyModalText}</h6>
-                <ModalFooter>
+<br></br>
+
+
+                <ModalFooter className='btnsOkAndCancel'>
+        
+                    <Button color="secondary" onClick={()=>saveChangesModal()}>ok</Button>
                     <Button color="secondary" onClick={()=>closeModal()}>Cancel</Button>
+
                 </ModalFooter>
-                    <ModalFooter>
-                    <Button color="secondary" onClick={()=>saveChangesModal()}>accept</Button>
-                </ModalFooter>
+              
 
                 </ModalBody>
             </Modal>

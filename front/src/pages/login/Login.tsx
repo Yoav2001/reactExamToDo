@@ -47,11 +47,15 @@ const Login  =() =>{
         loginAxios(user.email,user.password).then(()=>{
 
             const token=sessionStorage.getItem(sessionStorageObjectNameToken)
+            console.log("log in function the token is :",token);
+            
             if(!token){
-              alert("login doesnt work -try again")
               return
             }
-            window.location.href='homeToDo';
+            else{
+              window.location.href='homeToDo';
+
+            }
         
         })
         
