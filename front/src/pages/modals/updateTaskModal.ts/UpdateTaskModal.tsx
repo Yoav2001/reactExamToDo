@@ -73,7 +73,7 @@ const UpdateTaskModal: React.FC<props> = ({ updateTaskObj, isShowingUpdateTaskMo
 
 
             <Modal isOpen={isShowingUpdateTaskModal} toggle={toggleUpdateTaskModal} >
-            <ModalFooter className='headerFooterModal'>
+            <ModalFooter>
                 <h4 className='m-auto'>update task</h4>
                 <Button color="secondary" className='btn-close btn-close' onClick={()=>closeModal()}> </Button>
 

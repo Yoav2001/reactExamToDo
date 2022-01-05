@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useRef } from 'react';
 import { useState } from 'react';
 
 import ToDos from '../toDos/ToDos';
@@ -9,11 +9,12 @@ import { getAllTaskOfUserByEmail } from '../../server/getTaskOfUser'
 import addNewTaskAxios from '../../server/addNewTask';
 import deleteTaskByTaskIdAxios from '../../server/deleteTask';
 import { sessionStorageObjectNameEmail } from '../../server/auth/login';
-import { Modal, ModalBody } from 'reactstrap';
+import { Input, Modal, ModalBody } from 'reactstrap';
 import Task from '../task/Task';
 import UpdateTaskModal from '../modals/updateTaskModal.ts/UpdateTaskModal';
 import updateTaskAxios from '../../server/updateTask';
 import AcceptOrCancelModal from '../modals/acceptOrCancel/AcceptOrCancel';
+import { eventNames } from 'process';
 const userEmailSessionStorage = sessionStorage.getItem(sessionStorageObjectNameEmail);
 const statesDisaplyTasks = new Map();
 
@@ -45,6 +46,10 @@ const HomeToDo = () => {
         isRelevent: true
     });
 
+    const nameTaskToAdd=useRef<HTMLInputElement>(null)
+    const dateTaskToAdd=useRef<HTMLInputElement>(null)
+
+
     const [isShowingUpdateTaskModal, setIsShowingUpdateTaskModal] = useState(false);
     const toggleUpdateTaskModal = () => setIsShowingUpdateTaskModal(!isShowingUpdateTaskModal);
     const [updateTaskObj, setUpdateTaskObj] = useState<Task | undefined>({
@@ -61,7 +66,9 @@ const HomeToDo = () => {
     const toggleDeleteTaskModal = () => setIsShowDeleteTaskModal(!isShowDeleteTaskModal);
     const [deleteTaskId, setDeleteTaskId] = useState<Task["taskId"]>(-1);
 
-
+    useEffect(() => {
+        console.log(nameTaskToAdd.current);
+      }, [nameTaskToAdd]);
     const getAllTask = async () => {
         setTimeout(() => {
             getAllTaskOfUserByEmail(userEmailSessionStorage!).then((res) => {
@@ -78,11 +85,6 @@ const HomeToDo = () => {
     useEffect(() => {
         console.log("first use effect");
         getAllTask();
-
-        // getAllTaskOfUserByEmail(userEmailSessionStorage!).then((res) => {
-        // const todosOfUser:Task[]=res.data.key;
-        // setAllTask(todosOfUser)
-        // setStateDisplayList(1);
     }, [])
 
     useEffect(() => {
@@ -93,20 +95,24 @@ const HomeToDo = () => {
 
 
 
-    const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
 
-        setTask({
-            ...taskToAdd,
-            [e.target.name]: e.target.value
-        });
-        console.log(e.target.name)
-    }
 
     const addToDo = async () => {
-        if (taskToAdd.taskName.length === 0 || taskToAdd.endTime.length === 0) {
+        
+        console.log("use ref"+dateTaskToAdd.current?.value);
+        console.log("use ref"+nameTaskToAdd.current?.value);
+        const nameTask:string=nameTaskToAdd.current?.value!;
+        const dateTask : string=dateTaskToAdd.current?.value!
+        console.log(`the name of the task you want to add is  ${nameTask} and date is ${dateTask}`);
+        
+        
+        if (nameTask.length === 0 || dateTask.length === 0) {
             alert('soory you need to add task name and date ')
             return
         }
+
+        taskToAdd.endTime=dateTask;
+        taskToAdd.taskName=nameTask;
         console.log("add to do dsfsdfsdf");
         
         console.log("date now" +new Date(Date.now()).toString());
@@ -138,6 +144,8 @@ const HomeToDo = () => {
 
 
             case 'releventTasks': setDisplayList(allTask.filter(task => {
+
+                if(taskToAdd.isComplete) return false
                 setIsShowCompleteTaskBtn(false)
                 const dateNow: string = new Date(Date.now()).toString()
                 const endDate: string = new Date(task.endTime).toString();
@@ -186,14 +194,19 @@ const HomeToDo = () => {
         setUpdateTaskObj(task);
 
     }
+
+    const a =() =>{
+
+        
+    }
     return (
         <div className="background">
             <div> to do app</div>
 
             <br></br>
             <div className="input-group mb-3 addToDoForm">
-                <input value={taskToAdd.taskName} onChange={handleChange} name="taskName" type="text" className="form-control" placeholder="task Name" aria-label="task Name" aria-describedby="basic-addon1" />
-                <input required type="date" defaultValue={taskToAdd.endTime} onChange={handleChange} name={"endTime"} className="form-control" aria-label="Username" aria-describedby="basic-addon1" />
+                <input  ref={nameTaskToAdd}  name="taskName" type="text" className="form-control" placeholder="task Name" aria-label="task Name" aria-describedby="basic-addon1" />
+                <input required type="date" ref={dateTaskToAdd}   name={"endTime"} className="form-control" aria-label="Username" aria-describedby="basic-addon1" />
                 <button className="btn btn-secondary" onClick={addToDo} >add task </button>
 
             </div>

@@ -34,7 +34,7 @@
 
     .deleteTaskBtn{
         float: right;
-        text-align: right;
+        top:7px
     }
 
 .checkBoxComplete{
@@ -42,4 +42,12 @@
     background-color: rgba(192, 49, 49, 0.877);
     color: black;
     top:20px
+}
+
+
+.dateTask{
+    position: relative;
+text-align: center;
+top: 10px;
+left: 16px;
 }

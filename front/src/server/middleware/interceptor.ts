@@ -1,17 +1,17 @@
 
-// export const defaultError =function (error:any){
+export const defaultError = (error:any)=>{
 
-//     const {config,data,status} =error.response
-//     const {method,baseURL,url}=config
+    const {config,data,status} =error.response
+    const {method,baseURL,url}=config
 
-//     if(error.response){
-//         console.log(`client has recieved an error  on a ${method}  request  on the url ${baseURL}${url}`);
+    if(error.response){
+        console.log(`client has recieved an error  on a ${method}  request  on the url ${baseURL}${url}`);
 
         
 
-//     }
+    }
 
-// }
+}
 
-// export default defaultError;
+export default defaultError;
 export {}

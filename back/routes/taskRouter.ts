@@ -129,6 +129,17 @@ router.route("/:taskId").put(async (  req: express.Request, res: express.Respons
 
       const task: taskModal.Task | undefined =
         await taskService.getTaskByTaskId(taskId);
+
+        if(!task){
+          const errorObj: ErrorHandlerType = {
+            statusError: 409,
+            errorMap: errorHandler.errorMapToDoApp,
+            uniqueMessage:"error- you try to delete task that dont exist in db"
+          };
+          return next(errorObj);
+        }
+
+        
       const user: usersModel.User | undefined =
         await userService.getUserDataWithEmail(task?.emailUserOfTask!);
 

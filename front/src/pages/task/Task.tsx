@@ -5,6 +5,7 @@ import './task.css'
 import "bootstrap-icons/font/bootstrap-icons.css";
 
 import homePageComponent from '../homeToDo/HomeToDo'
+import { ListFormat } from 'typescript';
 // import {taskModal} from '../../../../back/modals/taskModal'
 
 type props = {
@@ -35,24 +36,24 @@ const Task: React.FC<props> = ({ task, deleteTask, completeTask, updateTask, isS
   }
 
   const getDateTask = (): string => {
-
-    console.log(task.endTime);
-
     const endDate: Date = new Date(task.endTime)
 
-    const endDateText = `${endDate.getDay()}/${endDate.getMonth()}/${endDate.getFullYear()}`;
-    console.log("check date ----- " + endDate.getDay(), endDate.getMonth());
-    return endDateText
+    if(endDate.getMonth()<10){
+      if(endDate.getDate()<10){
+        return  '0'+endDate.getDate() + '/0' + (endDate.getMonth()+1) + '/' + endDate.getFullYear()
+      }
+        return  endDate.getDate() + '/0' + (endDate.getMonth()+1) + '/' + endDate.getFullYear()
+    }
+    if(endDate.getDate()<10)
+      return  '0'+endDate.getDate() + '/' + (endDate.getMonth()+1) + '/' + endDate.getFullYear()
+
+      return  endDate.getDate() + '/' + (endDate.getMonth()+1) + '/' + endDate.getFullYear()
+
 
   }
 
 
-  const checkBoxClick = () =>{
 
-    setIsCheckBoxChecked(!task.isComplete)   
-    updateTask(task);
-    
-  }
   return (
 
 
@@ -60,7 +61,7 @@ const Task: React.FC<props> = ({ task, deleteTask, completeTask, updateTask, isS
     <div className={task.isComplete ? "taskComponent completeTaskBackGround" : isTaskOverDue() ? "taskComponent overDueTaskBackGround" : "taskComponent"}   >
       <div>
         <button className="btn bi bi-x-square deleteTaskBtn" onClick={() => deleteTask(task.taskId!)}></button>
-        <p>{getDateTask()}</p>
+        <p className='dateTask'>{getDateTask()}</p>
       </div>
 
       <hr />
@@ -70,10 +71,7 @@ const Task: React.FC<props> = ({ task, deleteTask, completeTask, updateTask, isS
       <div className="divBtnTask">
         <button name='updateTask' className="btn  bi bi-pencil-square" onClick={() => updateTask(task)} > </button>
       
-      {/* {  (isShowCompleteTaskBtn)
-           &&
-          <input className="form-check-input checkBoxComplete" type="checkbox" onClick={() => completeTask(task)} value="" id="flexCheckDefault" />
-      } */}
+  
 
         {
           (isShowCompleteTaskBtn)
