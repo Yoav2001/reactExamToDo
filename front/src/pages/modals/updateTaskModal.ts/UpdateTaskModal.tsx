@@ -1,44 +1,34 @@
 import React, { useEffect } from 'react';
 import { useState } from 'react';
-import 'bootstrap/dist/css/bootstrap.min.css';
-// import dataTask from '../../data/dataTask';
 import { Modal, ModalBody, ModalFooter, Button } from 'reactstrap';
-import Task from '../../task/Task';
-import homeToDO from '../../homeToDo/HomeToDo'
+import 'bootstrap/dist/css/bootstrap.min.css';
 import './updateTaskModal.css'
-import updateTaskAxios from '../../../server/updateTask';
-// export interface IStateTasks {
-//     taskList: Task[]
 
-//   }
 
 
 type props = {
     updateTaskObj: Task
     isShowingUpdateTaskModal: boolean
     toggleUpdateTaskModal: () => void
-    setUpdateTaskObj: (task:Task) => void
-    saveUpdateChanges:(task:Task) => void
+    setUpdateTaskObj: (task: Task) => void
+    saveUpdateChanges: (task: Task) => void
 }
 
 
 
 
-const UpdateTaskModal: React.FC<props> = ({ updateTaskObj, isShowingUpdateTaskModal, setUpdateTaskObj,toggleUpdateTaskModal,saveUpdateChanges}) => {
+const UpdateTaskModal: React.FC<props> = ({ updateTaskObj, isShowingUpdateTaskModal, setUpdateTaskObj, toggleUpdateTaskModal, saveUpdateChanges }) => {
     const [taskUpdateInputs, setTaskUpdateInputs] = useState<Task>(updateTaskObj);
-    
+
     useEffect(() => {
-        setTaskUpdateInputs({...updateTaskObj})
-        // console.log('original: ', updateTaskObj);
+        setTaskUpdateInputs({ ...updateTaskObj })
     }, [updateTaskObj])
 
     useEffect(() => {
-        console.log("orignal second",updateTaskObj);
 
-        // console.log('modified: ', taskUpdateInputs);
     }, [taskUpdateInputs])
-  
-    
+
+
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         setTaskUpdateInputs({
@@ -49,43 +39,43 @@ const UpdateTaskModal: React.FC<props> = ({ updateTaskObj, isShowingUpdateTaskMo
     }
 
 
-    const closeModal = () =>{
+    const closeModal = () => {
 
         setTaskUpdateInputs(updateTaskObj);
         toggleUpdateTaskModal()
-           
+
     }
-    const saveChangesModal = () =>{
-        if(taskUpdateInputs.taskName===""&&taskUpdateInputs.taskName===""){
+    const saveChangesModal = () => {
+        if (taskUpdateInputs.taskName === "" && taskUpdateInputs.taskName === "") {
             alert("soory you need to give values to update")
         }
-        console.log("save changes ---");
-        
-        console.log("orignal :",updateTaskObj);
-        console.log("modifend",taskUpdateInputs);
+
 
         saveUpdateChanges(taskUpdateInputs)
         toggleUpdateTaskModal()
     }
-    
+
     return (
         <div className="background">
 
 
             <Modal isOpen={isShowingUpdateTaskModal} toggle={toggleUpdateTaskModal} >
-            <ModalFooter>
-                <h4 className='m-auto'>update task</h4>
-                <Button color="secondary" className='btn-close btn-close' onClick={()=>closeModal()}> </Button>
+                <ModalFooter>
+                    <h4 className='m-auto'>update task</h4>
+                    <Button
+                        color="secondary"
+                        className='btn-close btn-close' onClick={() => closeModal()}>
+                    </Button>
 
-            </ModalFooter>
+                </ModalFooter>
 
                 <ModalBody className='modalBody'>
-            
+
 
                     <p>name task:</p>
                     <input
                         value={taskUpdateInputs.taskName}
-                        onChange={(e: any) => setTaskUpdateInputs({...taskUpdateInputs, taskName: e.target.value})}
+                        onChange={(e: any) => setTaskUpdateInputs({ ...taskUpdateInputs, taskName: e.target.value })}
                         name="fullName"
                         type="text"
                         className="form-control"
@@ -93,12 +83,23 @@ const UpdateTaskModal: React.FC<props> = ({ updateTaskObj, isShowingUpdateTaskMo
                         aria-label="task Name"
                         aria-describedby="basic-addon1"
                     />
-                    
+
                     <p>date end task:</p>
-                    <input type="date" onChange={handleChange} name={"endTime"} defaultValue={new Date(taskUpdateInputs.endTime).toString()} className="form-control" aria-label="Username" aria-describedby="basic-addon1" />
+                    <input
+                        type="date"
+                        onChange={handleChange}
+                        name={"endTime"}
+                        defaultValue={new Date(taskUpdateInputs.endTime).toString()}
+                        className="form-control"
+                        aria-label="Username"
+                        aria-describedby="basic-addon1" />
+
+
                     <ModalFooter>
-                    <Button color="secondary" onClick={()=>saveChangesModal()}>Save</Button>
-                </ModalFooter>
+                        <Button
+                            color="secondary" onClick={() => saveChangesModal()}>Save
+                        </Button>
+                    </ModalFooter>
 
                 </ModalBody>
             </Modal>

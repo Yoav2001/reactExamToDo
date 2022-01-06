@@ -62,7 +62,7 @@ router
         };
         return next(errorObj);
       } else {
-        res.status(204);
+        res.json(user);
       }
     }
   );

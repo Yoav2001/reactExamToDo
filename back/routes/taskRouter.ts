@@ -51,9 +51,8 @@ router.post("/addTask",async (req: express.Request,res: express.Response,next: e
       isRelevent: isRelevent,
     };
     const data = await taskService.addNewTask(taskToAdd);
-    console.log("inseret router task");
 
-    console.log(data);
+
     res.status(200).json({ key: data });
   }
 );
@@ -163,7 +162,6 @@ router.route("/:taskId").put(async (  req: express.Request, res: express.Respons
       }
 
       const data = await taskService.deleteTaskByTaskId(taskId);
-      console.log(data);
       res.json(data);
     }
   );

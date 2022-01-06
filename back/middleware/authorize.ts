@@ -15,7 +15,7 @@ const authorize = (req: express.Request, res: express.Response,next: express.Nex
         statusError: 401,
         errorMap: errorHandler.errorMapToDoApp,
       };
-      console.log("catch err token undifend");
+      console.log("error- middleware authorize- token is undifiend");
       return next(error);
     }
     jwt.verify( token,process.env.ACCESS_TOKEN_SECRET as jwt.Secret,(
@@ -33,9 +33,7 @@ const authorize = (req: express.Request, res: express.Response,next: express.Nex
           return next(error);
         }
 
-        // if(req.params.email && req.params.email != decodedToken.email)
-        //     return next(401);
-
+    
         return next();
       }
     );
@@ -44,7 +42,7 @@ const authorize = (req: express.Request, res: express.Response,next: express.Nex
       statusError: 401,
       errorMap: errorHandler.errorMapToDoApp,
     };
-    console.log("catch err in authrozin middalware");
+    console.log("catch error- middleware authorize");
 
     return next(error);
   }
@@ -68,7 +66,7 @@ const adminMiddleware = (req: express.Request,res: express.Response,next: expres
       statusError: 401,
       errorMap: errorHandler.errorMapToDoApp,
     };
-    console.log("catch err in authrozin middalware");
+    console.log("catch error- check if is admin middleware ");
 
     return next(error);
   }

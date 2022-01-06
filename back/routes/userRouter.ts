@@ -9,15 +9,16 @@ import auth from "../middleware/authorize";
 const router = express.Router();
 
 router.route("/").get(auth.adminMiddleware, async ( req: express.Request, res: express.Response, next: express.NextFunction) => {
-      const data = await userService.getAllUsers();
-      // const user=res.locals.user as usersModel.User
-      // if(!user.isAdmin){
-      //     const errorObj:ErrorHandlerType={statusError:405,errorMap:errorHandler.errorMapToDoApp}
-      //     return  next(errorObj);
-      // }
-      if (data)
-        //אם לא נמצא זה לא שגיאה
-        res.json({ key: data });
+      const allUser = await userService.getAllUsers();
+      const user=res.locals.user as usersModel.User
+      if(!user.isAdmin){
+          const errorObj:ErrorHandlerType={statusError:405,errorMap:errorHandler.errorMapToDoApp}
+          return  next(errorObj);
+      }
+      if (allUser){
+        res.json({ key: allUser });
+
+      }
       else {
         res.json("no found users ");
       }
@@ -55,8 +56,8 @@ router.route("/:email").get(async (req: express.Request,res: express.Response,ne
       }: { password: string; fullName: string; isAdmin: boolean } = req.body;
 
       if (email === "" || password === "" || fullName === "") {
-        console.log("pst new user-- one of body of params is udifend");
-
+        console.log("user router- ERROR 400 - body invalid");
+        
         const errorObj: ErrorHandlerType = {
           statusError: 400,
           errorMap: errorHandler.errorMapToDoApp,
@@ -65,8 +66,9 @@ router.route("/:email").get(async (req: express.Request,res: express.Response,ne
       }
       const userToAdd: usersModel.User = { email, password, fullName, isAdmin };
       const data = await userService.addUser(userToAdd);
-      //לא מצליח להמיר לגסון
-      res.json({ key: data });
+      res.json(JSON.stringify(data));
+      
+      
     }
   )
   .put(async (req: express.Request,res: express.Response,next: express.NextFunction) => {

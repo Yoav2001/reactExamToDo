@@ -1,22 +1,22 @@
 import { baseAxios } from '../axiosConfig'
 
 export const signUpAxios = async (user: User) => {
-    const res = await baseAxios({
-        method: 'POST',
-        url: `signUp/${user.email}`,
-        data: {
-            password: user.password,
-            fullName: user.fullName,
-            isAdmin: user.isAdmin
-        }
-    }).then(res => { return res })
+    // const res = await baseAxios({
+    //     method: 'POST',
+    //     url: `signUp/${user.email}`,
+    //     data: {
+    //         password: user.password,
+    //         fullName: user.fullName,
+    //         isAdmin: user.isAdmin
+    //     }
+    // }).then(res => { return res })
 
 
 
 
 
     try {
-        const resAwait = await baseAxios({
+         await baseAxios({
             method: 'POST',
             url: `signUp/${user.email}`,
             data: {
