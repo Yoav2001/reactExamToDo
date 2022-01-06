@@ -13,6 +13,7 @@ import { useHistory } from 'react-router-dom'; // version 5.2.0
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './homeToDo.css'
 
+
 const userEmailSessionStorage = sessionStorage.getItem(sessionStorageObjectNameEmail);
 const statesDisaplyTasks = new Map();
 
@@ -20,7 +21,11 @@ statesDisaplyTasks.set(1, 'allTasks');
 statesDisaplyTasks.set(2, 'completedTasks');
 statesDisaplyTasks.set(3, 'overdue');
 
-
+enum Tabs {
+    allTasks = 1,
+    completedTasks = 2,
+    overdue = 3
+}
 
 const HomeToDo = () => {
 
@@ -63,6 +68,7 @@ const HomeToDo = () => {
     useEffect(() => {
         console.log(nameTaskToAdd.current);
     }, [nameTaskToAdd]);
+
     const getAllTask = async () => {
         setTimeout(() => {
             getAllTaskOfUserByEmail(userEmailSessionStorage!).then((res) => {

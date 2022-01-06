@@ -84,11 +84,9 @@ const Login = () => {
         placeholder="password"
         aria-label="task Name"
         aria-describedby="basic-addon1" />
-        
-      <br></br>
 
       <button
-        className="btn btn-secondary"
+        className="btn btn-secondary mt-3"
         onClick={() => logInToDo()}  >submit </button>
 
     </div>
