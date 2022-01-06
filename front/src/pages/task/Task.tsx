@@ -55,13 +55,15 @@ const Task: React.FC<props> = ({ task, deleteTask, completeTask, updateTask, isS
 
 
     <div className={task.isComplete ? "taskComponent completeTaskBackGround" : isTaskOverDue() ? "taskComponent overDueTaskBackGround" : "taskComponent"}   >
-      <div>
-        <button
-          className="btn bi bi-x-square deleteTaskBtn"
-          onClick={() => deleteTask(task.taskId!)}>
-        </button>
+      <div className='dateAndDeleteDiv'>
+      <p className='dateTask' >{getDateTask()}</p>
 
-        <p className='dateTask'>{getDateTask()}</p>
+          <button
+            className="btn bi bi-x-square deleteTaskBtn"
+            onClick={() => deleteTask(task.taskId!)}>
+          </button>
+
+
       </div>
 
       <hr />

@@ -12,7 +12,6 @@ export function errorHandlerMiddleWare(
   res: express.Response,
   next: express.NextFunction
 ) {
-  console.log("middlare error handler type");
 
   if (error.uniqueMessage)
     return res.status(error.statusError).json({ error: error.uniqueMessage });

@@ -8,8 +8,11 @@ import { sessionStorageObjectNameEmail } from '../../server/auth/login';
 import UpdateTaskModal from '../modals/updateTaskModal.ts/UpdateTaskModal';
 import updateTaskAxios from '../../server/updateTask';
 import AcceptOrCancelModal from '../modals/acceptOrCancel/AcceptOrCancel';
+import { useHistory } from 'react-router-dom'; // version 5.2.0
+
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './homeToDo.css'
+
 const userEmailSessionStorage = sessionStorage.getItem(sessionStorageObjectNameEmail);
 const statesDisaplyTasks = new Map();
 
@@ -135,7 +138,7 @@ const HomeToDo = () => {
 
 
             case 'overdue': setDisplayList(allTask.filter(task => {
-                if (taskToAdd.isComplete) return false
+                if (task.isComplete) return false
                 setIsShowCompleteTaskBtn(false)
                 const dateNow: string = new Date(Date.now()).toString()
                 const endDate: string = new Date(task.endTime).toString();
