@@ -56,7 +56,40 @@ const addNewTask = async (req:express.Request,res:express.Response,next:express.
 
 }
 
+const getAllTasksOfAllUsers =  async (req:express.Request,res:express.Response,next:express.NextFunction) =>{
+
+  const arrAllTasks: taskModal.Task[] | undefined =
+      await taskService.getAllTasks();
+    res.json(arrAllTasks);
+
+}
 
 
 
-export default {addNewTask};
+const updateTask =  async (req:express.Request,res:express.Response,next:express.NextFunction) =>{
+
+
+
+}
+
+const getAlltasksOfUser =  async (req:express.Request,res:express.Response,next:express.NextFunction) =>{
+
+
+
+}
+
+const deleteTaskByTaskId =  async (req:express.Request,res:express.Response,next:express.NextFunction) =>{
+
+
+
+}
+
+const getTaskByTaskId = async() =>{
+
+
+
+}
+
+
+
+export default {addNewTask,getAllTasksOfAllUsers,updateTask,getAlltasksOfUser,deleteTaskByTaskId,getTaskByTaskId};
