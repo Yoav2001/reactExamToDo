@@ -20,8 +20,17 @@ type props = {
 const UpdateTaskModal: React.FC<props> = ({ updateTaskObj, isShowingUpdateTaskModal, setUpdateTaskObj, toggleUpdateTaskModal, saveUpdateChanges }) => {
     const [taskUpdateInputs, setTaskUpdateInputs] = useState<Task>(updateTaskObj);
 
+   
+    
+    useEffect(() => {
+        console.log(taskUpdateInputs.endTime);
+        
+    },[])
+
     useEffect(() => {
         setTaskUpdateInputs({ ...updateTaskObj })
+        console.log(taskUpdateInputs.endTime);
+
     }, [updateTaskObj])
 
     useEffect(() => {
@@ -89,7 +98,7 @@ const UpdateTaskModal: React.FC<props> = ({ updateTaskObj, isShowingUpdateTaskMo
                         type="date"
                         onChange={handleChange}
                         name={"endTime"}
-                        defaultValue={new Date(taskUpdateInputs.endTime).toString()}
+                        defaultValue={taskUpdateInputs.endTime}
                         className="form-control"
                         aria-label="Username"
                         aria-describedby="basic-addon1" />

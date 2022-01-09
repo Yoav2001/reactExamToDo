@@ -94,7 +94,7 @@ export const deleteUserWithEmail: usersModel.DeleteUser = async (email?: usersMo
 
 // דרך א
 
-const updateUserNameWithEmail: usersModel.updateUser = async (userObj: usersModel.User) => {
+const updateUserNameWithEmail: usersModel.UpdateUser = async (userObj: usersModel.User) => {
   if (userObj?.email === undefined || "")
     return "sorry cant update without email";
 

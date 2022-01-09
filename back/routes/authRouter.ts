@@ -4,7 +4,6 @@ import type usersModel = require("../modals/userModal");
 import jwt from "jsonwebtoken";
 import errorHandler, { ErrorHandlerType } from "../middleware/errorHandler";
 
-const jwtSecret = "bommer";
 
 const router = express.Router();
 router
@@ -28,7 +27,7 @@ router
             return next(errorObj);
           
           } else {
-            const token = jwt.sign(user!, jwtSecret);
+            const token = jwt.sign(user!, process.env.ACCESS_TOKEN_SECRET as jwt.Secret);
             if (token === undefined || token === null)
               res.status(403).json("this user dont have Permissions");
             res.json({ token: token });

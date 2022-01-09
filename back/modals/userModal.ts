@@ -11,6 +11,6 @@ export type GetUser = (userEmail: User["email"]) => Promise<User |undefined>;
 export type GetUserWithFullName = (username: User["fullName"]) => Promise<User  |undefined>;
 export type GetAllUsers = () => Promise<User[]  |undefined>;
 export type AddUser = (user:User) => Promise<User  |undefined>;
-export type updateUser = (user:User ) => Promise <UpdateResult |undefined>;
+export type UpdateUser = (user:User ) => Promise <UpdateResult |undefined>;
 export type DeleteUser = (userEmail: User["email"]) => Promise<string>;
 export type SetAdmin = (userEmail: User["email"]) => Promise<User>;

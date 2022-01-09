@@ -5,6 +5,10 @@ import type usersModel = require("../modals/userModal");
 
 export const getTaskByTaskId: taskModal.GetTaskByTaskId = async (taskId: taskModal.Task["taskId"]) => {
   try {
+
+
+
+    
     const taskByDb: Itask | undefined = await taskDb.getTaskByTaskId(taskId);
     if (!taskByDb) return undefined;
 
@@ -36,7 +40,7 @@ export const getAllTasks: taskModal.GetAllTasks = async () => {
         emailUserOfTask: taskObjDb.useremail,
         taskName: taskObjDb.name,
         startDate: taskObjDb.startdate,
-        endTime: taskObjDb.endtime,
+        endTime: taskObjDb.endtimeasdateinput,
         isComplete: taskObjDb.iscomplete,
         isRelevent: taskObjDb.isrelevent,
       };
@@ -85,6 +89,7 @@ export const getAlltasksOfUser: taskModal.GetTasksOfUser = async (email: usersMo
   try {
     const arrTaskObjDb: Itask[] | undefined =
       await taskDb.getAllTaskByUserEmail(email);
+      
     if (arrTaskObjDb === undefined) {
       return [];
     }
@@ -96,11 +101,12 @@ export const getAlltasksOfUser: taskModal.GetTasksOfUser = async (email: usersMo
         emailUserOfTask: taskObjDb.useremail,
         taskName: taskObjDb.name,
         startDate: taskObjDb.startdate,
-        endTime: taskObjDb.endtime,
+        endTime: taskObjDb.endtimeasdateinput,
         isComplete: taskObjDb.iscomplete,
         isRelevent: taskObjDb.isrelevent,
       };
     });
+    
 
     return arrByModelUser;
   } catch (error) {

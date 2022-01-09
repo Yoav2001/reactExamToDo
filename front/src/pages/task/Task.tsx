@@ -15,7 +15,11 @@ type props = {
 
 }
 
-
+enum classOfTask {
+  regularTaskCss = 'taskComponent',
+  completeTaskClass = 'taskComponent completeTaskBackGround',
+  overdueCss = 'taskComponent overDueTaskBackGround'
+}
 
 
 
@@ -49,12 +53,18 @@ const Task: React.FC<props> = ({ task, deleteTask, completeTask, updateTask, isS
   }
 
 
+const getClassOfTask =() =>{
+  if(task.isComplete)  return classOfTask.completeTaskClass;
 
+  if(isTaskOverDue()) return classOfTask.overdueCss;
+
+  return classOfTask.regularTaskCss;
+}
   return (
 
 
 
-    <div className={task.isComplete ? "taskComponent completeTaskBackGround" : isTaskOverDue() ? "taskComponent overDueTaskBackGround" : "taskComponent"}   >
+    <div className={getClassOfTask()}   >
       <div className='dateAndDeleteDiv'>
       <p className='dateTask' >{getDateTask()}</p>
 

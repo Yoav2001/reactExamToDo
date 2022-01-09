@@ -5,7 +5,8 @@ import type taskModalDb = require("../interfaceDB/interfaceTask");
 
 const getAlltaskFromDB: taskModalDb.GetAllTasks = async () => {
   const client = await pool.connect();
-  const sqlAllUsers = `SELECT * FROM tasks`;
+  const sqlAllUsers= `SELECT *, to_char(date(endtime),'YYYY-MM-DD') AS endtimeasdateinput
+  FROM tasks order by id desc`
   try {
     const { rows } = await client.query(sqlAllUsers);
     return rows;
@@ -48,7 +49,8 @@ const insertNewTask = async (taskObj: taskModal.Task) => {
 const getAllTaskByUserEmail: taskModalDb.GetTasksOfUser = async (email: usersModel.User["email"]) => {
   const client = await pool.connect();
   try {
-    const selectByEmail = `SELECT * FROM tasks WHERE userEmail = '${email}' order by id desc`;
+    const selectByEmail = `SELECT *, to_char(date(endtime),'YYYY-MM-DD') AS endtimeasdateinput
+    FROM tasks WHERE userEmail = '${email}' order by id desc`;
     const res = (await client.query(selectByEmail)).rows;
     return res;
   } catch (error) {

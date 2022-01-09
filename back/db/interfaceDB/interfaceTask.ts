@@ -8,6 +8,7 @@ export interface Itask {
     endtime: string
     iscomplete:boolean,
     isrelevent :boolean
+    endtimeasdateinput:string
 }
 
 export type GetAllTasks = () => Promise<Itask[] |undefined>;

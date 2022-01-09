@@ -1,3 +1,9 @@
 .navLink{
     cursor: pointer;
 }
+
+.navLinkLogAndEmail{
+    position: relative;
+    margin-left: 30px;
+    left: 800px;
+}

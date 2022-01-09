@@ -18,7 +18,7 @@ function App() {
       }
          {window.location.pathname.includes("homeToDo")
       
-      &&<NavBarToDo/>
+      &&<NavBarToDo fullName='dsad'/>
       }
       <Router>
         <Switch>

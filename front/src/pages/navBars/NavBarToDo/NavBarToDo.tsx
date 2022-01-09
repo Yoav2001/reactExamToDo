@@ -6,7 +6,12 @@ import "./navBarToDo.css"
 import { Navbar, NavItem, NavbarToggler, Collapse, NavLink, Nav,} from 'reactstrap';
 
 
-const NavBarToDo = () => {
+type props = {
+  fullName:User["fullName"]
+  
+  }
+
+const NavBarToDo:React.FC<props> = (fullName) => {
 
     const [isOpen, setIsOpen] = useState(false);
     const logOutOnClick = () => {
@@ -14,6 +19,8 @@ const NavBarToDo = () => {
 
         sessionStorage.clear();
         window.location.href = 'login'
+
+        
 
     }
     return (
@@ -28,9 +35,15 @@ const NavBarToDo = () => {
                         <NavItem>
                             <NavLink href="homeToDo">my todos</NavLink>
                         </NavItem>
-                        <NavItem>
+                        
+                        <NavItem className='navbar-nav mt-2 navLinkLogAndEmail'>
+                                {sessionStorage.getItem('USER EMAIL')}
+                        </NavItem>
+                        <NavItem className='navLinkLogAndEmail'>
                             <NavLink className='navLink' onClick={() => { logOutOnClick() }} >log out </NavLink>
                         </NavItem>
+                      
+
                     </Nav>
                 </Collapse>
             </Navbar>

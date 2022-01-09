@@ -15,13 +15,9 @@ import './homeToDo.css'
 
 
 const userEmailSessionStorage = sessionStorage.getItem(sessionStorageObjectNameEmail);
-const statesDisaplyTasks = new Map();
 
-statesDisaplyTasks.set(1, 'allTasks');
-statesDisaplyTasks.set(2, 'completedTasks');
-statesDisaplyTasks.set(3, 'overdue');
 
-enum Tabs {
+enum TabsOfStateDisplayListTasks {
     allTasks = 1,
     completedTasks = 2,
     overdue = 3
@@ -31,7 +27,7 @@ const HomeToDo = () => {
 
     const [allTask, setAllTask] = useState<Task[]>([])
     const [displayListTask, setDisplayList] = useState<Task[]>([])
-    const [stateDispalyList, setStateDisplayList] = useState<number>(1);
+    const [stateDispalyList, setStateDisplayList] = useState<number>(TabsOfStateDisplayListTasks.allTasks);
 
     const [isShowCompleteTaskBtn, setIsShowCompleteTaskBtn] = useState<boolean>(true)
 
@@ -129,21 +125,21 @@ const HomeToDo = () => {
     const changeDisplayList = (stateListNumber: number) => {
 
         setStateDisplayList(stateListNumber)
-        switch (statesDisaplyTasks.get(stateListNumber)) {
+        switch (stateListNumber) {
 
-            case 'allTasks': {
+            case 1: {
                 setDisplayList(allTask)
                 setIsShowCompleteTaskBtn(true)
             }
                 break;
 
-            case 'completedTasks': setDisplayList(allTask.filter(task => task.isComplete))
+            case 2: setDisplayList(allTask.filter(task => task.isComplete))
                 setIsShowCompleteTaskBtn(true)
 
                 break;
 
 
-            case 'overdue': setDisplayList(allTask.filter(task => {
+            case 3: setDisplayList(allTask.filter(task => {
                 if (task.isComplete) return false
                 setIsShowCompleteTaskBtn(false)
                 const dateNow: string = new Date(Date.now()).toString()
@@ -219,23 +215,23 @@ const HomeToDo = () => {
 
                 <button
                     className="btn btn-secondary"
-                    onClick={addToDo}
+                    onClick={()=>addToDo()}
                 >add task </button>
 
             </div>
             <div className="divBtnTask">
                 <button
                     className={stateDispalyList === 1 ? "btn btn-primary" : "btn btn-light"}
-                    onClick={() => changeDisplayList(1)}>All
+                    onClick={() => changeDisplayList(TabsOfStateDisplayListTasks.allTasks)}>All
                 </button>
 
                 <button
                     className={stateDispalyList === 2 ? "btn btn-primary" : "btn btn-light"}
-                    onClick={() => changeDisplayList(2)}>
+                    onClick={() => changeDisplayList(TabsOfStateDisplayListTasks.completedTasks)}>
                     completed</button>
                 <button
                     className={stateDispalyList === 3 ? "btn btn-primary" : "btn btn-light"}
-                    onClick={() => changeDisplayList(3)}> Overdue</button>
+                    onClick={() => changeDisplayList(TabsOfStateDisplayListTasks.overdue)}> Overdue</button>
 
             </div>
 
