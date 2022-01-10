@@ -55,7 +55,7 @@ const adminMiddleware = (req: express.Request,res: express.Response,next: expres
       const error: ErrorHandlerType = {
         statusError: 405,
         errorMap: errorHandler.errorMapToDoApp,
-        uniqueMessage: "MethodNotAllowed -only admins",
+        uniqueMessage: "MethodNotAllowed",
       };
       return next(error);
     }
@@ -75,9 +75,40 @@ const adminMiddleware = (req: express.Request,res: express.Response,next: expres
 
 
 
-const isReqEmailEqualsToLocalEmail = () =>{
+const authenticationEmailOrAdmin = (req: express.Request,res: express.Response,next: express.NextFunction) =>{
+  try {
+    const email:string=req.body.email ? req.body.email : req.params.email;
+
+    const user = res.locals.user as User;
+    console.log(`authroize middaleare - is admin :` ,user.isAdmin);
+    console.log(`authroize middaleare  - user email Locals : ${user.email} and user email Req : ${email}`);
     
+    console.log(`conditional `,user.email===email&&user.isAdmin);
+    
+    if (user.isAdmin||user.email===email) return next();
+
+    else{
+      console.log("error catch midaalware");
+      
+      const error: ErrorHandlerType = {
+        statusError: 401,
+        errorMap: errorHandler.errorMapToDoApp,
+        uniqueMessage: "MethodNotAllowed -the email of req is not equals to email of logged in ",
+      };
+      return next(error);
+
+    }
+
+  } catch (err) {
+    const error: ErrorHandlerType = {
+      statusError: 401,
+      errorMap: errorHandler.errorMapToDoApp,
+    };
+    console.log("catch error-isReqEmailEqualsToLocalEmail middleware ")
+
+    return next(error);
+  }
 
 }
 
-export default { authorize, adminMiddleware };
+export default { authorize, adminMiddleware,authenticationEmailOrAdmin };

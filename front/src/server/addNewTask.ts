@@ -26,7 +26,7 @@ import {baseAxios} from './axiosConfig'
             method:'POST',
             url:`api/task/addTask`,
             data: {
-                emailUserOfTask: task.emailUserOfTask,
+                email: task.emailUserOfTask,
                 taskName: task.taskName,
                 startDate: task.startDate,
                 endTime: task.endTime,

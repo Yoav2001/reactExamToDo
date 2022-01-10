@@ -27,7 +27,7 @@ const updateTaskAxios = async (task: Task) => {
             method: "PUT",
             url: `api/task/${task.taskId}`,
             data: {
-                emailUserOfTask: task.emailUserOfTask,
+                email: task.emailUserOfTask,
                 taskName: task.taskName,
                 startDate: task.startDate,
                 endTime: task.endTime,
