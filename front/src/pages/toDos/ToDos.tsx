@@ -21,8 +21,8 @@ const ToDos: React.FC<props> = ({ displayTaskList, deleteTask, completeTask, upd
                     <Task
                         task={taskItem}
                         key={taskItem.taskId}
-                        deleteTask={deleteTask}
-                        completeTask={completeTask}
+                        deleteTask={(idTask:Task["taskId"])=>deleteTask(idTask!)}
+                        completeTask={(task:Task)=>completeTask(task)}
                         isShowCompleteTaskBtn={isShowCompleteTaskBtn}
                         updateTask={(task: Task) => { updateTask(task) }} >
 

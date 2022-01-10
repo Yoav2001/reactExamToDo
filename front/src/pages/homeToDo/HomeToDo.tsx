@@ -238,13 +238,13 @@ const HomeToDo = () => {
             <ToDos
                 displayTaskList={displayListTask}
                 deleteTask={(taskId: Task["taskId"]) => deleteTaskOpenModal(taskId!)}
-                completeTask={completeTask}
+                completeTask={(task:Task)=>completeTask(task)}
                 isShowCompleteTaskBtn={isShowCompleteTaskBtn}
                 updateTask={(task: Task) => updateTaskOpenModal(task)}
-            />
+            />  
 
             <AcceptOrCancelModal isShowingModal={isShowDeleteTaskModal}
-                toggleModal={toggleDeleteTaskModal}
+                toggleModal={()=>toggleDeleteTaskModal()}
                 headerModalText='Delete Task'
                 bodyModalText='are you sure you want to delete task?'
                 acceptModalFunction={(taskId: Task["taskId"]) => saveDeleteTask(taskId!)}
@@ -254,8 +254,8 @@ const HomeToDo = () => {
 
             <UpdateTaskModal
                 updateTaskObj={updateTaskObj!}
-                setUpdateTaskObj={setUpdateTaskObj}
-                toggleUpdateTaskModal={toggleUpdateTaskModal}
+                setUpdateTaskObj={()=>setUpdateTaskObj}
+                toggleUpdateTaskModal={()=>toggleUpdateTaskModal()}
                 isShowingUpdateTaskModal={isShowingUpdateTaskModal}
                 saveUpdateChanges={(task: Task) => saveUpdateChanges(task)}
             />
