@@ -1,16 +1,17 @@
 import express from "express";
-import auth from "../middleware/authorize";
 import taskController  from '../controllers/taskController'
+import authMiddleware from "../middleware/authorize";
+
 const router = express.Router();
 
 
-router.post("/addTask",taskController.addNewTask) 
-router.get("/", auth.adminMiddleware,taskController.getAllTasksOfAllUsers) 
+router.post("/addTask",authMiddleware.authenticationEmailOrAdmin,taskController.addNewTask) 
+router.get("/", authMiddleware.adminMiddleware,taskController.getAllTasksOfAllUsers) 
 
 router.route("/:taskId")
 .put(taskController.updateTask ) 
 .delete(taskController.deleteTaskByTaskId)
 
-router.get( "/:userEmail",taskController.getAlltasksOfUser)
+router.get( "/:email",taskController.getAlltasksOfUser)
 
 export default router;

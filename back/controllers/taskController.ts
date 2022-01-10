@@ -2,43 +2,41 @@ import express from "express";
 import taskService from "../service/taskService";
 import type taskModal = require("../modals/taskModal");
 import type usersModel = require("../modals/userModal");
-import { Itask } from "../db/interfaceDB/interfaceTask";
 import errorHandler from "../middleware/errorHandler";
 import { ErrorHandlerType } from "../middleware/errorHandler";
 import userService from "../service/userService";
-import auth from "../middleware/authorize";
 
 const addNewTask = async (req: express.Request, res: express.Response, next: express.NextFunction) => {
   console.log("controller task ");
 
 
-  const { emailUserOfTask, taskName, startDate, endTime, isComplete, isRelevent
+  const { taskName, startDate, endTime, isComplete, isRelevent
   }: taskModal.Task = req.body;
-  const user = res.locals.user as usersModel.User;
+  const email :string=req.body.email
 
-  if (emailUserOfTask !== user.email && !user.isAdmin) {
-    const errorObj: ErrorHandlerType = {
-      statusError: 401,
-      errorMap: errorHandler.errorMapToDoApp,
-      uniqueMessage: "opps you try to add task to other user ",
-    };
-    return next(errorObj);
-  }
-  if (
-    !emailUserOfTask ||
-    !taskName ||
-    !startDate ||
-    isComplete === undefined ||
-    isRelevent === undefined
-  ) {
+  // const user = res.locals.user as usersModel.User;
+
+  // if (email !== user.email && !user.isAdmin) {
+  //   const errorObj: ErrorHandlerType = {
+  //     statusError: 401,
+  //     errorMap: errorHandler.errorMapToDoApp,
+  //     uniqueMessage: "opps you try to add task to other user ",
+  //   };
+  //   return next(errorObj);
+  // }
+
+  if (!email ||!taskName ||!startDate ||isComplete === undefined ||isRelevent === undefined) {
     const errorObj: ErrorHandlerType = {
       statusError: 400,
       errorMap: errorHandler.errorMapToDoApp,
     };
     return next(errorObj);
   }
+
+
+  
   const taskToAdd: taskModal.Task = {
-    emailUserOfTask: emailUserOfTask,
+    emailUserOfTask: email,
     taskName: taskName,
     startDate: startDate,
     endTime: endTime,
@@ -51,11 +49,11 @@ const addNewTask = async (req: express.Request, res: express.Response, next: exp
 }
 
 const getAllTasksOfAllUsers = async (req: express.Request, res: express.Response, next: express.NextFunction) => {
-  const user = res.locals.user as usersModel.User;
-  if (!user.isAdmin) {
-    //error
+  // const user = res.locals.user as usersModel.User;
+  // if (!user.isAdmin) {
+  //   //error
 
-  }
+  // }
   const arrAllTasks: taskModal.Task[] | undefined =
     await taskService.getAllTasks();
   res.json(arrAllTasks);
@@ -68,17 +66,16 @@ const updateTask = async (req: express.Request, res: express.Response, next: exp
 
   const taskId: number = parseInt(req.params.taskId);
   const {
-    emailUserOfTask,
     taskName,
     startDate,
     endTime,
     isComplete,
     isRelevent,
   }: taskModal.Task = req.body;
-
+  const email =req.body.email
   const localUser = res.locals.user as usersModel.User;
 
-  if (emailUserOfTask !== localUser.email && !localUser.isAdmin) {
+  if (email !== localUser.email && !localUser.isAdmin) {
     const errorObj: ErrorHandlerType = {
       statusError: 401,
       errorMap: errorHandler.errorMapToDoApp,
@@ -86,7 +83,7 @@ const updateTask = async (req: express.Request, res: express.Response, next: exp
     return next(errorObj);
   }
 
-  if (!taskId || !emailUserOfTask || !taskName || !startDate || isComplete === undefined || isRelevent === undefined) {
+  if (!taskId || !email || !taskName || !startDate || isComplete === undefined || isRelevent === undefined) {
     const errorObj: ErrorHandlerType = {
       statusError: 400,
       errorMap: errorHandler.errorMapToDoApp,
@@ -95,7 +92,7 @@ const updateTask = async (req: express.Request, res: express.Response, next: exp
   }
   const taskToUpdate: taskModal.Task = {
     taskId: taskId,
-    emailUserOfTask: emailUserOfTask,
+    emailUserOfTask: email,
     taskName: taskName,
     startDate: startDate,
     endTime: endTime,
@@ -110,12 +107,16 @@ const updateTask = async (req: express.Request, res: express.Response, next: exp
 
 const getAlltasksOfUser = async (req: express.Request, res: express.Response, next: express.NextFunction) => {
 
-  const userEmail: string = <string>req.params.userEmail;
+  console.log(`control task get task of userrrr`);
+  
+  const userEmail: string = <string>req.params.email;
+  console.log(`constrool task -get all task of ${userEmail}`);
+
   const user: usersModel.User | undefined =
     await userService.getUserDataWithEmail(userEmail!);
   const localUser = res.locals.user as usersModel.User;
 
-  if (userEmail !== localUser.email && !user?.isAdmin) {
+  if (userEmail !== localUser.email || !user?.isAdmin) {
     const errorObj: ErrorHandlerType = {
       statusError: 400,
       errorMap: errorHandler.errorMapToDoApp,
