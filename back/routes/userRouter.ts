@@ -1,15 +1,15 @@
 import express from "express";
-import auth from "../middleware/authorize";
 import userController  from '../controllers/userController'
+import authMiddleware from "../middleware/authorize";
 
 const router = express.Router();
 
-router.route("/").get(auth.adminMiddleware,userController.getAllUsers)
+router.route("/").get(authMiddleware.adminMiddleware,userController.getAllUsers)
 
 router.route("/:email")
-.get(userController.getUserDataWithEmail) 
+.get(authMiddleware.authenticationEmailOrAdmin,userController.getUserDataWithEmail) 
 .post(userController.addUser)
-.put(userController.updateUserNameWithEmail) 
+.put(authMiddleware.authenticationEmailOrAdmin,userController.updateUserNameWithEmail) 
 
 export default router;
 

@@ -78,13 +78,7 @@ const adminMiddleware = (req: express.Request,res: express.Response,next: expres
 const authenticationEmailOrAdmin = (req: express.Request,res: express.Response,next: express.NextFunction) =>{
   try {
     const email:string=req.body.email ? req.body.email : req.params.email;
-
     const user = res.locals.user as User;
-    console.log(`authroize middaleare - is admin :` ,user.isAdmin);
-    console.log(`authroize middaleare  - user email Locals : ${user.email} and user email Req : ${email}`);
-    
-    console.log(`conditional `,user.email===email&&user.isAdmin);
-    
     if (user.isAdmin||user.email===email) return next();
 
     else{
@@ -110,5 +104,7 @@ const authenticationEmailOrAdmin = (req: express.Request,res: express.Response,n
   }
 
 }
+
+
 
 export default { authorize, adminMiddleware,authenticationEmailOrAdmin };

@@ -14,6 +14,7 @@ const signUp = async (req: express.Request, res: express.Response, next: express
         fullName,
         isAdmin,
       }: { password: string; fullName: string; isAdmin: boolean } = req.body;
+      
       const userToAdd: usersModel.User = { email, password, fullName, isAdmin };
       const user: usersModel.User | undefined = await userService.addUser(
         userToAdd

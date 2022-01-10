@@ -32,15 +32,15 @@ const addUser = async (req: express.Request, res: express.Response, next: expres
   }
   const getUserDataWithEmail = async (req: express.Request, res: express.Response, next: express.NextFunction) => {
     const email: string = <string>req.params.email;
-    const user = res.locals.user as usersModel.User;
+    // const user = res.locals.user as usersModel.User;
 
-    if (user.email !== email && !user.isAdmin) {
-      const errorObj: ErrorHandlerType = {
-        statusError: 401,
-        errorMap: errorHandler.errorMapToDoApp,
-      };
-      return next(errorObj);
-    }
+    // if (user.email !== email && !user.isAdmin) {
+    //   const errorObj: ErrorHandlerType = {
+    //     statusError: 401,
+    //     errorMap: errorHandler.errorMapToDoApp,
+    //   };
+    //   return next(errorObj);
+    // }
     if (email === "" || email === undefined) {
       const errorObj: ErrorHandlerType = {
         statusError: 400,
@@ -55,17 +55,17 @@ const addUser = async (req: express.Request, res: express.Response, next: expres
 
 const updateUserNameWithEmail = async (req: express.Request, res: express.Response, next: express.NextFunction) => {
     const email: string = <string>req.params.email;
-      const user = res.locals.user as usersModel.User;
+      // const user = res.locals.user as usersModel.User;
 
-      if (user.email !== email && !user.isAdmin) {
-        const errorObj: ErrorHandlerType = {
-          statusError: 401,
-          errorMap: errorHandler.errorMapToDoApp,
-          uniqueMessage:
-            "Non Authoritative Information- you try to update details of other user and you are not admin ",
-        };
-        return next(errorObj);
-      }
+      // if (user.email !== email && !user.isAdmin) {
+      //   const errorObj: ErrorHandlerType = {
+      //     statusError: 401,
+      //     errorMap: errorHandler.errorMapToDoApp,
+      //     uniqueMessage:
+      //       "Non Authoritative Information- you try to update details of other user and you are not admin ",
+      //   };
+      //   return next(errorObj);
+      // }
 
       const {password,fullName, isAdmin,
       }: { password: string; fullName: string; isAdmin: boolean } = req.body;
@@ -92,11 +92,11 @@ const updateUserNameWithEmail = async (req: express.Request, res: express.Respon
 }
 const getAllUsers = async (req: express.Request, res: express.Response, next: express.NextFunction) => {
     const allUser = await userService.getAllUsers();
-    const user=res.locals.user as usersModel.User
-    if(!user.isAdmin){
-        const errorObj:ErrorHandlerType={statusError:405,errorMap:errorHandler.errorMapToDoApp}
-        return  next(errorObj);
-    }
+    // const user=res.locals.user as usersModel.User
+    // if(!user.isAdmin){
+    //     const errorObj:ErrorHandlerType={statusError:405,errorMap:errorHandler.errorMapToDoApp}
+    //     return  next(errorObj);
+    // }
     if (allUser){
       res.json({ key: allUser });
 

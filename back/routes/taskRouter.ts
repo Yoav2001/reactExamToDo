@@ -9,9 +9,9 @@ router.post("/addTask",authMiddleware.authenticationEmailOrAdmin,taskController.
 router.get("/", authMiddleware.adminMiddleware,taskController.getAllTasksOfAllUsers) 
 
 router.route("/:taskId")
-.put(taskController.updateTask ) 
+.put(authMiddleware.authenticationEmailOrAdmin, taskController.updateTask) 
 .delete(taskController.deleteTaskByTaskId)
 
-router.get( "/:email",taskController.getAlltasksOfUser)
+router.get( "/:email",authMiddleware.authenticationEmailOrAdmin,taskController.getAlltasksOfUser)
 
 export default router;
