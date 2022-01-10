@@ -136,5 +136,5 @@ export default {
   getUserDataWithEmail,
   deleteUserWithEmail,
   updateUserNameWithEmail,
-  getAllUsers,
+  getAllUsers
 };

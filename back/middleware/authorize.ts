@@ -72,4 +72,12 @@ const adminMiddleware = (req: express.Request,res: express.Response,next: expres
   }
 };
 
+
+
+
+const isReqEmailEqualsToLocalEmail = () =>{
+    
+
+}
+
 export default { authorize, adminMiddleware };
