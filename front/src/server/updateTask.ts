@@ -56,3 +56,26 @@ const updateTaskAxios = async (task: Task) => {
 }
 
 export default updateTaskAxios
+
+   // try {
+    //     await baseAxios({
+    //         method: "PUT",
+    //         url: `api/task/${task.taskId}`,
+    //         data: {
+    //             email: task.emailUserOfTask,
+    //             taskName: task.taskName,
+    //             startDate: task.startDate,
+    //             endTime: task.endTime,
+    //             isComplete: task.isComplete,
+    //             isRelevent: task.isRelevent
+    //         }
+    //     })
+
+    //     console.log("axios add new task succed ");
+
+
+    // }
+    // catch (error: any) {
+    //     interceptor.errorInterceptor(error)
+
+    // }

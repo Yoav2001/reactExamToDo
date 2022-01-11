@@ -1,6 +1,7 @@
 
 import {baseAxios} from './axiosConfig' 
 
+import interceptor from './middleware/interceptor';
 
   const addNewTaskAxios=async(task:Task)=>{
       console.log("add task axios function ");
@@ -40,13 +41,8 @@ import {baseAxios} from './axiosConfig'
      
     }
     catch (error: any) {
-        console.log("error ");
-        console.log(error);
-        const statusError = error.response.status;
-        const errorMassage = error.response.data.error;
-        
-        console.log(`Error - status :${statusError} , ${errorMassage}` );
-        alert(errorMassage)
+        interceptor.errorInterceptor(error)
+
     }
 
 

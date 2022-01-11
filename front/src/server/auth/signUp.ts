@@ -1,5 +1,5 @@
 import { baseAxios } from '../axiosConfig'
-
+import interceptor from '../middleware/interceptor';
 export const signUpAxios = async (user: User) => {
     // const res = await baseAxios({
     //     method: 'POST',
@@ -31,15 +31,8 @@ export const signUpAxios = async (user: User) => {
      
     }
     catch (error: any) {
-        console.log("error ");
-        console.log(error);
-        const statusError = error.response.status;
-        const errorMassage = error.response.data.error;
-        
-        console.log(`Error - status :${statusError} , ${errorMassage}` );
-        alert(errorMassage)
+        interceptor.errorInterceptor(error)
     }
-
 }
 
 

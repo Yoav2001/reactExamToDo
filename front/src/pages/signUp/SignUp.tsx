@@ -32,7 +32,6 @@ const SignUp = () => {
     signUpAxios(user).then(() => {
     window.location.assign('login');
     })
-    window.location.assign('login');
   }
 
   return (

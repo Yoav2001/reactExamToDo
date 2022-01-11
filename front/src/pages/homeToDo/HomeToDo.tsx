@@ -66,15 +66,16 @@ const HomeToDo = () => {
     }, [nameTaskToAdd]);
 
     const getAllTask = async () => {
-       
+        setTimeout(() => {
             getAllTaskOfUserByEmail(userEmailSessionStorage!).then((res) => {
                 console.log("getting all tasks for user: ", userEmailSessionStorage);
-                console.table("all tasks from server: ", res.data.key);
+                console.table("all tasks from server: ", res!.data.key);
 
 
-                const todosOfUser: Task[] = res.data.key;
+                const todosOfUser: Task[] = res!.data.key;
                 setAllTask(todosOfUser);
             })
+         } ,30) 
   
     }
 
