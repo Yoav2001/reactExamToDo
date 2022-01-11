@@ -14,7 +14,7 @@ type props = {
   updateTask: (task: Task) => void
 
 }
-
+//enum value is always a number , in this case i can use map 
 enum classOfTask {
   regularTaskCss = 'taskComponent',
   completeTaskClass = 'taskComponent completeTaskBackGround',
@@ -53,12 +53,14 @@ const Task: React.FC<props> = ({ task, deleteTask, completeTask, updateTask, isS
   }
 
 
-const getClassOfTask =() =>{
-  if(task.isComplete)  return classOfTask.completeTaskClass;
+const getClassOfTask = () => {
+  return task.isComplete ? classOfTask.completeTaskClass : isTaskOverDue() ? classOfTask.overdueCss : classOfTask.regularTaskCss;
 
-  if(isTaskOverDue()) return classOfTask.overdueCss;
+  // if(task.isComplete)  return classOfTask.completeTaskClass;
 
-  return classOfTask.regularTaskCss;
+  // if(isTaskOverDue()) return classOfTask.overdueCss;
+
+  // return classOfTask.regularTaskCss;
 }
   return (
 

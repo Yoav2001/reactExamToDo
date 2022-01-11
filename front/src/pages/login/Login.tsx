@@ -21,7 +21,7 @@ type logInData = {
 
 
 
-const Login = () => {
+const Login :React.FC= () => {
 
   const [user, setUserData] = useState<logInData>({
     email: "",

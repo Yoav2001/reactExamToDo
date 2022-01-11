@@ -52,10 +52,11 @@ const updateTask = async (req: express.Request, res: express.Response, next: exp
     isComplete,
     isRelevent,
   }: taskModal.Task = req.body;
+  const task: taskModal.Task = req.body;
   const email = req.body.email
 
 
-  if (!taskId || !email || !taskName || !startDate || isComplete === undefined || isRelevent === undefined) {
+  if (!taskId || !email || !task.taskName || !task.startDate || task.isComplete === undefined || task.isRelevent === undefined) {
     const errorObj: ErrorHandlerType = {
       statusError: 400,
       errorMap: errorHandler.errorMapToDoApp,
@@ -65,8 +66,8 @@ const updateTask = async (req: express.Request, res: express.Response, next: exp
   const taskToUpdate: taskModal.Task = {
     taskId: taskId,
     emailUserOfTask: email,
-    taskName: taskName,
-    startDate: startDate,
+    taskName: task.taskName,
+    startDate:task.startDate,
     endTime: endTime,
     isComplete: isComplete,
     isRelevent: isRelevent,

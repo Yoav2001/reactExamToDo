@@ -7,9 +7,9 @@ const router = express.Router();
 router.route("/").get(authMiddleware.adminMiddleware,userController.getAllUsers)
 
 router.route("/:email")
-.get(authMiddleware.authenticationEmailOrAdmin,userController.getUserDataWithEmail) 
+.get(authMiddleware.authorizationEmailOrAdmin,userController.getUserDataWithEmail) 
 .post(userController.addUser)
-.put(authMiddleware.authenticationEmailOrAdmin,userController.updateUserNameWithEmail) 
+.put(authMiddleware.authorizationEmailOrAdmin,userController.updateUserNameWithEmail) 
 
 export default router;
 

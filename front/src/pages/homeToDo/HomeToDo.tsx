@@ -12,6 +12,7 @@ import { useHistory } from 'react-router-dom'; // version 5.2.0
 
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './homeToDo.css'
+import { Tabs } from 'react-bootstrap';
 
 
 const userEmailSessionStorage = sessionStorage.getItem(sessionStorageObjectNameEmail);
@@ -110,9 +111,7 @@ const HomeToDo = () => {
 
         taskToAdd.endTime = dateTask;
         taskToAdd.taskName = nameTask;
-        console.log("add to do dsfsdfsdf");
-
-        console.log("date now" + new Date(Date.now()).toString());
+ 
 
         addNewTaskAxios(taskToAdd)
             .then((res) => {
@@ -128,19 +127,19 @@ const HomeToDo = () => {
         setStateDisplayList(stateListNumber)
         switch (stateListNumber) {
 
-            case 1: {
+            case TabsOfStateDisplayListTasks.allTasks: {
                 setDisplayList(allTask)
                 setIsShowCompleteTaskBtn(true)
             }
                 break;
 
-            case 2: setDisplayList(allTask.filter(task => task.isComplete))
+            case TabsOfStateDisplayListTasks.completedTasks: setDisplayList(allTask.filter(task => task.isComplete))
                 setIsShowCompleteTaskBtn(true)
 
                 break;
 
 
-            case 3: setDisplayList(allTask.filter(task => {
+            case TabsOfStateDisplayListTasks.overdue: setDisplayList(allTask.filter(task => {
                 if (task.isComplete) return false
                 setIsShowCompleteTaskBtn(false)
                 const dateNow: string = new Date(Date.now()).toString()

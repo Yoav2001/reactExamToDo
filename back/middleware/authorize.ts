@@ -75,7 +75,7 @@ const adminMiddleware = (req: express.Request,res: express.Response,next: expres
 
 
 
-const authenticationEmailOrAdmin = (req: express.Request,res: express.Response,next: express.NextFunction) =>{
+const authorizationEmailOrAdmin = (req: express.Request,res: express.Response,next: express.NextFunction) =>{
   try {
     const email:string=req.body.email ? req.body.email : req.params.email;
     const user = res.locals.user as User;
@@ -107,4 +107,4 @@ const authenticationEmailOrAdmin = (req: express.Request,res: express.Response,n
 
 
 
-export default { authorize, adminMiddleware,authenticationEmailOrAdmin };
+export default { authorize, adminMiddleware,authorizationEmailOrAdmin };

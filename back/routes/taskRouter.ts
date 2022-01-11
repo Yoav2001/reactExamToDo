@@ -5,13 +5,13 @@ import authMiddleware from "../middleware/authorize";
 const router = express.Router();
 
 
-router.post("/addTask",authMiddleware.authenticationEmailOrAdmin,taskController.addNewTask) 
+router.post("/addTask",authMiddleware.authorizationEmailOrAdmin,taskController.addNewTask) 
 router.get("/", authMiddleware.adminMiddleware,taskController.getAllTasksOfAllUsers) 
 
 router.route("/:taskId")
-.put(authMiddleware.authenticationEmailOrAdmin, taskController.updateTask) 
+.put(authMiddleware.authorizationEmailOrAdmin, taskController.updateTask) 
 .delete(taskController.deleteTaskByTaskId)
 
-router.get( "/:email",authMiddleware.authenticationEmailOrAdmin,taskController.getAlltasksOfUser)
+router.get( "/:email",authMiddleware.authorizationEmailOrAdmin,taskController.getAlltasksOfUser)
 
 export default router;

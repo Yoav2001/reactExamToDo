@@ -6,7 +6,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import "bootstrap-icons/font/bootstrap-icons.css";
 
 
-const SignUp = () => {
+const SignUp : React.FC = () => {
 
   const [user, setUserData] = useState<User>({
     email: "",
