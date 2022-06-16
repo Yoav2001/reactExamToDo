@@ -1,7 +1,7 @@
 import express from "express";
 import userRouter from "./userRouter";
 import taskRouter from "./taskRouter";
-import auth from "../middleware/authorize";
+import auth from "./middleware/authorize";
 const router = express.Router();
 
 router.use(auth.authorize);

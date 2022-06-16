@@ -1,4 +1,4 @@
-import { User } from "./userModal";
+import { User } from "../user/userModal";
 
 export type Task = {
     taskId?:number

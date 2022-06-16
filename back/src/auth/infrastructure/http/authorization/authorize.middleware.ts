@@ -1,6 +1,6 @@
 import jwt from "jsonwebtoken";
 import express from "express";
-import { User } from "../modals/userModal";
+import { User } from "../src/cms/domain/user/userModal";
 
 import errorHandler, { ErrorHandlerType } from "../middleware/errorHandler";
 require("dotenv").config();

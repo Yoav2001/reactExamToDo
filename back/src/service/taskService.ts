@@ -1,5 +1,5 @@
-import taskDb from "../db/queries/taskQuery";
-import { Itask } from "../db/interfaceDB/interfaceTask";
+import taskDb from ''
+import { Itask } from "core/database/Entites/interfaceTask/Itask";
 import type taskModal = require("../modals/taskModal");
 import type usersModel = require("../modals/userModal");
 

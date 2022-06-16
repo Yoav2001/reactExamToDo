@@ -1,7 +1,7 @@
-import pool from "../connection";
-import type taskModal = require("../../modals/taskModal");
-import type usersModel = require("../../modals/userModal");
-import type taskModalDb = require("../interfaceDB/interfaceTask");
+import pool from "../../../../core/database/connection";
+import type taskModal = require("cms/domain/task/taskModal");
+import type usersModel = require("cms/domain/user/userModal");
+import type taskModalDb = require("../../../../core/database/Entites/interfaceTask");
 
 const getAlltaskFromDB: taskModalDb.GetAllTasks = async () => {
   const client = await pool.connect();

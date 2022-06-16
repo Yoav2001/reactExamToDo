@@ -1,6 +1,6 @@
-import pool from "../connection";
-import type userModalBack = require("../../modals/userModal");
-import type userModalDb = require("../interfaceDB/interfaceUser");
+import pool from "../../../../core/database/connection";
+import type userModalBack = require("cms/domain/user/userModal");
+import type userModalDb = require("../../../../core/database/Entites/interfaceUser");
 
 const getAllUsersFromDB: userModalDb.GetAllUsers = async () => {
   const client = await pool.connect();
