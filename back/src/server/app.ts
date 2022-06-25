@@ -1,14 +1,14 @@
 import express, { Router } from 'express'
-import mainRouterApi from './routes/mainRouter'
+import mainRouterApi from './mainRouter'
 import cors from 'cors'
 const app =express();
 import dotenv from 'dotenv';
-import authRouter from './routes/authRouter'
-import router from './routes/userRouter';
+import authRouter from '../auth/infrastructure/http/authentication/authController'
+import router from '../cms/infrastructure/http/user/userRouter';
 // import { authed } from './logic/auth.js';
-import errorHandler from './middleware/errorHandler'
-import authorize from './middleware/authorize'
-import { ErrorHandlerType } from './middleware/errorHandler'
+import errorHandler from '../core/http/http-errors'
+import authorize from'../auth/infrastructure/http/authentication/authController'
+import { ErrorHandlerType } from '../core/http/http-errors'
 
 dotenv.config()
 app.use(express.json());
