@@ -1,6 +1,6 @@
 import express from "express";
-import taskController  from '../controllers/taskController'
-import authMiddleware from "../middleware/authorize";
+import taskController  from './taskController'
+import authorizationEmailOrAdmin from ".././../../../auth/infrastructure/http/authorization/authorize.middleware"
 
 const router = express.Router();
 

@@ -1,5 +1,5 @@
 import pool from "../../../../core/database/connection";
-import type userModalBack = require("cms/domain/user/userModal");
+import type userModalBack = require("../../../../cms/domain/user/userModal");
 import type userModalDb = require("../../../../core/database/Entites/interfaceUser");
 
 const getAllUsersFromDB: userModalDb.GetAllUsers = async () => {

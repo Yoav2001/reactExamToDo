@@ -1,5 +1,5 @@
 import express from "express";
-import authController  from '../controllers/authController'
+import authController  from "../../../../auth/infrastructure/http/authentication/authController"
 const router = express.Router();
 
 router.route("/login").post((authController.login)) 

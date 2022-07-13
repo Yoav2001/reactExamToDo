@@ -1,9 +1,9 @@
 
 import express from "express";
-import type usersModel = require("../modals/userModal");
-import errorHandler from "../middleware/errorHandler";
-import { ErrorHandlerType } from "../middleware/errorHandler";
-import userService from "../service/userService";
+import type usersModel = require("../../..//domain/user/userModal");
+import errorHandler from "../../../../core/http/http-errors";
+import { ErrorHandlerType } from "../../../../core/http/http-errors";
+import userService from "../../../../service/userService"
 import auth from "../middleware/authorize";
 
 

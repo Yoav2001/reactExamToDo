@@ -1,8 +1,8 @@
 import express from "express";
-import userService from "../service/userService";
-import type usersModel = require("../modals/userModal");
+import userService from "../../../../service/userService";
+import type usersModel = require("../../../../cms/domain/user/userModal");
 import jwt from "jsonwebtoken";
-import errorHandler, { ErrorHandlerType } from "../middleware/errorHandler";
+import errorHandler, { ErrorHandlerType } from "../../../../core/http/http-errors";
 
 
 

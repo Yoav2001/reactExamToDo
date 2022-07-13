@@ -1,12 +1,12 @@
 import jwt from "jsonwebtoken";
 import express from "express";
-import { User } from "../src/cms/domain/user/userModal";
+import { User } from "../../../../cms/domain/user/userModal";
 
-import errorHandler, { ErrorHandlerType } from "../middleware/errorHandler";
+import errorHandler, { ErrorHandlerType } from "../../../../core/http/http-errors";
 require("dotenv").config();
 
 const authorize = (req: express.Request, res: express.Response,next: express.NextFunction) => {
-  try {
+  // try {
     const token: string | undefined =
      req.headers.authorization && req.headers["authorization"].split(" ")[1];
 
@@ -18,34 +18,36 @@ const authorize = (req: express.Request, res: express.Response,next: express.Nex
       console.log("error- middleware authorize- token is undifiend");
       return next(error);
     }
-    jwt.verify( token,process.env.ACCESS_TOKEN_SECRET as jwt.Secret,(
-        err: jwt.VerifyErrors | null,
-        decodedToken: jwt.JwtPayload | undefined
-      ) => {
-        res.locals.user = decodedToken!;
-
-        if (err) {
-          const error: ErrorHandlerType = {
-            statusError: 403,
-            errorMap: errorHandler.errorMapToDoApp,
-            uniqueMessage: err.message,
-          };
-          return next(error);
-        }
 
     
-        return next();
-      }
-    );
-  } catch (err) {
-    const error: ErrorHandlerType = {
-      statusError: 401,
-      errorMap: errorHandler.errorMapToDoApp,
-    };
-    console.log("catch error- middleware authorize");
+  //   jwt.verify( token,process.env.ACCESS_TOKEN_SECRET as jwt.Secret,(
+  //       err: jwt.VerifyErrors | null,
+  //       decodedToken: jwt.JwtPayload | undefined
+  //     ) => {
+  //       res.locals.user = decodedToken!;
 
-    return next(error);
-  }
+  //       if (err) {
+  //         const error: ErrorHandlerType = {
+  //           statusError: 403,
+  //           errorMap: errorHandler.errorMapToDoApp,
+  //           uniqueMessage: err.message,
+  //         };
+  //         return next(error);
+  //       }
+
+    
+  //       return next();
+  //     }
+  //   );
+  // } catch (err) {
+  //   const error: ErrorHandlerType = {
+  //     statusError: 401,
+  //     errorMap: errorHandler.errorMapToDoApp,
+  //   };
+  //   console.log("catch error- middleware authorize");
+
+  //   return next(error);
+  // }
 };
 
 const adminMiddleware = (req: express.Request,res: express.Response,next: express.NextFunction) => {

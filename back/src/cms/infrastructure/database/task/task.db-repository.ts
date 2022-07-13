@@ -1,6 +1,6 @@
 import pool from "../../../../core/database/connection";
-import type taskModal = require("cms/domain/task/taskModal");
-import type usersModel = require("cms/domain/user/userModal");
+import type taskModal = require("../../../domain/task/taskModal");
+import type usersModel = require("../../../domain/user/userModal");
 import type taskModalDb = require("../../../../core/database/Entites/interfaceTask");
 
 const getAlltaskFromDB: taskModalDb.GetAllTasks = async () => {

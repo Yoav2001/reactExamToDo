@@ -1,0 +1,12 @@
+{
+    "files":[],
+    "references": [
+     
+        {
+            "path": ["./auth","./cms","./core","./server","./service"]
+        },
+    
+    ]
+    
+    
+    }

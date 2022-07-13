@@ -1,7 +1,7 @@
-import taskDb from ''
-import { Itask } from "core/database/Entites/interfaceTask/Itask";
-import type taskModal = require("../modals/taskModal");
-import type usersModel = require("../modals/userModal");
+import taskDb from "../cms/infrastructure/database/task/task.db-repository"
+import { Itask } from "../core/database/Entites/interfaceTask";
+import type taskModal = require("../cms/domain/task/taskModal");
+import type usersModel = require("../cms/domain/user/userModal");
 
 export const getTaskByTaskId: taskModal.GetTaskByTaskId = async (taskId: taskModal.Task["taskId"]) => {
   try {

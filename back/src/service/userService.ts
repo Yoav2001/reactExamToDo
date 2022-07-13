@@ -1,6 +1,6 @@
-import userDb from "core/";
-import type usersModel = require("../modals/userModal");
-import { Iuser } from "../src/core/database/db/interfaceDB/interfaceUser";
+import userDb from "../cms/infrastructure/database/user/user.db-repository";
+import type usersModel = require("../cms/domain/user/userModal");
+import { Iuser } from "../core/database/Entites/interfaceUser";
 
 export const getAllUsers: usersModel.GetAllUsers = async () => {
   try {

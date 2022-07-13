@@ -3,7 +3,7 @@ import mainRouterApi from './mainRouter'
 import cors from 'cors'
 const app =express();
 import dotenv from 'dotenv';
-import authRouter from '../auth/infrastructure/http/authentication/authController'
+import authRouter from '../auth/infrastructure/http/authentication/authRouter'
 import router from '../cms/infrastructure/http/user/userRouter';
 // import { authed } from './logic/auth.js';
 import errorHandler from '../core/http/http-errors'
